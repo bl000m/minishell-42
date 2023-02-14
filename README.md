@@ -1,9 +1,16 @@
 # minishell-42
 The existence of shells is linked to the very existence of IT. At the time, all developers agreed that communicating with a computer using aligned 1/0 switches was seriously irritating. Minishell is a way to travel through time and come back to problems people faced when Windows didn’t exist, reinventing the wheel.
 
+
+# mandatory part
+
 What this shell should do:
+```
 • Display a prompt when waiting for a new command.
+```
+```
 • Have a working history.
+```
 • Search and launch the right executable (based on the PATH variable or using a
 relative or an absolute path).
 • Not use more than one global variable. Think about it. You will have to explain
