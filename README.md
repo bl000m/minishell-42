@@ -33,19 +33,11 @@ characters in the quoted sequence except for $ (dollar sign).
 ```
 ```
 • Implement redirections:
-```
-```
-◦ < should redirect input.
-```
-```
-◦ > should redirect output.
-```
-```
-◦ << should be given a delimiter, then read the input until a line containing the
-delimiter is seen. However, it doesn’t have to update the history!
-```
-```
-◦ >> should redirect output in append mode.
+  ◦ < should redirect input.
+  ◦ > should redirect output.
+  ◦ << should be given a delimiter, then read the input until a line containing the
+    delimiter is seen. However, it doesn’t have to update the history!
+  ◦ >> should redirect output in append mode.
 ```
 ```
 • Implement pipes (| character). The output of each command in the pipeline is
@@ -64,37 +56,17 @@ foreground pipeline.
 ```
 ```
 • In interactive mode:
-```
-```
-◦ ctrl-C displays a new prompt on a new line.
-```
-```
-◦ ctrl-D exits the shell.
-```
-```
-◦ ctrl-\ does nothing.
+  ◦ ctrl-C displays a new prompt on a new line.
+  ◦ ctrl-D exits the shell.
+  ◦ ctrl-\ does nothing.
 ```
 ```
 • Your shell must implement the following builtins:
-```
-```
-◦ echo with option -n
-```
-```
-◦ cd with only a relative or absolute path
-```
-```
-◦ pwd with no options
-```
-```
-◦ export with no options
-```
-```
-◦ unset with no options
-```
-```
-◦ env with no options or arguments
-```
-```
-◦ exit with no options
+  ◦ echo with option -n
+  ◦ cd with only a relative or absolute path
+  ◦ pwd with no options
+  ◦ export with no options
+  ◦ unset with no options
+  ◦ env with no options or arguments
+  ◦ exit with no options
 ```
