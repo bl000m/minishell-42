@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpagani <mpagani@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/03 14:44:01 by mpagani           #+#    #+#              #
-#    Updated: 2023/01/24 15:29:58 by mpagani          ###   ########lyon.fr    #
+#    Updated: 2023/02/18 11:50:03 by mpagani          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME 		= minishell
 
 # mandatory srcs / obj files
 SRCS 		= main.c communicating.c here_doc.c memory_stuff.c parsing.c settings.c \
-			error_management.c utils.c
+			error_management.c utils.c prompt.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
 
@@ -42,7 +42,7 @@ obj:
 	mkdir -p $(OBJDIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(LIBFT_LNK) -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT_LNK) -o $(NAME) -lreadline
 
 $(OBJDIR)/%.o: $(SRCS_DIR)/%.c Makefile $(INCS_DIR)/minishell.h
 	$(CC) $(CFLAGS) $(LIBFT_INC) -I $(INCS_DIR) -c $< -o $@
