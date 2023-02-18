@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 18:13:33 by mpagani          ###   ########.fr       */
+/*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
+/*   Updated: 2023/02/18 18:05:28 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	setting_prompt(t_minish *data)
+void    lexer_full_command(t_minish *data)
 {
-    data->full_command = NULL;
-	while (1)
-	{
-		data->full_command = readline("@minishell:~$ ");
-        if (data->full_command && *data->full_command)
-            add_history (data->full_command);
-		lexer_full_command(data);
-	}
+    split_spaces_quotes(data);
+    // expanding_paths(data);
+    // split_redirect_pipes_tokens(data->tokens);
 }
+
+void    split_spaces_quotes(t_minish *data)
+{
+    int i;
+
+    i = 0;
+    data->tokens = ft_strtok(data->full_command, " \'\"");
+    // data->tokens = ft_split(data->full_command, ' ');
+    while (data->tokens[i])
+    {
+        printf("%s\n", data->tokens[i]);
+        i++;
+    }
+}
+
