@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   settings_bonus.c                                   :+:      :+:    :+:   */
+/*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/01/24 12:02:21 by mpagani          ###   ########lyon.fr   */
+/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_pipe	*init_data(int argc)
+t_minish	*init_data(int argc)
 {
-	t_pipe	*data;
+	t_minish	*data;
 
 	data = malloc(sizeof(*data));
 	if (!data)
@@ -32,6 +32,7 @@ t_pipe	*init_data(int argc)
 	data->path = NULL;
 	data->path_dir = NULL;
 	data->commands = NULL;
+	data->full_command = NULL;
 	data->dir_command = NULL;
 	data->child = 0;
 	return (data);

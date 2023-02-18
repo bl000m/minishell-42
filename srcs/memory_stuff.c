@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_stuff_bonus.c                               :+:      :+:    :+:   */
+/*   memory_stuff.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/01/24 14:46:20 by mpagani          ###   ########lyon.fr   */
+/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // s == sending || r == receiving || p == parent
-void	closing_input_output(t_pipe *data)
+void	closing_input_output(t_minish *data)
 {
 	close(data->pipe[0]);
 	close(data->pipe[1]);
 }
 
-void	free_path_dir(t_pipe *data)
+void	free_path_dir(t_minish *data)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ void	free_path_dir(t_pipe *data)
 	}
 }
 
-void	free_commands(t_pipe *data)
+void	free_commands(t_minish *data)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ void	free_commands(t_pipe *data)
 	}
 }
 
-void	exit_clean(t_pipe *data)
+void	exit_clean(t_minish *data)
 {
 	free_commands(data);
 	free_path_dir(data);

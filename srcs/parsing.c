@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_bonus.c                                    :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/01/24 11:22:18 by mpagani          ###   ########lyon.fr   */
+/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	parsing_environment(t_pipe *data, char *envp[])
+void	parsing_environment(t_minish *data, char *envp[])
 {
 	data->path = searching_path(envp);
 	if (!data->path)
@@ -34,7 +34,7 @@ char	*searching_path(char *envp[])
 		return (NULL);
 }
 
-char	*find_dir_command(t_pipe *data)
+char	*find_dir_command(t_minish *data)
 {
 	int		i;
 	char	*path_dir;
@@ -56,7 +56,7 @@ char	*find_dir_command(t_pipe *data)
 	return (NULL);
 }
 
-void	matching_commands_with_right_path(t_pipe *data, char *argv[], int pos)
+void	matching_commands_with_right_path(t_minish *data, char *argv[], int pos)
 {
 	data->commands = ft_split(argv[pos], ' ');
 	data->dir_command = find_dir_command(data);

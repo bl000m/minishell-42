@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/01/24 12:42:33 by mpagani          ###   ########lyon.fr   */
+/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	switching_input_output(t_pipe *data, char c)
+void	switching_input_output(t_minish *data, char c)
 {
 	if (c == 'r')
 	{
@@ -36,26 +36,26 @@ void	switching_input_output(t_pipe *data, char c)
 	}
 }
 
-void	executing_command(t_pipe *data, char *envp[])
+void	executing_command(t_minish *data, char *envp[])
 {
 	if (execve(data->dir_command, data->commands, envp) == -1)
 		error_manager(3, data);
 }
 
-void	creating_pipe(t_pipe *data)
+void	creating_pipe(t_minish *data)
 {
 	if (pipe(data->pipe) == -1)
 		error_manager(1, data);
 }
 
-void	creating_child(t_pipe *data, int err)
+void	creating_child(t_minish *data, int err)
 {
 	data->child = fork();
 	if (data->child == -1)
 		error_manager(err, data);
 }
 
-void	opening_files(t_pipe *data, char *argv[], char flag)
+void	opening_files(t_minish *data, char *argv[], char flag)
 {
 	if (flag == 'h')
 	{

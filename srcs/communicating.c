@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   communicating_bonus.c                              :+:      :+:    :+:   */
+/*   communicating.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/01/24 14:30:46 by mpagani          ###   ########lyon.fr   */
+/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	communicating(t_pipe *data, char *argv[], char *envp[])
+void	communicating(t_minish *data, char *argv[], char *envp[])
 {
 	while (data->pos <= data->argc - 2)
 	{
@@ -31,7 +31,7 @@ void	communicating(t_pipe *data, char *argv[], char *envp[])
 		;
 }
 
-void	child_process(t_pipe *data, char *argv[], char *envp[])
+void	child_process(t_minish *data, char *argv[], char *envp[])
 {
 	matching_commands_with_right_path(data, argv, data->pos);
 	if (data->pos == data->argc - 2)
