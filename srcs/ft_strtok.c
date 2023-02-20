@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:09:35 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 18:16:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/20 17:55:50 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ static char	**ft_free(char **strs)
 	return (0);
 }
 
-
-static int	are_quotes(char c)
+int	are_quotes(char c)
 {
 	if (c == '\"')
 		return (2);
@@ -70,40 +69,39 @@ static int	checking_del(char c, char *delimiters)
 	return (0);
 }
 
-
+// recheck scenario ' ' are not after and before spaces
 static int	ft_words(char const *s, char *delimiters)
 {
 	int	i;
+	int	j;
 	int	words;
-	int	double_quotes;
 
 	i = 0;
+	j = 0;
 	words = 0;
-	double_quotes = 0;
 	while (s[i])
 	{
-		while (s[i] && checking_del(s[i], delimiters))
-		{
-			if (checking_del(s[i], delimiters) == 2)
-			{
-				double_quotes++;
-				if (double_quotes == 2)
-				{
-					double_quotes = 0;
-					break ;
-				}
-				else
-					i++;
-			}
+		while (s[i] && checking_del(s[i], delimiters) && s[i] != '\"' && s[i] != '\'')
 			i++;
-		}
-		if (!checking_del(s[i], delimiters) && s[i] != 0)
+		if (s[i] == '\"')
 		{
+			j = i;
+			while (s[j + 1] && s[j + 1] != '\"')
+				j++;
 			words++;
-			i++;
+			i = j + 1;
 		}
-		while (s[i] && !checking_del(s[i], delimiters))
-			i++;
+		else
+		{
+			if (!checking_del(s[i], delimiters) && s[i] != 0)
+			{
+				words++;
+				i++;
+			}
+			while (s[i] && !checking_del(s[i], delimiters))
+				i++;
+		}
+		i++;
 	}
 	return (words);
 }
@@ -118,27 +116,52 @@ static	char	**ft_fill_lines(char const *s, char *delimiters, char **strs)
 	x = 0;
 	while (s[i])
 	{
-		while (s[i] && checking_del(s[i], delimiters))
-		{
-			// printf("CHECK\n");
+		while (s[i] && checking_del(s[i], delimiters) && s[i] != '\"' && s[i] != '\'')
 			i++;
-		}
-		j = i;
-		while (s[j] && !checking_del(s[j], delimiters))
-			j++;
-		if (checking_del(s[j], delimiters)|| (!s[j] && !checking_del(s[j - 1], delimiters)))
+		if (s[i] == '\"')
 		{
-			strs[x] = ft_dupstr(s, i, j);
+			j = i;
+			while (s[j + 1] && s[j + 1] != '\"')
+				j++;
+			strs[x] = ft_dupstr(s, i, j + 2);
 			if (strs[x] == 0)
 				return (ft_free(strs));
 			x++;
-			i = j;
+			i = j + 1;
 		}
+		else if (s[i] == '\'')
+		{
+			j = i;
+			while (s[j + 1] && s[j + 1] != '\'')
+				j++;
+			strs[x] = ft_dupstr(s, i, j + 2);
+			if (strs[x] == 0)
+				return (ft_free(strs));
+			x++;
+			i = j + 1;
+		}
+		else
+		{
+			while (s[i] && checking_del(s[i], delimiters))
+				i++;
+			j = i;
+			while (s[j] && !checking_del(s[j], delimiters))
+				j++;
+			if (checking_del(s[j], delimiters) || (!s[j] && !checking_del(s[j - 1], delimiters)))
+			{
+				strs[x] = ft_dupstr(s, i, j);
+				if (strs[x] == 0)
+					return (ft_free(strs));
+				x++;
+				i = j;
+			}
+		}
+		i++;
 	}
 	return (strs);
 }
 
-/* " and ' still to be fixed*/
+// to be recheck the n_tokens
 char	**ft_strtok(char *s, char *delimiters)
 {
 	char	**strs;
@@ -147,7 +170,7 @@ char	**ft_strtok(char *s, char *delimiters)
 	if (!s)
 		return (0);
     n_tokens = ft_words(s, delimiters);
-	printf("n_token = %d\n", ft_words(s, delimiters));
+	ft_printf("tokens = %d\n", n_tokens);
 	strs = malloc(sizeof(char *) * (n_tokens + 1));
 	if (!strs)
 		return (NULL);

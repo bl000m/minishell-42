@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 18:13:03 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/20 17:50:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void		setting_prompt(t_minish *data);
 /* lexical analysis */
 void    	lexer_full_command(t_minish *data);
 void    	split_spaces_quotes(t_minish *data);
+int			are_quotes(char c);
 
 /* parsing */
 void		opening_files(t_minish *data, char *argv[], char flag);
