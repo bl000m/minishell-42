@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:36:33 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/20 17:24:10 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:40:09 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 /* remember to free (and = NULL) full_command*/
 int	main(int argc, char *argv[], char *envp[])
-{	t_minish	*data;
+{
+	t_minish	*data;
 
 	(void) argv;
 	check_error(argc);

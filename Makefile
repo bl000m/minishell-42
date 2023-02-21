@@ -6,7 +6,7 @@
 #    By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/03 14:44:01 by mpagani           #+#    #+#              #
-#    Updated: 2023/02/21 11:50:27 by mpagani          ###   ########.fr        #
+#    Updated: 2023/02/21 15:57:48 by mpagani          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ NAME 		= minishell
 
 # mandatory srcs / obj files
 SRCS 		= main.c communicating.c here_doc.c memory_stuff.c parsing.c settings.c \
-			error_management.c utils.c prompt.c lexer.c ft_strtok.c lexer_utils.c
+			error_management.c utils.c prompt.c lexer.c lexer_token_counting.c \
+			lexer_token_splitting.c \
+			lexer_utils.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
 

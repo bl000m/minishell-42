@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 18:04:35 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:04:32 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_minish	*init_data(int argc, char *envp[])
 	data->pipe[1] = 0;
 	data->pipe[0] = 0;
 	data->n_cmd = 0;
+	data->n_tokens = 0;
 	data->pos = 0;
 	data->file_in = 0;
 	data->file_out = 0;

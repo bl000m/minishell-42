@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 18:05:28 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:25:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,40 @@
 
 void    lexer_full_command(t_minish *data)
 {
-    split_spaces_quotes(data);
+    data->tokens = split_tokens(data);
     // expanding_paths(data);
     // split_redirect_pipes_tokens(data->tokens);
+    print_out_tokens(data);
 }
 
-void    split_spaces_quotes(t_minish *data)
+char    **split_tokens(t_minish *data)
+{
+    char	**table;
+    int     n_tokens;
+
+	n_tokens = 0;
+	if (!data->full_command)
+		return (0);
+    tokens_counter(data->full_command, &n_tokens);
+	data->n_tokens = n_tokens;
+	table = malloc(sizeof(char *) * (data->n_tokens + 1));
+	if (!table)
+		return (NULL);
+	table = tokens_table_filling(data, table);
+	if (table)
+		table[data->n_tokens] = 0;
+	return (table);
+}
+
+//temporary
+void	print_out_tokens(t_minish *data)
 {
     int i;
 
     i = 0;
-    data->tokens = ft_strtok(data->full_command, " \'\"");
-    // data->tokens = ft_split(data->full_command, ' ');
-    while (data->tokens[i])
+    while (i < data->n_tokens)
     {
-        printf("%s\n", data->tokens[i]);
+        ft_printf("%s\n", data->tokens[i]);
         i++;
     }
 }
-

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/21 12:04:39 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:07:04 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_minish
 {
 	int		argc;
 	int		n_cmd;
+	int		n_tokens;
 	int		pos;
 	int		file_in;
 	int		file_out;
@@ -48,8 +49,7 @@ void		setting_prompt(t_minish *data);
 
 /* lexical analysis */
 void    	lexer_full_command(t_minish *data);
-void    	split_spaces_quotes(t_minish *data);
-int			are_quotes(char c);
+char    	**split_tokens(t_minish *data);
 
 /* parsing */
 void		opening_files(t_minish *data, char *argv[], char flag);
@@ -73,10 +73,14 @@ void		child_process(t_minish *data, char *argv[], char *envp[]);
 void		matching_commands_with_right_path(t_minish *data, char *argv[], int pos);
 void		switching_input_output(t_minish *data, char flag);
 void		executing_command(t_minish *data, char *envp[]);
+char		*duplicating_token(char *s, int start, int end);
+char		**ft_free(char **strs);
+int			are_quotes(char c);
+void		print_out_tokens(t_minish *data);
 
 /* lexical analysis utils */
-char		**ft_strtok(char *s, char *delimiters);
 int			*tokens_counter(char *s, int *n_tokens);
+char		**tokens_table_filling(t_minish *data, char **table);
 
 /* error management */
 void		error_manager(int error, t_minish *data);

@@ -5,67 +5,45 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/21 12:22:16 by mpagani          ###   ########.fr       */
+/*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
+/*   Updated: 2023/02/21 16:17:58 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	double_quote_handling(char *s, int *n_tokens, int *i)
+char	*duplicating_token(char *s, int start, int end)
 {
-	printf("i in quote handling = %d\n", *i);
-	while (s[*i + 1] && s[*i + 1] != '\"')
-		*i += 1;
-	printf("i = %d\n", *i);
-	*n_tokens += 1;
-	*i += 1;
+	char	*token;
+	int		n_token;
+
+	n_token = 0;
+	token = malloc(sizeof(char) * (end - start + 1));
+	if (!token)
+		return (0);
+	while (s[start] && start < end)
+		token[n_token++] = s[start++];
+	token[n_token] = 0;
+	return (token);
 }
 
-void	simple_quote_handling(char *s, int *n_tokens, int *i)
-{
-	while (s[*i + 1] && s[*i + 1] != '\'')
-		*i += 1;
-	*n_tokens += 1;
-	*i += 1;
-}
-
-void	space_handling(char *s, int *i)
-{
-	while (s[*i + 1] && s[*i + 1] != ' ')
-		*i += 1;
-	*i += 1;
-}
-
-void	all_other_handling(char *s, int *n_tokens, int *i)
-{
-	while (s[*i + 1] && s[*i + 1] != ' ' && s[*i + 1] != '\'' && s[*i + 1] != '\"')
-		*i += 1;
-	*n_tokens += 1;
-	*i += 1;
-}
-
-void identify_token(char *s, char character, int *n_tokens, int *i)
-{
-	if (character == '\"')
-		double_quote_handling(s, n_tokens, i);
-	else if (character == '\'')
-		simple_quote_handling(s, n_tokens, i);
-	else if (character == ' ')
-		space_handling(s, i);
-	else
-		all_other_handling(s, n_tokens, i);
-}
-
-int	*tokens_counter(char *s, int *n_tokens)
+char	**ft_free(char **strs)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
-	{
-		identify_token(s, s[i], n_tokens, &i);
-		i++;
-	}
-	return (n_tokens);
+	while (strs[i])
+		free(strs[i++]);
+	free(strs);
+	return (0);
+}
+
+// needed by expanding_path but to be modified (not called by other func anymore)
+int	are_quotes(char c)
+{
+	if (c == '\"')
+		return (1);
+	else if (c == '\'')
+		return (2);
+	return (0);
 }
