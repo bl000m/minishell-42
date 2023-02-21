@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpagani <mpagani@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 13:34:03 by mpagani           #+#    #+#              #
-#    Updated: 2023/01/14 14:16:52 by mpagani          ###   ########lyon.fr    #
+#    Updated: 2023/02/21 16:19:51 by fbelfort         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,14 +25,12 @@ SRCS  = ft_isalpha.c ft_isdigit.c ft_isalnum.c \
 		ft_output_s.c ft_output_x.c ft_output_p.c ft_putnbr_base.c \
 		ft_output_d.c ft_output_xmaj.c ft_output_u.c ft_putnbr.c \
 		ft_output_perc.c get_next_line_utils.c \
-		get_next_line.c
-SRC_BONUS  = ft_lstdelone_bonus.c ft_lstsize_bonus.c\
+		get_next_line.c ft_lstdelone_bonus.c ft_lstsize_bonus.c\
 		ft_lstnew_bonus.c ft_lstadd_front_bonus.c \
 		ft_lstclear_bonus.c ft_lstiter_bonus.c \
 		ft_lstadd_back_bonus.c ft_lstlast_bonus.c \
 		ft_lstmap_bonus.c
 OBJS  = ${SRCS:.c=.o}
-OBJS_BONUS = $(SRC_BONUS:.c=.o)
 NAME  = libft.a
 CC    = cc
 AR    = ar
@@ -49,14 +47,11 @@ ${NAME} : ${OBJS}
 	${CC} ${FLAGS} -c $< -o $@
 
 clean :
-	${RM} -f ${OBJS} ${OBJS_BONUS}
+	${RM} -f ${OBJS}
 
 fclean : clean
 	${RM} -f ${NAME}
 
 re : fclean all
 
-bonus : ${OBJS} ${OBJS_BONUS}
-	$(AR) -rcs $(NAME) ${OBJS} ${OBJS_BONUS}
-
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
