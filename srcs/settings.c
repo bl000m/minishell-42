@@ -39,16 +39,19 @@ t_minish	*init_data(int argc, char *envp[])
 {
 	t_minish	*data;
 
+	(void) envp;
 	data = malloc(sizeof(*data));
 	if (!data)
 	{
 		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
 		exit(1);
 	}
+	// data->envp = NULL;
 	data->argc = argc;
 	data->pipe[1] = 0;
 	data->pipe[0] = 0;
 	data->n_cmd = 0;
+	data->n_tokens = 0;
 	data->pos = 0;
 	data->file_in = 0;
 	data->file_out = 0;
@@ -57,6 +60,7 @@ t_minish	*init_data(int argc, char *envp[])
 	data->commands = NULL;
 	data->full_command = NULL;
 	data->dir_command = NULL;
+	data->tokens = NULL;
 	data->envp = dup_envp(envp); // add an error management
 	data->child = 0;
 	return (data);

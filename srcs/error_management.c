@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/18 18:08:08 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_error(int argc)
 {
-	if (argc < 5)
+	if (argc != 1)
 	{
 		ft_printf("n. of argument incorrected\n");
 		exit(1);

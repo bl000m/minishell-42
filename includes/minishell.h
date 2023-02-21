@@ -28,6 +28,7 @@ typedef struct s_minish
 {
 	int		argc;
 	int		n_cmd;
+	int		n_tokens;
 	int		pos;
 	int		file_in;
 	int		file_out;
@@ -36,6 +37,7 @@ typedef struct s_minish
 	char	**tokens;
 	char	*full_command;
 	char	**commands;
+	char	**tokens;
 	char	*dir_command;
 	pid_t	child;
 	int		pipe[2];
@@ -45,7 +47,11 @@ typedef struct s_minish
 /* settings */
 
 t_minish	*init_data(int argc, char *envp[]);
-char		*setting_prompt(void);
+void		setting_prompt(t_minish *data);
+
+/* lexical analysis */
+void    	lexer_full_command(t_minish *data);
+char    	**split_tokens(t_minish *data);
 
 /* parsing */
 
@@ -74,6 +80,14 @@ void		child_process(t_minish *data, char *argv[], char *envp[]);
 void		matching_commands_with_right_path(t_minish *data, char *argv[], int pos);
 void		switching_input_output(t_minish *data, char flag);
 void		executing_command(t_minish *data, char *envp[]);
+char		*duplicating_token(char *s, int start, int end);
+char		**ft_free(char **strs);
+int			are_quotes(char c);
+void		print_out_tokens(t_minish *data);
+
+/* lexical analysis utils */
+int			*tokens_counter(char *s, int *n_tokens);
+char		**tokens_table_filling(t_minish *data, char **table);
 
 /* error management */
 

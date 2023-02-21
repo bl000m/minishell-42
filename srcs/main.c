@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:36:33 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 11:54:31 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:40:09 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 /* remember to free (and = NULL) full_command*/
 int	main(int argc, char *argv[], char *envp[])
-{	t_minish	*data;
+{
+	t_minish	*data;
 
 	(void) argv;
-	(void) envp;
-	// check_error(argc);
-	data = init_data(argc);
-	data->full_command = setting_prompt();
+	check_error(argc);
+	data = init_data(argc, envp);
+	setting_prompt(data);
 	// parsing_environment(data, envp);
 	// if (!(checking_here_doc(argc, argv, data)))
 	// 	multiple_commands_handling(argc, argv, data);
