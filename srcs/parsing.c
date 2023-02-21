@@ -21,6 +21,19 @@ void	parsing_environment(t_minish *data, char *envp[])
 		data->path_dir = ft_split(data->path, ':');
 }
 
+char	*find_varvalue(t_minish *data, char *variable, int slide)
+{
+	int	i;
+
+	i = 0;
+	while (data->envp[i] && ft_strncmp(data->envp[i], variable, slide))
+		i++;
+	if (data->envp[i] != NULL)
+		return (data->envp[i] + slide + 1);
+	else
+		return (NULL);
+}
+
 char	*searching_path(char *envp[])
 {
 	int	i;
