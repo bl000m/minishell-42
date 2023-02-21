@@ -6,14 +6,14 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 15:09:35 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/20 17:55:50 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:11:46 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-static char	*ft_dupstr(char const *s, int i, int j)
+static char	*ft_dupstr(char *s, int i, int j)
 {
 	char	*dup;
 	int		x;
@@ -70,43 +70,43 @@ static int	checking_del(char c, char *delimiters)
 }
 
 // recheck scenario ' ' are not after and before spaces
-static int	ft_words(char const *s, char *delimiters)
-{
-	int	i;
-	int	j;
-	int	words;
+// static int	ft_words(char const *s, char *delimiters)
+// {
+// 	int	i;
+// 	int	j;
+// 	int	words;
 
-	i = 0;
-	j = 0;
-	words = 0;
-	while (s[i])
-	{
-		while (s[i] && checking_del(s[i], delimiters) && s[i] != '\"' && s[i] != '\'')
-			i++;
-		if (s[i] == '\"')
-		{
-			j = i;
-			while (s[j + 1] && s[j + 1] != '\"')
-				j++;
-			words++;
-			i = j + 1;
-		}
-		else
-		{
-			if (!checking_del(s[i], delimiters) && s[i] != 0)
-			{
-				words++;
-				i++;
-			}
-			while (s[i] && !checking_del(s[i], delimiters))
-				i++;
-		}
-		i++;
-	}
-	return (words);
-}
+// 	i = 0;
+// 	j = 0;
+// 	words = 0;
+// 	while (s[i])
+// 	{
+// 		while (s[i] && checking_del(s[i], delimiters) && s[i] != '\"' && s[i] != '\'')
+// 			i++;
+// 		if (s[i] == '\"')
+// 		{
+// 			j = i;
+// 			while (s[j + 1] && s[j + 1] != '\"')
+// 				j++;
+// 			words++;
+// 			i = j + 1;
+// 		}
+// 		else
+// 		{
+// 			if (!checking_del(s[i], delimiters) && s[i] != 0)
+// 			{
+// 				words++;
+// 				i++;
+// 			}
+// 			while (s[i] && !checking_del(s[i], delimiters))
+// 				i++;
+// 		}
+// 		i++;
+// 	}
+// 	return (words);
+// }
 
-static	char	**ft_fill_lines(char const *s, char *delimiters, char **strs)
+static	char	**ft_fill_lines(char *s, char *delimiters, char **strs)
 {
 	int	i;
 	int	j;
@@ -167,9 +167,10 @@ char	**ft_strtok(char *s, char *delimiters)
 	char	**strs;
     int     n_tokens;
 
+	n_tokens = 0;
 	if (!s)
 		return (0);
-    n_tokens = ft_words(s, delimiters);
+    tokens_counter(s, &n_tokens);
 	ft_printf("tokens = %d\n", n_tokens);
 	strs = malloc(sizeof(char *) * (n_tokens + 1));
 	if (!strs)

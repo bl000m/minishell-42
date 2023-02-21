@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/20 17:50:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/21 12:04:39 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		executing_command(t_minish *data, char *envp[]);
 
 /* lexical analysis utils */
 char		**ft_strtok(char *s, char *delimiters);
+int			*tokens_counter(char *s, int *n_tokens);
 
 /* error management */
 void		error_manager(int error, t_minish *data);
