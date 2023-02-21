@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/21 16:33:45 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:49:36 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ typedef struct s_minish
 	char	**tokens;
 	char	*full_command;
 	char	**commands;
-	char	**tokens;
 	char	*dir_command;
 	pid_t	child;
 	int		pipe[2];
-	char	*envp[];
+	char	**envp;
 }	t_minish;
 
 /* settings */
@@ -59,7 +58,7 @@ void		opening_files(t_minish *data, char *argv[], char flag);
 void		parsing_environment(t_minish *data, char *envp[]);
 char		*searching_path(char *envp[]);
 char		*find_dir_command(t_minish *data);
-void		expand_path(t_minish data);
+void		expand_path(t_minish *data);
 
 /* Bonus features */
 
