@@ -6,13 +6,19 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/19 18:06:23 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:33:48 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**dup_envp(char *envp[])
+/**
+ * @brief
+ * It will iterate over the array of arrays guven in argument
+ * to find it's size then duplicates all the correspondent arrays.
+ * It returns an exact copy of the array and has to be freed up at the end.
+*/
+static char	**dup_envp(char *envp[])
 {
 	char	**dup;
 	int		i;
@@ -29,7 +35,7 @@ char	**dup_envp(char *envp[])
 	return (dup);
 }
 
-t_minish	*init_data(int argc)
+t_minish	*init_data(int argc, char *envp[])
 {
 	t_minish	*data;
 
@@ -51,6 +57,7 @@ t_minish	*init_data(int argc)
 	data->commands = NULL;
 	data->full_command = NULL;
 	data->dir_command = NULL;
+	data->envp = dup_envp(envp); // add an error management
 	data->child = 0;
 	return (data);
 }
