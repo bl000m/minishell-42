@@ -42,8 +42,8 @@ char	**ft_free(char **strs)
 int	are_quotes(char c)
 {
 	if (c == '\"')
-		return (1);
-	else if (c == '\'')
 		return (2);
-	return (0);
+	else if (c == '\'')
+		return (3);
+	return (1);
 }

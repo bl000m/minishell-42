@@ -49,6 +49,7 @@ t_minish	*init_data(int argc, char *envp[]);
 void		setting_prompt(t_minish *data);
 
 /* lexical analysis */
+
 void    	lexer_full_command(t_minish *data);
 char    	**split_tokens(t_minish *data);
 
@@ -59,6 +60,7 @@ void		parsing_environment(t_minish *data, char *envp[]);
 char		*searching_path(char *envp[]);
 char		*find_dir_command(t_minish *data);
 void		expand_path(t_minish *data);
+char		*find_varvalue(t_minish *data, char *variable, int slide);
 
 /* Bonus features */
 

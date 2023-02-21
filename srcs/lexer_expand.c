@@ -41,7 +41,7 @@ static char	*create_expanded_line(t_list **lst)
 	return (line);
 }
 
-static int	expand_var(t_list **lst, char *str, int i, int j)
+static int	expand_var(t_minish *data, t_list **lst, char *str, int i, int j)
 {
 	int		k;
 	char	*line;
@@ -54,33 +54,33 @@ static int	expand_var(t_list **lst, char *str, int i, int j)
 	k = 1;
 	while (ft_isalnum(str[i + k]))
 		k++;
-	line = find_varvalue(str + i + 1, k);
+	line = find_varvalue(data, str + i + 1, k);
 	if (line)
 		ft_lstadd_back(lst, ft_lstnew(line));
 	return (i + k);
 }
 
-static int	expand_tilde(t_list **lst, char *str, int i, int j)
+static int	expand_tilde(t_minish *data, t_list **lst, char *str, int i, int j)
 {
 	char	*line;
 
 	if (i == 0 && ft_strlen(str) == 1)
 	{
 		free(str);
-		str = find_varvalue("HOME", 4);
+		str = find_varvalue(data, "HOME", 4);
 	}
 	if (i - j > 0)
 	{
 		line = ft_substr(str, j, i - j);
 		ft_lstadd_back(lst, ft_lstnew(line));
 	}
-	str = find_varvalue("HOME", 4);
+	str = find_varvalue(data, "HOME", 4);
 	if (line)
 		ft_lstadd_back(lst, ft_lstnew(line));
 	return (++i);
 }
 
-static	int	verify_expansion(char *str, t_list **lst, int *j)
+static	int	verify_expansion(t_minish *data, char *str, t_list **lst, int *j)
 {
 	int	i;
 	int	quote;
@@ -92,10 +92,10 @@ static	int	verify_expansion(char *str, t_list **lst, int *j)
 		if (are_quotes(str[i]) != quote && quote == 1)
 			quote = are_quotes(str[i++]);
 		if (str[i] == '$' && quote != 3)
-			*j = expand_var(lst, str, i, *j);
+			*j = expand_var(data, lst, str, i, *j);
 		if (str[i] == '~' && quote == 1 && (i == 0 || str[i - 1] == ' ')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
-			*j = expand_tilde(lst, str, i, *j);
+			*j = expand_tilde(data, lst, str, i, *j);
 		if (*j > i)
 			i = *j - 1;
 		if (quote == are_quotes(str[i]))
@@ -120,19 +120,19 @@ static	int	verify_expansion(char *str, t_list **lst, int *j)
 */
 void	expand_path(t_minish *data)
 {
-	int		index;
+	// int		index;
 	int		i;
 	int		j;
 	t_list	*lst;
 	char	*subline;
 
 	j = 0;
-	index = -1;
+	// index = -1;
 	lst = NULL;
 	subline = NULL;
 	while (data->tokens[++i])
 	{
-		i = verify_expansion(data->tokens[i], &lst, &j);
+		i = verify_expansion(data, data->tokens[i], &lst, &j);
 		if (!lst)
 			return ;
 		if (j < i)
