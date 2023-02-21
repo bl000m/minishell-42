@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/02/21 16:33:55 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:49:16 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static	int	verify_expansion(char *str, t_list **lst, int *j)
  * It has no return because the function will replace the values of
  * the pointers.
 */
-void	expand_path(t_minish data)
+void	expand_path(t_minish *data)
 {
 	int		index;
 	int		i;
