@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/02/22 10:02:50 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:35:34 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <stdio.h>
 
 static char	*create_expanded_line(t_list **lst)
 {
@@ -21,10 +22,10 @@ static char	*create_expanded_line(t_list **lst)
 
 	tmp = *lst;
 	size = 0;
-	while (tmp)
+	while (*lst)
 	{
-		size += ft_strlen(tmp->content);
-		tmp = tmp->next;
+		size += ft_strlen((*lst)->content);
+		(*lst) = (*lst)->next;
 	}
 	line = ft_calloc(size + 1, sizeof(char));
 	if (!line)
@@ -41,68 +42,76 @@ static char	*create_expanded_line(t_list **lst)
 	return (line);
 }
 
-static int	expand_var(t_minish *data, t_list **lst, char *str, int i, int j)
+static int	expand_var(t_minish *data, int index, int i, int j)
 {
 	int		k;
 	char	*line;
+	char	*tmp;
 
 	if (i - j > 0)
 	{
-		line = ft_substr(str, j, i - j);
-		ft_lstadd_back(lst, ft_lstnew(line));
+		line = ft_substr(data->tokens[index], j, i - j);
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	}
 	k = 1;
-	while (ft_isalnum(str[i + k]))
+	while (ft_isalnum(data->tokens[index][i + k]))
 		k++;
-	line = find_varvalue(data, str + i + 1, k);
+	tmp = find_varvalue(data, data->tokens[index] + i + 1, --k);
+	line = ft_strdup(tmp);
 	if (line)
-		ft_lstadd_back(lst, ft_lstnew(line));
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	return (i + k);
 }
 
-static int	expand_tilde(t_minish *data, t_list **lst, char *str, int i, int j)
+static int	expand_tilde(t_minish *data, int index, int i, int j)
 {
 	char	*line;
+	char	*home;
 
-	if (i == 0 && ft_strlen(str) == 1)
+	home = ft_strdup(find_varvalue(data, "HOME", 4));
+	if (i == 0 && ft_strlen(data->tokens[index]) == 1)
 	{
-		free(str);
-		str = find_varvalue(data, "HOME", 4);
+		free(data->tokens[index]);
+		data->tokens[index] = home;
+		return (1);
 	}
 	if (i - j > 0)
 	{
-		line = ft_substr(str, j, i - j);
-		ft_lstadd_back(lst, ft_lstnew(line));
+		line = ft_substr(data->tokens[index], j, i - j);
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	}
-	str = find_varvalue(data, "HOME", 4);
+	line = home;
 	if (line)
-		ft_lstadd_back(lst, ft_lstnew(line));
-	return (++i);
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	return (i - 1);
 }
 
-static	int	verify_expansion(t_minish *data, char *str, t_list **lst, int *j)
+static	int	verify_expansion(t_minish *data, int index, int *j)
 {
-	int	i;
-	int	quote;
+	int		i;
+	int		quote;
+	char	*str;
 
 	i = -1;
-	quote = 1;
+	quote = 0;
+	str = data->tokens[index];
 	while (str[++i])
 	{
-		if (are_quotes(str[i]) != quote && quote == 1)
+		if (are_quotes(str[i]) != quote && !quote)
 			quote = are_quotes(str[i++]);
-		if (str[i] == '$' && quote != 3)
-			*j = expand_var(data, lst, str, i, *j);
-		if (str[i] == '~' && quote == 1 && (i == 0 || str[i - 1] == ' ')
+		if (str[i] == '$' && quote != 2)
+			*j = expand_var(data, index, i, *j);
+		if (str[i] == '~' && !quote && (i == 0 || str[i - 1] == ' ')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
-			*j = expand_tilde(data, lst, str, i, *j);
+			*j = expand_tilde(data, index, i, *j);
 		if (*j > i)
 			i = *j - 1;
 		if (quote == are_quotes(str[i]))
-			quote = 1;
+			quote = 0;
 	}
 	return (i);
 }
+
 
 /**
  * @brief
@@ -120,28 +129,27 @@ static	int	verify_expansion(t_minish *data, char *str, t_list **lst, int *j)
 */
 void	expand_path(t_minish *data)
 {
+	int		index;
 	int		i;
 	int		j;
-	t_list	*lst;
 	char	*subline;
 
-	j = 0;
-	i = -1;
-	lst = NULL;
+	index = -1;
 	subline = NULL;
-	while (data->tokens[++i])
+	while (data->tokens[++index])
 	{
-		i = verify_expansion(data, data->tokens[i], &lst, &j);
-		if (!lst)
-			return ;
+		j = 0;
+		i = verify_expansion(data, index, &j);
+		if (!data->aux)
+			continue ;
 		if (j < i)
 		{
-			subline = ft_substr(data->tokens[i], j, i - j);
+			subline = ft_substr(data->tokens[index], j, i - j);
 			if (!subline)
 				//error
-			ft_lstadd_back(&lst, ft_lstnew(subline));
+			ft_lstadd_back(&data->aux, ft_lstnew(subline));
 		}
-		free(data->tokens[i]);
-		data->tokens[i] = create_expanded_line(&lst);
+		free(data->tokens[index]);
+		data->tokens[index] = create_expanded_line(&data->aux);
 	}
 }

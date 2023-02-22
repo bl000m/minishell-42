@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/21 17:48:19 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:59:35 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,49 @@
 
 /**
  * @brief
- * It will iterate over the array of arrays guven in argument
- * to find it's size then duplicates all the correspondent arrays.
- * It returns an exact copy of the array and has to be freed up at the end.
+ * It will iterate over the array of arrays given in argument
+ * and each time it will create a node with the key and value of the
+ * variable.
+ * That way it will return a linked list with all the variables.
+ *
+ * OBS: add a function to deal with "env -i"
 */
-static char	**dup_envp(char **envp)
+static t_dict	*dup_envp(char **envp)
 {
-	char	**dup;
+	t_dict	*dict;
+	t_dict	*tmp;
 	int		i;
 
-	i = 0;
-	while (envp[i])
-		i++;
-	dup = ft_calloc(i + 1, sizeof(char *));
-	if (!dup)
-		return (NULL);
 	i = -1;
+	dict = NULL;
+	tmp = NULL;
 	while (envp[++i])
-		dup[i] = ft_strdup(envp[i]); // add an error management to free if needed.
-	while (dup[i])
-		printf("variable = %s\n", dup[i++]);
-	return (dup);
+	{
+		tmp = dict_newnode(envp[i]);
+		if (!tmp)
+			return (NULL);
+		dict_addback(&dict, tmp);
+	}
+	return (dict);
+}
+
+static void	init_ptrs(t_minish *data, char *envp[])
+{
+	data->path = NULL;
+	data->path_dir = NULL;
+	data->commands = NULL;
+	data->full_command = NULL;
+	data->dir_command = NULL;
+	data->tokens = NULL;
+	data->aux = NULL;
+	data->envp = dup_envp(envp);
+
 }
 
 t_minish	*init_data(int argc, char *envp[])
 {
 	t_minish	*data;
-	// int			i;
 
-	// i = 0;
 	(void) envp;
 	data = malloc(sizeof(*data));
 	if (!data)
@@ -50,12 +64,6 @@ t_minish	*init_data(int argc, char *envp[])
 		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
 		exit(1);
 	}
-	// while (envp[i])
-	// 	i++;
-	// data->envp = malloc(sizeof(char *) * i + 1);
-	// if (!data->envp)
-	// 	return (NULL);
-	// data->envp = NULL;
 	data->argc = argc;
 	data->pipe[1] = 0;
 	data->pipe[0] = 0;
@@ -64,13 +72,7 @@ t_minish	*init_data(int argc, char *envp[])
 	data->pos = 0;
 	data->file_in = 0;
 	data->file_out = 0;
-	data->path = NULL;
-	data->path_dir = NULL;
-	data->commands = NULL;
-	data->full_command = NULL;
-	data->dir_command = NULL;
-	data->tokens = NULL;
-	data->envp = dup_envp(envp); // add an error management
 	data->child = 0;
+	init_ptrs(data, envp);
 	return (data);
 }

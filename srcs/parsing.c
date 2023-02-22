@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/22 16:55:32 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,18 @@ void	parsing_environment(t_minish *data, char *envp[])
 		data->path_dir = ft_split(data->path, ':');
 }
 
-char	*find_varvalue(t_minish *data, char *variable, int slide)
+char	*find_varvalue(t_minish *data, char *variable, size_t len)
 {
-	int	i;
+	t_dict	*ptr;
 
-	i = 0;
-	while (data->envp[i] && ft_strncmp(data->envp[i], variable, slide))
-		i++;
-	if (data->envp[i] != NULL)
-		return (data->envp[i] + slide + 1);
-	else
-		return (NULL);
+	ptr = data->envp;
+	while (ptr)
+	{
+		if (ptr->key_len == len && !ft_strncmp(ptr->key, variable, len))
+			return (ptr->value);
+		ptr = ptr->next;
+	}
+	return (NULL);
 }
 
 char	*searching_path(char *envp[])
