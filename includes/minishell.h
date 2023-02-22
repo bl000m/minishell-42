@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/21 17:49:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/22 12:52:00 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
 void		print_out_tokens(t_minish *data);
+void		pipe_redirections_handling(int *n_tokens);
+void		pipe_redirections_token(int *start, int *end);
 
 /* lexical analysis utils */
+
 int			*tokens_counter(char *s, int *n_tokens);
 char		**tokens_table_filling(t_minish *data, char **table);
 
