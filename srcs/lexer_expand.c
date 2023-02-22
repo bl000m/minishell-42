@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/02/21 17:49:16 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/22 10:02:50 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,13 @@ static	int	verify_expansion(t_minish *data, char *str, t_list **lst, int *j)
 */
 void	expand_path(t_minish *data)
 {
-	// int		index;
 	int		i;
 	int		j;
 	t_list	*lst;
 	char	*subline;
 
 	j = 0;
-	// index = -1;
+	i = -1;
 	lst = NULL;
 	subline = NULL;
 	while (data->tokens[++i])
