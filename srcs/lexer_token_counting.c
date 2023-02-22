@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/21 16:25:00 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/22 12:33:08 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	double_quote_handling(char *s, int *n_tokens, int *i)
 	while (s[*i + 1] && s[*i + 1] != '\"')
 		*i += 1;
 	*n_tokens += 1;
-	*i += 2;
+	*i += 1;
 }
 
 void	simple_quote_handling(char *s, int *n_tokens, int *i)
@@ -25,13 +25,14 @@ void	simple_quote_handling(char *s, int *n_tokens, int *i)
 	while (s[*i + 1] && s[*i + 1] != '\'')
 		*i += 1;
 	*n_tokens += 1;
-	*i += 2;
+	*i += 1;
 }
 
 void	space_handling(char *s, int *i)
 {
-	while (s[*i + 1] && s[*i + 1] != ' ')
+	while (s[*i] && s[*i] == ' ')
 		*i += 1;
+	*i -= 1;
 }
 
 void	all_other_handling(char *s, int *n_tokens, int *i)
@@ -39,7 +40,6 @@ void	all_other_handling(char *s, int *n_tokens, int *i)
 	while (s[*i + 1] && s[*i + 1] != ' ' && s[*i + 1] != '\'' && s[*i + 1] != '\"')
 		*i += 1;
 	*n_tokens += 1;
-	*i += 1;
 }
 
 void identify_token(char *s, char character, int *n_tokens, int *i)
@@ -63,6 +63,8 @@ int	*tokens_counter(char *s, int *n_tokens)
 	size = 0;
 	while (s[size])
 		size++;
+	while (s[i] == ' ')
+		i++;
 	while (i < size)
 	{
 		identify_token(s, s[i], n_tokens, &i);
