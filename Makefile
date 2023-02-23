@@ -5,7 +5,7 @@
 #                                                     +:+ +:+         +:+      #
 #    By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/03 14:44:01 by mpagani           #+#    #+#              
+#    Created: 2022/12/03 14:44:01 by mpagani           #+#    #+#
 #    Updated: 2023/02/21 16:34:58 by fbelfort         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
@@ -13,15 +13,20 @@
 NAME 		= minishell
 
 # mandatory srcs / obj files
-SRCS 		= main.c communicating.c here_doc.c memory_stuff.c parsing.c settings.c \
-			error_management.c \
-      utils.c \
-      prompt.c \
-      lexer.c \
-      lexer_token_counting.c \
-			lexer_token_splitting.c \
-			lexer_utils.c \
-      lexer_expand.c
+SRCS 		= main.c \
+     		user/prompt.c \
+			user/here_doc.c \
+			parsing/lexer.c \
+      		parsing/lexer_token_counting.c \
+			parsing/lexer_token_splitting.c \
+			parsing/lexer_utils.c \
+      		parsing/lexer_expand.c \
+			parsing/parsing.c \
+			settings_utils/memory_stuff.c \
+			settings_utils/settings.c \
+			settings_utils/error_management.c \
+      		settings_utils/utils.c \
+			exec/communicating.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
 
@@ -47,6 +52,10 @@ all: obj $(LIBFT) $(NAME)
 
 obj:
 	mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)/exec
+	mkdir -p $(OBJDIR)/parsing
+	mkdir -p $(OBJDIR)/user
+	mkdir -p $(OBJDIR)/settings_utils
 
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(LIBFT_LNK) -o $(NAME) -lreadline
