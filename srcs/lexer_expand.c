@@ -6,13 +6,17 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/02/22 20:35:34 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:30:07 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <stdio.h>
 
+/**
+ * @brief
+ * Iterates over the list to create a line with the content of all the nodes
+ *  and returns the line after free the list.
+*/
 static char	*create_expanded_line(t_list **lst)
 {
 	char	*line;
@@ -42,6 +46,12 @@ static char	*create_expanded_line(t_list **lst)
 	return (line);
 }
 
+/**
+ * @brief
+ * Replaces the contenu of the $VAR with the value of it.
+ * It will look after the '$' and continue while it's alphanumeric
+ * then it will search the correspondent variable.
+*/
 static int	expand_var(t_minish *data, int index, int i, int j)
 {
 	int		k;
@@ -56,13 +66,17 @@ static int	expand_var(t_minish *data, int index, int i, int j)
 	k = 1;
 	while (ft_isalnum(data->tokens[index][i + k]))
 		k++;
-	tmp = find_varvalue(data, data->tokens[index] + i + 1, --k);
+	tmp = find_varvalue(data, data->tokens[index] + i + 1, k - 1);
 	line = ft_strdup(tmp);
 	if (line)
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	return (i + k);
 }
 
+/**
+ * @brief
+ * Replaces the '~' with the value of $HOME.
+*/
 static int	expand_tilde(t_minish *data, int index, int i, int j)
 {
 	char	*line;
@@ -83,9 +97,13 @@ static int	expand_tilde(t_minish *data, int index, int i, int j)
 	line = home;
 	if (line)
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
-	return (i - 1);
+	return (++i);
 }
 
+/**
+ * @brief
+ * Verifies if it have to expand the variables based on the quotes.
+*/
 static	int	verify_expansion(t_minish *data, int index, int *j)
 {
 	int		i;
@@ -111,7 +129,6 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 	}
 	return (i);
 }
-
 
 /**
  * @brief
@@ -146,7 +163,7 @@ void	expand_path(t_minish *data)
 		{
 			subline = ft_substr(data->tokens[index], j, i - j);
 			if (!subline)
-				//error
+				return ;
 			ft_lstadd_back(&data->aux, ft_lstnew(subline));
 		}
 		free(data->tokens[index]);

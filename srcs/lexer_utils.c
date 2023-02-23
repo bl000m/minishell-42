@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/22 18:19:04 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:30:58 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	**ft_free(char **strs)
 	return (0);
 }
 
-// needed by expanding_path but to be modified (not called by other func anymore)
 int	are_quotes(char c)
 {
 	if (c == '\"')

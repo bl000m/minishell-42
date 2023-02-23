@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/22 16:55:32 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:25:29 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ void	parsing_environment(t_minish *data, char *envp[])
 		data->path_dir = ft_split(data->path, ':');
 }
 
+/**
+ * @brief
+ * It will look for the variable given in arg and return it's value
+ * The comparison is made based on the name of the variable given and
+ * the variable stocked on the data->envp and in the length of both
+ * @param t_minish *data
+ * @param char *variable -> the name of the variable to be searched
+ * @param size_t len -> the length of the name of the variable to be searched
+ * @return
+ * char* -> the value of the variable
+ * NULL if it doesn't exist
+*/
 char	*find_varvalue(t_minish *data, char *variable, size_t len)
 {
 	t_dict	*ptr;

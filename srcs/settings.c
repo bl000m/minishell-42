@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/22 17:59:35 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 12:30:30 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->tokens = NULL;
 	data->aux = NULL;
 	data->envp = dup_envp(envp);
-
 }
 
 t_minish	*init_data(int argc, char *envp[])
