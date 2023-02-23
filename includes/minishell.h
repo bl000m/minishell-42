@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 12:53:14 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/23 13:07:50 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 # include <errno.h>
 # include <string.h>
 
+typedef struct s_dict
+{
+	char			*key;
+	size_t			key_len;
+	char			*value;
+	struct s_dict	*next;
+}	t_dict;
+
 typedef struct s_minish
 {
 	int		argc;
@@ -40,7 +48,8 @@ typedef struct s_minish
 	char	*dir_command;
 	pid_t	child;
 	int		pipe[2];
-	char	**envp;
+	t_list	*aux;
+	t_dict	*envp;
 }	t_minish;
 
 typedef struct	s_cmd
@@ -60,6 +69,12 @@ void		setting_prompt(t_minish *data);
 void    	lexer_full_command(t_minish *data);
 char    	**split_tokens(t_minish *data);
 
+/* t_dict management */
+
+t_dict		*dict_newnode(char *str);
+void		dict_addback(t_dict **dict, t_dict *new);
+size_t		dict_size(t_dict *dict);
+
 /* parsing */
 
 void		opening_files(t_minish *data, char *argv[], char flag);
@@ -67,7 +82,7 @@ void		parsing_environment(t_minish *data, char *envp[]);
 char		*searching_path(char *envp[]);
 char		*find_dir_command(t_minish *data);
 void		expand_path(t_minish *data);
-char		*find_varvalue(t_minish *data, char *variable, int slide);
+char		*find_varvalue(t_minish *data, char *variable, size_t len);
 
 /* Bonus features */
 

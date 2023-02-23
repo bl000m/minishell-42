@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/22 11:24:21 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/23 12:30:58 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ char	**ft_free(char **strs)
 	return (0);
 }
 
-// needed by expanding_path but to be modified (not called by other func anymore)
 int	are_quotes(char c)
 {
 	if (c == '\"')
-		return (2);
+		return (1);
 	else if (c == '\'')
-		return (3);
-	return (1);
+		return (2);
+	return (0);
 }
