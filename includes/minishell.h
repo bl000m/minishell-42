@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/22 17:50:48 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:35:45 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ typedef struct s_minish
 	t_list	*aux;
 	t_dict	*envp;
 }	t_minish;
+
+/* builtins */
+
+void		pwd(t_minish *data, int fd);
 
 /* settings */
 
