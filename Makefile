@@ -14,6 +14,7 @@ NAME 		= minishell
 
 # mandatory srcs / obj files
 SRCS 		= main.c \
+			env_utils.c \
      		user/prompt.c \
 			user/here_doc.c \
 			parsing/lexer.c \
@@ -48,7 +49,7 @@ LIBFT_LNK	= -L ./libft -l ft
 # others
 RM 			= rm -rf
 
-all: obj $(LIBFT) $(NAME)
+all: obj $(NAME)
 
 obj:
 	mkdir -p $(OBJDIR)
@@ -60,13 +61,13 @@ obj:
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(LIBFT_LNK) -o $(NAME) -lreadline
 
-$(OBJDIR)/%.o: $(SRCS_DIR)/%.c Makefile $(INCS_DIR)/minishell.h
+$(OBJDIR)/%.o: $(SRCS_DIR)/%.c Makefile $(INCS_DIR)/minishell.h $(LIBFT)
 	$(CC) $(CFLAGS) $(LIBFT_INC) -I $(INCS_DIR) -c $< -o $@
 
-$(LIBFT):
+$(LIBFT):	FORCE
 	make -C $(LIBFT_DIR)
 
-#force ?
+FORCE	:
 
 clean:
 	$(RM) $(OBJDIR)
@@ -80,4 +81,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re FORCE

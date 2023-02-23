@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/23 12:25:29 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,30 @@ void	parsing_environment(t_minish *data, char *envp[])
 		data->path_dir = ft_split(data->path, ':');
 }
 
-char	*find_varvalue(t_minish *data, char *variable, int slide)
+/**
+ * @brief
+ * It will look for the variable given in arg and return it's value
+ * The comparison is made based on the name of the variable given and
+ * the variable stocked on the data->envp and in the length of both
+ * @param t_minish *data
+ * @param char *variable -> the name of the variable to be searched
+ * @param size_t len -> the length of the name of the variable to be searched
+ * @return
+ * char* -> the value of the variable
+ * NULL if it doesn't exist
+*/
+char	*find_varvalue(t_minish *data, char *variable, size_t len)
 {
-	int	i;
+	t_dict	*ptr;
 
-	i = 0;
-	while (data->envp[i] && ft_strncmp(data->envp[i], variable, slide))
-		i++;
-	if (data->envp[i] != NULL)
-		return (data->envp[i] + slide + 1);
-	else
-		return (NULL);
+	ptr = data->envp;
+	while (ptr)
+	{
+		if (ptr->key_len == len && !ft_strncmp(ptr->key, variable, len))
+			return (ptr->value);
+		ptr = ptr->next;
+	}
+	return (NULL);
 }
 
 char	*searching_path(char *envp[])
