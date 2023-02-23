@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 18:08:08 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/23 15:06:21 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	error_manager(int error, t_minish *data)
 	}
 	else if (error == 6)
 		ft_printf("ERROR in switching fd: %s\n", strerror(errno));
+	else if (error == 7)
+		ft_printf("parse error near '|': %s\n", strerror(errno));
 	exit_clean(data);
 	exit(1);
 }

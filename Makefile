@@ -23,6 +23,7 @@ SRCS 		= main.c \
 			parsing/lexer_utils.c \
       		parsing/lexer_expand.c \
 			parsing/parsing.c \
+			parsing/parsing_cmd_list.c \
 			settings_utils/memory_stuff.c \
 			settings_utils/settings.c \
 			settings_utils/error_management.c \

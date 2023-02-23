@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 13:07:50 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/23 15:07:38 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,11 @@ typedef struct s_minish
 	char	**tokens;
 	char	*dir_command;
 	pid_t	child;
+	t_list	*cmds;
 	int		pipe[2];
 	t_list	*aux;
 	t_dict	*envp;
 }	t_minish;
-
-typedef struct	s_cmd
-{
-	t_list	*cmds;
-	char 	**envp;
-	pid_t	pid;
-}	t_cmd;
 
 /* settings */
 
@@ -83,6 +77,7 @@ char		*searching_path(char *envp[]);
 char		*find_dir_command(t_minish *data);
 void		expand_path(t_minish *data);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
+void		creating_cmd_list(t_minish *data);
 
 /* Bonus features */
 

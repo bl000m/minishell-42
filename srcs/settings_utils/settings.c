@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 12:30:30 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:40:45 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->path = NULL;
 	data->path_dir = NULL;
 	data->commands = NULL;
+	data->cmds = NULL;
 	data->full_command = NULL;
 	data->dir_command = NULL;
 	data->tokens = NULL;
