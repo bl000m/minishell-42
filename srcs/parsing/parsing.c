@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 12:25:29 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:04:59 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,10 @@ char	*find_varvalue(t_minish *data, char *variable, size_t len)
 {
 	t_dict	*ptr;
 
-	ptr = data->envp;
-	while (ptr)
-	{
-		if (ptr->key_len == len && !ft_strncmp(ptr->key, variable, len))
-			return (ptr->value);
-		ptr = ptr->next;
-	}
-	return (NULL);
+	ptr = dict_findvar(data->envp, variable, len);
+	if (!ptr)
+		return (NULL);
+	return (ptr->value);
 }
 
 char	*searching_path(char *envp[])
