@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 10:32:19 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/24 11:20:30 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_minish
 	char	**commands;
 	char	**tokens;
 	char	*dir_command;
+	char	*completing_input;
 	pid_t	child;
 	t_list	*cmds;
 	int		pipe[2];

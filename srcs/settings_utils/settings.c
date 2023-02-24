@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 14:40:45 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/24 11:20:43 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->dir_command = NULL;
 	data->tokens = NULL;
 	data->aux = NULL;
+	data->completing_input = NULL;
 	data->envp = dup_envp(envp);
 }
 

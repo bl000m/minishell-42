@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 15:15:08 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/24 11:26:13 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,35 @@ void	create_new_cmd_list_node(t_minish *data)
 
 void	checking_token(t_minish *data, int i)
 {
-	if (data->tokens[i][0] == '<' && i == 0)
+	if (data->tokens[i][0] == '<' && data->tokens[i + 1])
 	{
 		data->file_in = open(data->tokens[i + 1], O_RDONLY);
 		if (data->file_in == -1)
 				ft_printf("INPUT ERROR: %s\n", strerror(errno));
 	}
-	else if (data->tokens[i][0] == '>' && i == data->n_tokens - 1)
+	else if (data->tokens[i][0] == '>' && data->tokens[i + 1])
 	{
 		data->file_out = open(data->tokens[i + 1], O_CREAT
-				| O_WRONLY | O_TRUNC, 0644);
+			| O_WRONLY | O_TRUNC, 0644);
 		if (data->file_out == -1)
-			error_manager(5, data);
+		error_manager(5, data);
 	}
-	else if (data->tokens[i][0] == '|')
+	else if (data->tokens[i][0] == '|' && data->tokens[i + 1][0])
 	{
-		if (i == 0)
+		if (i == 0 || data->tokens[i - 1][0] == '<' || data->tokens[i - 1][0] == '>')
 			error_manager(7, data);
+		else if (i == data->n_tokens - 1)
+		{
+			while (1)
+			{
+				data->completing_input = readline("pipe> ");
+				if (data->completing_input)
+					break ;
+			}
+			if (data->completing_input)
+				create_new_cmd_list_node(data);
+			data->cmds->content = ft_strdup(data->completing_input);
+		}
 		else
 			create_new_cmd_list_node(data);
 	}
