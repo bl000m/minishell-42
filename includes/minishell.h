@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 11:20:30 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/24 17:15:16 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,24 @@ typedef struct s_dict
 	struct s_dict	*next;
 }	t_dict;
 
+typedef struct s_cmd
+{
+	char			**full_cmd;
+	char			*full_path;
+	int				file_in;
+	int				file_out;
+	struct s_cmd	*next;
+
+}	t_cmd;
+
 typedef struct s_minish
 {
+	int		file_in;
+	int		file_out;
 	int		argc;
 	int		n_cmd;
 	int		n_tokens;
 	int		pos;
-	int		file_in;
-	int		file_out;
 	char	*path;
 	char	**path_dir;
 	char	*full_command;
@@ -48,11 +58,12 @@ typedef struct s_minish
 	char	*dir_command;
 	char	*completing_input;
 	pid_t	child;
-	t_list	*cmds;
+	t_cmd	*cmds;
 	int		pipe[2];
 	t_list	*aux;
 	t_dict	*envp;
 }	t_minish;
+
 
 /* builtins */
 

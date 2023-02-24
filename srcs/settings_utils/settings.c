@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 11:20:43 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/24 17:47:14 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,24 @@ static t_dict	*dup_envp(char **envp)
 	return (dict);
 }
 
+static void	init_cmd(t_minish *data)
+{
+	t_cmd	*command;
+
+	command = malloc(sizeof(*command));
+	command->full_cmd = NULL;
+	command->full_path = NULL;
+	command->file_in = 0;
+	command->file_out = 0;
+	command->next = NULL;
+	data->cmds = command;
+}
+
 static void	init_ptrs(t_minish *data, char *envp[])
 {
 	data->path = NULL;
 	data->path_dir = NULL;
 	data->commands = NULL;
-	data->cmds = NULL;
 	data->full_command = NULL;
 	data->dir_command = NULL;
 	data->tokens = NULL;
@@ -71,9 +83,10 @@ t_minish	*init_data(int argc, char *envp[])
 	data->n_cmd = 0;
 	data->n_tokens = 0;
 	data->pos = 0;
+	data->child = 0;
 	data->file_in = 0;
 	data->file_out = 0;
-	data->child = 0;
+	init_cmd(data);
 	init_ptrs(data, envp);
 	return (data);
 }
