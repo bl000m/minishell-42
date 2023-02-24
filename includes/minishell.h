@@ -55,6 +55,7 @@ typedef struct s_minish
 /* builtins */
 
 void		pwd(t_minish *data, int fd);
+void		unset(t_minish *data, char *variable);
 
 /* settings */
 
@@ -63,14 +64,15 @@ void		setting_prompt(t_minish *data);
 
 /* lexical analysis */
 
-void    	lexer_full_command(t_minish *data);
-char    	**split_tokens(t_minish *data);
+void		lexer_full_command(t_minish *data);
+char		**split_tokens(t_minish *data);
 
 /* t_dict management */
 
 t_dict		*dict_newnode(char *str);
 void		dict_addback(t_dict **dict, t_dict *new);
 size_t		dict_size(t_dict *dict);
+t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 
 /* parsing */
 
