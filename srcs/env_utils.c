@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/02/22 16:57:44 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:07:40 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,31 @@ size_t	dict_size(t_dict *dict)
 		ptr = ptr->next;
 	}
 	return (count);
+}
+
+/**
+ * @brief
+ * It will look for the variable given in arg
+ * and return the matching node of the list
+ * The comparison is made based on the name of the variable given and
+ * the variable stocked on the envp and in the length of both
+ * @param t_dict *envp  -> the linked list with the variables
+ * @param char *variable -> the name of the variable to be searched
+ * @param size_t len -> the length of the name of the variable to be searched
+ * @return
+ * t_dict -> the matching node
+ * NULL if it doesn't exist
+*/
+t_dict	*dict_findvar(t_dict *envp, char *variable, size_t len)
+{
+	t_dict	*ptr;
+
+	ptr = envp;
+	while (ptr)
+	{
+		if (ptr->key_len == len && !ft_strncmp(ptr->key, variable, len))
+			return (ptr);
+		ptr = ptr->next;
+	}
+	return (NULL);
 }

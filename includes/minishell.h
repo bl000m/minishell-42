@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 15:07:38 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/24 10:32:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ typedef struct s_minish
 	t_dict	*envp;
 }	t_minish;
 
+/* builtins */
+
+void		pwd(t_minish *data, int fd);
+void		unset(t_minish *data, char *variable);
+
 /* settings */
 
 t_minish	*init_data(int argc, char *envp[]);
@@ -60,14 +65,15 @@ void		setting_prompt(t_minish *data);
 
 /* lexical analysis */
 
-void    	lexer_full_command(t_minish *data);
-char    	**split_tokens(t_minish *data);
+void		lexer_full_command(t_minish *data);
+char		**split_tokens(t_minish *data);
 
 /* t_dict management */
 
 t_dict		*dict_newnode(char *str);
 void		dict_addback(t_dict **dict, t_dict *new);
 size_t		dict_size(t_dict *dict);
+t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 
 /* parsing */
 
