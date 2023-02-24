@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 11:26:13 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/24 12:03:20 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	checking_token(t_minish *data, int i)
 		{
 			while (1)
 			{
-				data->completing_input = readline("pipe> ");
+				data->completing_input = readline("> ");
 				if (data->completing_input)
 					break ;
 			}
