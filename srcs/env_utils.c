@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/02/23 15:07:40 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:14:34 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,22 @@
 t_dict	*dict_newnode(char *str)
 {
 	t_dict	*node;
-	size_t	size;
 	size_t	i;
 
 	i = 0;
-	size = 0;
-	node = ft_calloc(1, sizeof(node));
+	node = ft_calloc(1, sizeof(t_dict));
 	if (!node)
 		return (NULL);
-	while (str[i] != '=')
+	while (str[i] != '=' && str[i])
 		i++;
-	node->key = ft_substr(str, 0, i++);
+	node->key = ft_substr(str, 0, i);
 	node->key_len = ft_strlen(node->key);
-	while (str[i + size])
-		size++;
-	node->value = ft_substr(str, i, size);
+	node->has_value = 1;
+	node->value = NULL;
+	if (str[i] == '=')
+		node->value = ft_strdup(str + i + 1);
+	if (!str[i])
+		node->has_value = 0;
 	node->next = NULL;
 	return (node);
 }

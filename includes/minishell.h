@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 14:35:45 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:07:47 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@
 
 typedef struct s_dict
 {
-	char			*key;
 	size_t			key_len;
+	size_t			has_value;
+	char			*key;
 	char			*value;
 	struct s_dict	*next;
 }	t_dict;
@@ -56,6 +57,7 @@ typedef struct s_minish
 
 void		pwd(t_minish *data, int fd);
 void		unset(t_minish *data, char *variable);
+void		env(t_minish *data, int fd);
 
 /* settings */
 
