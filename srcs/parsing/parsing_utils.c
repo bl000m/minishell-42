@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	create_new_cmd_list_node(t_cmd **node)
+void	create_new_cmd_list_node(t_cmd **node, t_minish *data)
 {
 	t_cmd	*new_elem;
 	t_cmd	*ptr;
@@ -25,8 +25,8 @@ void	create_new_cmd_list_node(t_cmd **node)
 		return ;
 	new_elem->full_cmd = NULL;
 	new_elem->full_path = NULL;
-	new_elem->input = 0;
-	new_elem->output = 0;
+	new_elem->input = data->pipe[0];
+	new_elem->output = 1;
 	new_elem->next = NULL;
 	ptr->next = new_elem;
 	*node = (*node)->next;
@@ -84,7 +84,8 @@ void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 		error_manager(7, data);
 	else
 	{
-		create_new_cmd_list_node(node);
+		(*node)->output = data->pipe[1];
+		create_new_cmd_list_node(node, data);
 		*i += 1;
 	}
 }

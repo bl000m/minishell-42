@@ -16,7 +16,7 @@ void	switching_input_output(t_minish *data, char c)
 {
 	if (c == 'r')
 	{
-		if (dup2(data->pipe[0], STDIN_FILENO) < 0)
+		if (dup2(data->cmds->input, STDIN_FILENO) < 0)
 			error_manager(6, data);
 	}
 	else if (c == 's')
@@ -31,7 +31,7 @@ void	switching_input_output(t_minish *data, char c)
 	}
 	else if (c == 'w')
 	{
-		if (dup2(data->pipe[1], STDOUT_FILENO) < 0)
+		if (dup2(data->cmds->output, STDOUT_FILENO) < 0)
 			error_manager(6, data);
 	}
 }

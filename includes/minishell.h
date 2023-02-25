@@ -104,7 +104,7 @@ void		stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 void		adding_full_path(t_minish *data, t_cmd **node);
 
 /* parsing utils */
-void		create_new_cmd_list_node(t_cmd **node);
+void		create_new_cmd_list_node(t_cmd **node, t_minish *data);
 int			count_token_cmd(t_minish *data, int *i);
 int			is_builtin(char *cmd);
 void		input_redirection(t_minish *data, int *i);
