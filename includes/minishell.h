@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 15:58:05 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 17:10:07 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,17 @@ char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
 void		creating_cmd_list(t_minish *data);
+void		checking_token(t_minish *data, t_cmd **node, int *i);
+void		stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
+void		adding_full_path(t_minish *data, t_cmd **node);
+
+/* parsing utils */
+void		create_new_cmd_list_node(t_cmd **node);
+int			count_token_cmd(t_minish *data, int *i);
+int			is_builtin(char *cmd);
+void		input_redirection(t_minish *data, int *i);
+void		output_redirection(t_minish *data, int *i);
+void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
 
 /* Bonus features */
 
