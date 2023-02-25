@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 15:12:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 16:51:45 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,35 @@ int	count_token_cmd(t_minish *data, int *i)
 	return (count);
 }
 
+int	is_builtin(char *cmd)
+{
+	if (!ft_strncmp(cmd,"unset", 5) || !ft_strncmp(cmd,"env", 3) || !ft_strncmp(cmd,"pwd", 3)
+		|| !ft_strncmp(cmd,"export", 6) || !ft_strncmp(cmd,"cd", 2) || !ft_strncmp(cmd,"echo", 4)
+		|| !ft_strncmp(cmd,"exit", 4))
+		return (1);
+	return (0);
+}
+
 void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 {
-	// char	**full_cmd;
+	int	j;
+
+	j = 0;
 	(*node)->full_cmd = malloc(sizeof(char *) * count_token_cmd(data, i) + 1);
 	if (!(*node)->full_cmd)
 		return ;
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
-		(*node)->full_cmd[*i] = ft_strdup(data->tokens[*i]);
-		printf("node= %s\n", (*node)->full_cmd[*i]);
+		(*node)->full_cmd[j] = ft_strdup(data->tokens[*i]);
+		if (is_builtin((*node)->full_cmd[0]))
+			(*node)->full_path = NULL;
+		else if(!is_builtin((*node)->full_cmd[0]))
+			(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
 		*i += 1;
+		j++;
 	}
 	(*node)->full_cmd[*i] = NULL;
-	// data->cmds->full_cmd = full_cmd;
-	// *i += 1;
-	ft_printf("i in stocking = %d\n", *i);
 }
 
 void	input_redirection(t_minish *data, int *i)
@@ -90,23 +102,18 @@ void	output_redirection(t_minish *data, int *i)
 
 void	checking_token(t_minish *data, t_cmd **node, int *i)
 {
-	printf("i in checking token = %d\n", *i);
 	if (data->tokens[*i][0] == '<')
 		input_redirection(data, i);
 	else if (data->tokens[*i][0] == '>')
 		output_redirection(data, i);
 	else if (data->tokens[*i][0] == '|')
 	{
-		printf("yes it's |\n");
 		if (i == 0 || data->tokens[*i - 1][0] == '<'
 			|| data->tokens[*i - 1][0] == '>' || *i == data->n_tokens - 1)
 			error_manager(7, data);
 		else
 		{
 			create_new_cmd_list_node(node);
-			// printf("data->cmds->full_cmd = %s\n", data->cmds->full_cmd[0]);
-			ft_printf("HERE?\n");
-
 			*i += 1;
 		}
 	}
@@ -123,16 +130,5 @@ void	creating_cmd_list(t_minish *data)
 	node = data->cmds;
 	printf("token 2 = %c\n", data->tokens[0][0]);
 	while (i < data->n_tokens)
-	{
 		checking_token(data, &node, &i);
-		// printf("node = %s\n", node->full_cmd[0]);
-		ft_printf("i in creating = %d\n", i);
-		// i++;
-	}
-	// printf("data->cmds->full_cmd = %s\n", data->cmds->full_cmd[0]);
-	// printf("data->cmds->full_cmd = %s\n", data->cmds->next->full_cmd[0]);
-	// printf("%s\n", node->full_cmd[0]);
-	// printf("%s\n", head->next->full_cmd[0]);
-	// printf("%s\n", data->cmds->full_cmd[1]);
-	// printf("%s\n", data->cmds->full_cmd[2]);
 }

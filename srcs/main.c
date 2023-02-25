@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:36:33 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 17:35:48 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 15:52:27 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int argc, char *argv[], char *envp[])
 	check_error(argc);
 	data = init_data(argc, envp);
 	setting_prompt(data);
-	// parsing_environment(data, envp);
 	// if (!(checking_here_doc(argc, argv, data)))
 	// 	multiple_commands_handling(argc, argv, data);
 	// communicating(data, argv, envp);

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 11:54:07 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 15:58:05 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 /* parsing */
 
 void		opening_files(t_minish *data, char *argv[], char flag);
-void		parsing_environment(t_minish *data, char *envp[]);
+void		parsing_path(t_minish *data);
 char		*searching_path(char *envp[]);
-char		*find_dir_command(t_minish *data);
+char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
 void		creating_cmd_list(t_minish *data);

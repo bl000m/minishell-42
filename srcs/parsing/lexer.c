@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 17:35:54 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 15:58:08 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	lexer_full_command(t_minish *data)
 {
 	data->tokens = split_tokens(data);
 	expand_path(data);
+	parsing_path(data);
 	creating_cmd_list(data);
 	// print_out_tokens(data);
 }

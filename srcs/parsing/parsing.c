@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 15:04:59 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:59:09 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	parsing_environment(t_minish *data, char *envp[])
+void	parsing_path(t_minish *data)
 {
-	data->path = searching_path(envp);
+	data->path = find_varvalue(data, "PATH", 4);
 	if (!data->path)
 		error_manager(4, data);
 	else
@@ -43,20 +43,20 @@ char	*find_varvalue(t_minish *data, char *variable, size_t len)
 	return (ptr->value);
 }
 
-char	*searching_path(char *envp[])
-{
-	int	i;
+// char	*searching_path(char *envp[])
+// {
+// 	int	i;
 
-	i = 0;
-	while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
-		i++;
-	if (envp[i] != NULL)
-		return (envp[i] + 5);
-	else
-		return (NULL);
-}
+// 	i = 0;
+// 	while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
+// 		i++;
+// 	if (envp[i] != NULL)
+// 		return (envp[i] + 5);
+// 	else
+// 		return (NULL);
+// }
 
-char	*find_dir_command(t_minish *data)
+char	*find_dir_command(t_minish *data, char *command)
 {
 	int		i;
 	char	*path_dir;
@@ -66,9 +66,9 @@ char	*find_dir_command(t_minish *data)
 	while (data->path_dir[i])
 	{
 		path_dir = ft_strjoin(data->path_dir[i], "/");
-		path_with_command = ft_strjoin(path_dir, data->commands[0]);
-		if (access(data->commands[0], F_OK | X_OK) == 0)
-			return (data->commands[0]);
+		path_with_command = ft_strjoin(path_dir, command);
+		if (access(command, F_OK | X_OK) == 0)
+			return (command);
 		else if (access(path_with_command, F_OK | X_OK) == 0)
 			return (path_with_command);
 		free(path_with_command);
@@ -78,10 +78,10 @@ char	*find_dir_command(t_minish *data)
 	return (NULL);
 }
 
-void	matching_commands_with_right_path(t_minish *data, char *argv[], int pos)
-{
-	data->commands = ft_split(argv[pos], ' ');
-	data->dir_command = find_dir_command(data);
-	if (!data->dir_command)
-		error_manager(3, data);
-}
+// void	matching_commands_with_right_path(t_minish *data, char *argv[], int pos)
+// {
+// 	data->commands = ft_split(argv[pos], ' ');
+// 	data->dir_command = find_dir_command(data);
+// 	if (!data->dir_command)
+// 		error_manager(3, data);
+// }
