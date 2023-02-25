@@ -29,7 +29,7 @@ SRCS 		= main.c \
 			settings_utils/settings.c \
 			settings_utils/error_management.c \
       		settings_utils/utils.c \
-			exec/communicating.c \
+			exec/executing.c \
 			exec/builtins.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 17:10:02 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 17:25:54 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ void	adding_full_path(t_minish *data, t_cmd **node)
 {
 	if (is_builtin((*node)->full_cmd[0]))
 		(*node)->full_path = NULL;
-	else if(!is_builtin((*node)->full_cmd[0]))
+	else if (!is_builtin((*node)->full_cmd[0]))
+	{
 		(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
+		if (!(*node)->full_path)
+			error_manager(3, data);
+	}
 }

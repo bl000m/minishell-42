@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 17:24:46 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 17:57:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	switching_input_output(t_minish *data, char c)
 	}
 }
 
-void	executing_command(t_minish *data, char *envp[])
+void	launching_command(t_minish *data)
 {
-	if (execve(data->dir_command, data->commands, envp) == -1)
+	if (execve(data->dir_command, data->commands, data->env_table) == -1)
 		error_manager(3, data);
 }
 

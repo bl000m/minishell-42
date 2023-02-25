@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 11:54:30 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 17:52:28 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,26 @@ static t_dict	*dup_envp(char **envp)
 	return (dict);
 }
 
+char	**tab_envp_updated(t_minish *data)
+{
+	t_dict	*ptr;
+	int		n_var;
+
+	n_var = 0;
+	data->env_table = malloc(sizeof(char *) * dict_size(data->envp) + 1);
+	if (!data->envp)
+		return (NULL);
+	ptr = data->envp;
+	while (ptr)
+	{
+		data->env_table[n_var] = ft_strjoin(ptr->key, ptr->value);
+		n_var++;
+		ptr = ptr->next;
+	}
+	data->env_table[n_var] = 0;
+	return (data->env_table);
+}
+
 static void	init_cmd(t_minish *data)
 {
 	t_cmd	*command;
@@ -62,8 +82,9 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->dir_command = NULL;
 	data->tokens = NULL;
 	data->aux = NULL;
-	data->completing_input = NULL;
+	data->env_table = NULL;
 	data->envp = dup_envp(envp);
+	data->env_table = NULL;
 }
 
 t_minish	*init_data(int argc, char *envp[])

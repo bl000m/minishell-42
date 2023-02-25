@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 17:10:07 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 17:57:09 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ typedef struct s_minish
 	char	**commands;
 	char	**tokens;
 	char	*dir_command;
-	char	*completing_input;
 	pid_t	child;
 	t_cmd	*cmds;
 	int		pipe[2];
 	t_list	*aux;
 	t_dict	*envp;
+	char	**env_table;
 }	t_minish;
 
 
@@ -74,6 +74,7 @@ void		unset(t_minish *data, char *variable);
 
 t_minish	*init_data(int argc, char *envp[]);
 void		setting_prompt(t_minish *data);
+char		**tab_envp_updated(t_minish *data);
 
 /* lexical analysis */
 
@@ -115,18 +116,19 @@ void		here_doc(int argc, char *argv[], t_minish *data);
 void		getting_and_writing_input_on_file(char *limiter, int fd);
 void		multiple_commands_handling(int argc, char *argv[], t_minish *data);
 
-/* communicating */
+/* executing */
 
-void		communicating(t_minish *data, char *argv[], char *envp[]);
+void		executing_commands(t_minish *data);
+// void		communicating(t_minish *data, char *argv[], char *envp[]);
 void		creating_pipe(t_minish *data);
 void		creating_child(t_minish *data, int err);
-void		child_process(t_minish *data, char *argv[], char *envp[]);
+void		child_process(t_minish *data);
 
 /* utils */
 
 void		matching_commands_with_right_path(t_minish *data, char *argv[], int pos);
 void		switching_input_output(t_minish *data, char flag);
-void		executing_command(t_minish *data, char *envp[]);
+void		launching_command(t_minish *data);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
