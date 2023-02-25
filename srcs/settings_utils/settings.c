@@ -52,7 +52,7 @@ char	**tab_envp_updated(t_minish *data)
 	ptr = data->envp;
 	while (ptr)
 	{
-		data->env_table[n_var] = ft_strjoin(ptr->key, ptr->value);
+		data->env_table[n_var] = ft_strjoin(ft_strjoin(ptr->key, "="), ptr->value);
 		n_var++;
 		ptr = ptr->next;
 	}

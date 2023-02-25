@@ -38,7 +38,7 @@ void	switching_input_output(t_minish *data, char c)
 
 void	launching_command(t_minish *data)
 {
-	if (execve(data->dir_command, data->commands, data->env_table) == -1)
+	if (execve(data->cmds->full_path, data->cmds->full_cmd, data->env_table) == -1)
 		error_manager(3, data);
 }
 
