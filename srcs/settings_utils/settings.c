@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 17:47:14 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 11:54:30 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void	init_cmd(t_minish *data)
 	command = malloc(sizeof(*command));
 	command->full_cmd = NULL;
 	command->full_path = NULL;
-	command->file_in = 0;
-	command->file_out = 0;
+	command->input = 0;
+	command->output = 0;
 	command->next = NULL;
 	data->cmds = command;
 }

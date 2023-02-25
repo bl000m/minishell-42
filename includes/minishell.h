@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 17:15:16 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 11:54:07 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef struct s_cmd
 {
 	char			**full_cmd;
 	char			*full_path;
-	int				file_in;
-	int				file_out;
+	int				input;
+	int				output;
 	struct s_cmd	*next;
 
 }	t_cmd;
