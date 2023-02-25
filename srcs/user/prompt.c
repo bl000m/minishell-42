@@ -14,7 +14,6 @@
 
 void	setting_prompt(t_minish *data)
 {
-	int i = 0;
     data->full_command = NULL;
 	while (1)
 	{
@@ -22,9 +21,7 @@ void	setting_prompt(t_minish *data)
         if (data->full_command && *data->full_command)
             add_history (data->full_command);
 		tab_envp_updated(data);
-		while (data->env_table[i])
-			printf("%s\n", data->env_table[i++]);
 		lexer_full_command(data);
-		// executing_commands(data);
+		executing_commands(data);
 	}
 }

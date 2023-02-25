@@ -14,9 +14,6 @@
 
 void	executing_commands(t_minish *data)
 {
-	// while (data->cmds)
-	// 	printf("%s", data->cmds->full_cmd[0]);
-		
 	while (data->cmds)
 	{
 		// creating_pipe(data);
@@ -27,7 +24,7 @@ void	executing_commands(t_minish *data)
 		// closing_input_output(data);
 		data->cmds = data->cmds->next;
 	}
-	closing_input_output(data);
+	// closing_input_output(data);
 	// close(data->file_out);
 	exit_clean(data);
 	while (waitpid(-1, NULL, 0) > 0)

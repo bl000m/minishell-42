@@ -17,7 +17,7 @@ void	creating_cmd_list(t_minish *data)
 {
 	int		i;
 	t_cmd	*node;
-
+	
 	i = 0;
 	node = data->cmds;
 	while (i < data->n_tokens)
@@ -63,7 +63,8 @@ void	adding_full_path(t_minish *data, t_cmd **node)
 	else if (!is_builtin((*node)->full_cmd[0]))
 	{
 		(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
-		if (!(*node)->full_path)
-			error_manager(3, data);
+		// printf("(*node)->full_path = %s\n", (*node)->full_path);
+		// if (!(*node)->full_path == 0)
+		// 	error_manager(3, data);
 	}
 }
