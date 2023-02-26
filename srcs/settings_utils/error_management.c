@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 18:08:08 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 12:49:34 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,26 @@ void	check_error(int argc)
 void	error_manager(int error, t_minish *data)
 {
 	if (error == 1)
-		ft_printf("ERROR CREATING PIPE: %s\n", strerror(errno));
+		ft_printf("ERROR CREATING PIPE\n");
 	else if (error == 2)
-		ft_printf("ERROR CREATING PROCESS: %s\n", strerror(errno));
+		ft_printf("ERROR CREATING PROCESS\n");
 	else if (error == 3)
-		ft_printf("command not found: %s. %s\n",
-			data->commands[0], strerror(errno));
+		ft_printf("command not found. %s\n",
+			data->commands[0]);
 	else if (error == 4)
-		ft_printf("ENV PATH not set: %s\n", strerror(errno));
+		ft_printf("ENV PATH not set\n");
 	else if (error == 5)
 	{
 		if (data->file_in)
 			close(data->file_in);
-		ft_printf("OUTPUT ERROR: %s\n", strerror(errno));
+		ft_printf("OUTPUT ERROR\n");
 	}
 	else if (error == 6)
-		ft_printf("ERROR in switching fd: %s\n", strerror(errno));
+		ft_printf("ERROR in switching fd\n");
+	else if (error == 7)
+		ft_printf("parse error near '|'\n");
+	else if (error == 8)
+		ft_printf("syntax error near unexpected token `newline'\n");
 	exit_clean(data);
 	exit(1);
 }

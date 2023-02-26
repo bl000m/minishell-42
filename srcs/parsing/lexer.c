@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 12:29:58 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/25 15:58:08 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	lexer_full_command(t_minish *data)
 {
 	data->tokens = split_tokens(data);
 	expand_path(data);
-	print_out_tokens(data);
+	parsing_path(data);
+	creating_cmd_list(data);
+	// print_out_tokens(data);
 }
 
 char	**split_tokens(t_minish *data)

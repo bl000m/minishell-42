@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/25 17:57:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	switching_input_output(t_minish *data, char c)
 {
 	if (c == 'r')
 	{
-		if (dup2(data->pipe[0], STDIN_FILENO) < 0)
+		if (dup2(data->cmds->input, STDIN_FILENO) < 0)
 			error_manager(6, data);
 	}
 	else if (c == 's')
@@ -31,15 +31,16 @@ void	switching_input_output(t_minish *data, char c)
 	}
 	else if (c == 'w')
 	{
-		if (dup2(data->pipe[1], STDOUT_FILENO) < 0)
+		if (dup2(data->cmds->output, STDOUT_FILENO) < 0)
 			error_manager(6, data);
 	}
 }
 
-void	executing_command(t_minish *data, char *envp[])
+void	launching_command(t_minish *data, t_cmd **cmd)
 {
-	if (execve(data->dir_command, data->commands, envp) == -1)
-		error_manager(3, data);
+	printf("%d", execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1);
+	// if (execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1)
+		// error_manager(3, data);
 }
 
 void	creating_pipe(t_minish *data)

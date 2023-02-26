@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
 /*   Updated: 2023/02/24 17:07:47 by fbelfort         ###   ########.fr       */
@@ -33,25 +33,38 @@ typedef struct s_dict
 	struct s_dict	*next;
 }	t_dict;
 
+typedef struct s_cmd
+{
+	char			**full_cmd;
+	char			*full_path;
+	int				input;
+	int				output;
+	struct s_cmd	*next;
+
+}	t_cmd;
+
 typedef struct s_minish
 {
+	int		file_in;
+	int		file_out;
 	int		argc;
 	int		n_cmd;
 	int		n_tokens;
 	int		pos;
-	int		file_in;
-	int		file_out;
 	char	*path;
 	char	**path_dir;
-	char	**tokens;
 	char	*full_command;
 	char	**commands;
+	char	**tokens;
 	char	*dir_command;
 	pid_t	child;
+	t_cmd	*cmds;
 	int		pipe[2];
 	t_list	*aux;
 	t_dict	*envp;
+	char	**env_table;
 }	t_minish;
+
 
 /* builtins */
 
@@ -63,6 +76,7 @@ void		env(t_minish *data, int fd);
 
 t_minish	*init_data(int argc, char *envp[]);
 void		setting_prompt(t_minish *data);
+char		**tab_envp_updated(t_minish *data);
 
 /* lexical analysis */
 
@@ -79,11 +93,24 @@ t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 /* parsing */
 
 void		opening_files(t_minish *data, char *argv[], char flag);
-void		parsing_environment(t_minish *data, char *envp[]);
+void		parsing_path(t_minish *data);
 char		*searching_path(char *envp[]);
-char		*find_dir_command(t_minish *data);
+char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
+void		creating_cmd_list(t_minish *data);
+void		checking_token(t_minish *data, t_cmd **node, int *i);
+void		stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
+void		adding_full_path(t_minish *data, t_cmd **node);
+
+/* parsing utils */
+void		create_new_cmd_list_node(t_cmd **node, t_minish *data);
+int			count_token_cmd(t_minish *data, int *i);
+int			is_builtin(char *cmd);
+void		input_redirection(t_minish *data, int *i);
+void		output_redirection(t_minish *data, int *i);
+void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
+int			cmds_number(t_minish *data);
 
 /* Bonus features */
 
@@ -92,18 +119,19 @@ void		here_doc(int argc, char *argv[], t_minish *data);
 void		getting_and_writing_input_on_file(char *limiter, int fd);
 void		multiple_commands_handling(int argc, char *argv[], t_minish *data);
 
-/* communicating */
+/* executing */
 
-void		communicating(t_minish *data, char *argv[], char *envp[]);
+void		executing_commands(t_minish *data);
+// void		communicating(t_minish *data, char *argv[], char *envp[]);
 void		creating_pipe(t_minish *data);
 void		creating_child(t_minish *data, int err);
-void		child_process(t_minish *data, char *argv[], char *envp[]);
+void		child_process(t_minish *data, t_cmd **cmd);
 
 /* utils */
 
 void		matching_commands_with_right_path(t_minish *data, char *argv[], int pos);
 void		switching_input_output(t_minish *data, char flag);
-void		executing_command(t_minish *data, char *envp[]);
+void		launching_command(t_minish *data, t_cmd **cmd);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
