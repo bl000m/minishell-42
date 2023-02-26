@@ -89,3 +89,18 @@ void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 		*i += 1;
 	}
 }
+
+int	cmds_number(t_minish *data)
+{
+	int		count;
+	t_cmd	*ptr;
+
+	count = 0;
+	ptr = data->cmds;
+	while (ptr)
+	{
+		count++;
+		ptr = ptr->next;
+	}
+	return (count);
+}

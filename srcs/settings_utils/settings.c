@@ -68,7 +68,7 @@ static void	init_cmd(t_minish *data)
 	command->full_cmd = NULL;
 	command->full_path = NULL;
 	command->input = 0;
-	command->output = 0;
+	command->output = 1;
 	command->next = NULL;
 	data->cmds = command;
 }

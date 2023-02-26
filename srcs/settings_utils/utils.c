@@ -36,10 +36,11 @@ void	switching_input_output(t_minish *data, char c)
 	}
 }
 
-void	launching_command(t_minish *data)
+void	launching_command(t_minish *data, t_cmd **cmd)
 {
-	if (execve(data->cmds->full_path, data->cmds->full_cmd, data->env_table) == -1)
-		error_manager(3, data);
+	printf("%d", execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1);
+	// if (execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1)
+		// error_manager(3, data);
 }
 
 void	creating_pipe(t_minish *data)

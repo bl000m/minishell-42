@@ -110,6 +110,7 @@ int			is_builtin(char *cmd);
 void		input_redirection(t_minish *data, int *i);
 void		output_redirection(t_minish *data, int *i);
 void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
+int			cmds_number(t_minish *data);
 
 /* Bonus features */
 
@@ -124,13 +125,13 @@ void		executing_commands(t_minish *data);
 // void		communicating(t_minish *data, char *argv[], char *envp[]);
 void		creating_pipe(t_minish *data);
 void		creating_child(t_minish *data, int err);
-void		child_process(t_minish *data);
+void		child_process(t_minish *data, t_cmd **cmd);
 
 /* utils */
 
 void		matching_commands_with_right_path(t_minish *data, char *argv[], int pos);
 void		switching_input_output(t_minish *data, char flag);
-void		launching_command(t_minish *data);
+void		launching_command(t_minish *data, t_cmd **cmd);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
