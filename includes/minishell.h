@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 12:41:22 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 12:52:47 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ typedef struct s_cmd
 
 typedef struct s_minish
 {
-	int		file_in;
-	int		file_out;
+	// int		file_in;
+	// int		file_out;
 	int		argc;
 	int		n_cmd;
 	int		n_tokens;
