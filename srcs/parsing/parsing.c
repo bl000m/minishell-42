@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 17:26:06 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:09:59 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	parsing_path(t_minish *data)
 {
 	data->path = find_varvalue(data, "PATH", 4);
 	if (!data->path)
-		error_manager(4, data);
+		error_manager(4, data, NULL);
 	else
 		data->path_dir = ft_split(data->path, ':');
 }
@@ -77,11 +77,3 @@ char	*find_dir_command(t_minish *data, char *command)
 	}
 	return (NULL);
 }
-
-// void	matching_commands_with_right_path(t_minish *data, char *argv[], int pos)
-// {
-// 	data->commands = ft_split(argv[pos], ' ');
-// 	data->dir_command = find_dir_command(data);
-// 	if (!data->dir_command)
-// 		error_manager(3, data);
-// }
