@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 12:27:20 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 12:40:43 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 /* still to be free all (data->tokens etc) before starting over a new loop*/
 void	setting_prompt(t_minish *data)
 {
-    data->full_command = NULL;
+    data->input = NULL;
 	while (1)
 	{
-		data->full_command = readline("@minishell:~$ ");
-        if (data->full_command && *data->full_command)
-            add_history (data->full_command);
+		data->input = readline("@minishell:~$ ");
+        if (data->input && *data->input)
+            add_history (data->input);
 		tab_envp_updated(data);
-		lexer_full_command(data);
+		lexer_input(data);
 		executing_commands(data);
-		free(data->full_command);
-		data->full_command = NULL;
+		free(data->input);
+		data->input = NULL;
 	}
 }

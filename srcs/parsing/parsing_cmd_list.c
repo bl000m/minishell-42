@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 17:25:54 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 12:37:32 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,11 @@ void	creating_cmd_list(t_minish *data)
 {
 	int		i;
 	t_cmd	*node;
-	
+
 	i = 0;
 	node = data->cmds;
 	while (i < data->n_tokens)
 		checking_token(data, &node, &i);
-	printf("full_cmd = %s\n", data->cmds->full_cmd[0]);
-	printf("full_cmd = %s\n", data->cmds->full_cmd[1]);
-	// printf("full_cmd = %s\n", data->cmds->full_cmd[2]);
 }
 
 void	checking_token(t_minish *data, t_cmd **node, int *i)
