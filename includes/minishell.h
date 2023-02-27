@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/24 17:07:47 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/27 12:41:22 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_minish
 	int		pos;
 	char	*path;
 	char	**path_dir;
-	char	*full_command;
+	char	*input;
 	char	**commands;
 	char	**tokens;
 	char	*dir_command;
@@ -80,7 +80,7 @@ char		**tab_envp_updated(t_minish *data);
 
 /* lexical analysis */
 
-void		lexer_full_command(t_minish *data);
+void		lexer_input(t_minish *data);
 char		**split_tokens(t_minish *data);
 
 /* t_dict management */

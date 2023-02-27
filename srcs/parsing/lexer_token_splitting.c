@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/22 12:55:14 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 12:39:38 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ char	**tokens_table_filling(t_minish *data, char **table)
 	start = 0;
 	end = 0;
 	n_token = 0;
-	while (data->full_command[end] == ' ')
+	while (data->input[end] == ' ')
 		end++;
 	while (n_token < data->n_tokens)
 	{
-		add_token(data->full_command, &start, &end);
-		if (data->full_command[end -1] != ' ')
+		add_token(data->input, &start, &end);
+		if (data->input[end -1] != ' ')
 		{
-			table[n_token] = duplicating_token(data->full_command, start, end);
+			table[n_token] = duplicating_token(data->input, start, end);
 			if (!table[n_token])
 				ft_free(table);
 			n_token++;
