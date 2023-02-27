@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 12:35:54 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:12:52 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	executing_commands(t_minish *data)
 	}
 	// closing_input_output(data);
 	// close(data->file_out);
-	exit_clean(data);
+	// exit_clean(data);
 	while (waitpid(-1, NULL, 0) > 0)
 		;
 }

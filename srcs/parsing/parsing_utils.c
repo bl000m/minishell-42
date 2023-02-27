@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 17:03:26 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:09:53 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	is_builtin(char *cmd)
 void	input_redirection(t_minish *data, int *i)
 {
 	if (!data->tokens[*i + 1])
-		error_manager(8, data);
+		error_manager(8, data, NULL);
 	else
 	{
 		data->cmds->input = open(data->tokens[*i + 1], O_RDONLY);
@@ -67,13 +67,13 @@ void	input_redirection(t_minish *data, int *i)
 void	output_redirection(t_minish *data, int *i)
 {
 	if (!data->tokens[*i + 1])
-		error_manager(8, data);
+		error_manager(8, data, NULL);
 	else
 	{
 		data->cmds->output = open(data->tokens[*i + 1], O_CREAT
 			| O_WRONLY | O_TRUNC, 0644);
 		if (data->cmds->output == -1)
-			error_manager(5, data);
+			error_manager(5, data, NULL);
 	}
 }
 
@@ -81,7 +81,7 @@ void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 {
 	if (i == 0 || data->tokens[*i - 1][0] == '<'
 		|| data->tokens[*i - 1][0] == '>' || *i == data->n_tokens - 1)
-		error_manager(7, data);
+		error_manager(7, data, NULL);
 	else
 	{
 		(*node)->output = data->pipe[1];

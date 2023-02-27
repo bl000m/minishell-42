@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 12:52:47 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:08:50 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,14 @@ typedef struct s_cmd
 
 typedef struct s_minish
 {
-	// int		file_in;
-	// int		file_out;
-	int		argc;
+	char	*input;
+	int		file_in;
+	int		file_out;
 	int		n_cmd;
 	int		n_tokens;
-	int		pos;
 	char	*path;
 	char	**path_dir;
-	char	*input;
-	char	**commands;
+	// char	**commands;
 	char	**tokens;
 	char	*dir_command;
 	pid_t	child;
@@ -74,7 +72,7 @@ void		env(t_minish *data, int fd);
 
 /* settings */
 
-t_minish	*init_data(int argc, char *envp[]);
+t_minish	*init_data(char *envp[]);
 void		setting_prompt(t_minish *data);
 char		**tab_envp_updated(t_minish *data);
 
@@ -92,7 +90,7 @@ t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 
 /* parsing */
 
-void		opening_files(t_minish *data, char *argv[], char flag);
+// void		opening_files(t_minish *data, char *argv[], char flag);
 void		parsing_path(t_minish *data);
 char		*searching_path(char *envp[]);
 char		*find_dir_command(t_minish *data, char *command);
@@ -122,7 +120,6 @@ void		multiple_commands_handling(int argc, char *argv[], t_minish *data);
 /* executing */
 
 void		executing_commands(t_minish *data);
-// void		communicating(t_minish *data, char *argv[], char *envp[]);
 void		creating_pipe(t_minish *data);
 void		creating_child(t_minish *data, int err);
 void		child_process(t_minish *data, t_cmd **cmd);
@@ -146,7 +143,7 @@ char		**tokens_table_filling(t_minish *data, char **table);
 
 /* error management */
 
-void		error_manager(int error, t_minish *data);
+void		error_manager(int error, t_minish *data, t_cmd **cmd);
 void		check_error(int argc);
 
 /* memory stuff */
@@ -154,7 +151,7 @@ void		check_error(int argc);
 void		closing_input_output(t_minish *data);
 void		waiting_childs_finishing(t_minish *data);
 void		free_path_dir(t_minish *data);
-void		free_commands(t_minish *data);
+void		free_tokens(t_minish *data);
 void		exit_clean(t_minish *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/18 11:36:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:03:38 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,25 @@ void	free_path_dir(t_minish *data)
 	}
 }
 
-void	free_commands(t_minish *data)
+void	free_tokens(t_minish *data)
 {
 	int	i;
 
 	i = 0;
-	if (data->commands)
+	if (data->tokens)
 	{
-		while (data->commands[i])
+		while (data->tokens[i])
 		{
-			free(data->commands[i]);
+			free(data->tokens[i]);
 			i++;
 		}
-		free(data->commands);
+		free(data->tokens);
 	}
 }
 
 void	exit_clean(t_minish *data)
 {
-	free_commands(data);
+	free_tokens(data);
 	free_path_dir(data);
 	if (data->pipe[0])
 		close(data->pipe[0]);

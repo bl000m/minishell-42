@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/25 12:49:34 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:06:39 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_error(int argc)
 	}
 }
 
-void	error_manager(int error, t_minish *data)
+void	error_manager(int error, t_minish *data, t_cmd **cmd)
 {
 	if (error == 1)
 		ft_printf("ERROR CREATING PIPE\n");
@@ -29,7 +29,7 @@ void	error_manager(int error, t_minish *data)
 		ft_printf("ERROR CREATING PROCESS\n");
 	else if (error == 3)
 		ft_printf("command not found. %s\n",
-			data->commands[0]);
+			(*cmd)->full_cmd[0]);
 	else if (error == 4)
 		ft_printf("ENV PATH not set\n");
 	else if (error == 5)
