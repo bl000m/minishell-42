@@ -6,33 +6,33 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:11:52 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:12:16 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	switching_input_output(t_minish *data, char c)
+void	switching_input_output(t_minish *data, t_cmd **cmd, char c)
 {
 	if (c == 'r')
 	{
-		if (dup2(data->cmds->input, STDIN_FILENO) < 0)
-			error_manager(6, data, NULL);
+		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
+			error_manager(6, data, cmd);
 	}
 	else if (c == 's')
 	{
-		if (dup2(data->file_in, STDIN_FILENO) < 0)
-			error_manager(6, data, NULL);
+		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
+			error_manager(6, data, cmd);
 	}
 	else if (c == 'e')
 	{
-		if (dup2(data->file_out, STDOUT_FILENO) < 0)
-			error_manager(6, data, NULL);
+		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
+			error_manager(6, data, cmd);
 	}
 	else if (c == 'w')
 	{
-		if (dup2(data->cmds->output, STDOUT_FILENO) < 0)
-			error_manager(6, data, NULL);
+		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
+			error_manager(6, data, cmd);
 	}
 }
 
