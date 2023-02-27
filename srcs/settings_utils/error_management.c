@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:06:39 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:41:48 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 	{
 		if (data->file_in)
 			close(data->file_in);
-		ft_printf("OUTPUT ERROR\n");
+		ft_printf("OUTPUT ERROR\n", strerror(errno));
 	}
 	else if (error == 6)
 		ft_printf("ERROR in switching fd\n");
@@ -44,6 +44,8 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		ft_printf("parse error near '|'\n");
 	else if (error == 8)
 		ft_printf("syntax error near unexpected token `newline'\n");
+	else if (error == 9)
+		ft_printf("INPUT ERROR: %s\n", strerror(errno));
 	exit_clean(data);
 	exit(1);
 }

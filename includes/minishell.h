@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:08:50 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:08:31 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,24 @@ typedef struct s_cmd
 	int				input;
 	int				output;
 	struct s_cmd	*next;
-
 }	t_cmd;
 
 typedef struct s_minish
 {
 	char	*input;
-	int		file_in;
-	int		file_out;
+	char	**tokens;
+	t_cmd	*cmds;
 	int		n_cmd;
 	int		n_tokens;
 	char	*path;
 	char	**path_dir;
-	// char	**commands;
-	char	**tokens;
-	char	*dir_command;
-	pid_t	child;
-	t_cmd	*cmds;
-	int		pipe[2];
-	t_list	*aux;
-	t_dict	*envp;
 	char	**env_table;
+	t_dict	*envp;
+	int		file_in;
+	int		file_out;
+	int		pipe[2];
+	pid_t	child;
+	t_list	*aux;
 }	t_minish;
 
 
@@ -105,8 +102,8 @@ void		adding_full_path(t_minish *data, t_cmd **node);
 void		create_new_cmd_list_node(t_cmd **node, t_minish *data);
 int			count_token_cmd(t_minish *data, int *i);
 int			is_builtin(char *cmd);
-void		input_redirection(t_minish *data, int *i);
-void		output_redirection(t_minish *data, int *i);
+void		input_redirection(t_minish *data, t_cmd **node, int *i);
+void		output_redirection(t_minish *data, t_cmd **node, int *i);
 void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
 
@@ -127,7 +124,7 @@ void		child_process(t_minish *data, t_cmd **cmd);
 /* utils */
 
 void		matching_commands_with_right_path(t_minish *data, char *argv[], int pos);
-void		switching_input_output(t_minish *data, char flag);
+void		switching_input_output(t_minish *data, t_cmd **cmd, char flag);
 void		launching_command(t_minish *data, t_cmd **cmd);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);

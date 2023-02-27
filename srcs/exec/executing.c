@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:12:52 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:14:50 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ void	executing_commands(t_minish *data)
 	t_cmd	*ptr;
 
 	ptr = data->cmds;
-	// printf("cmd full cmd = %s\n", data->cmds->full_cmd[0]);
-	// printf("cmd full path = %s\n", data->cmds->full_path);
-	// printf("cmd input = %d\n", data->cmds->input);
-	// printf("cmd output = %d\n", data->cmds->output);
-	// printf("cmds_number(data) = %d\n", cmds_number(data));
 	while (ptr)
 	{
 		if (cmds_number(data) != 1)
@@ -46,10 +41,10 @@ void	executing_commands(t_minish *data)
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	// if (data->pos == data->argc - 2)
-	// 	switching_input_output(data, 'e');
-	// else
-		// switching_input_output(data, 'w');
+	if ((*cmd)->input)
+		switching_input_output(data, cmd, 'r');
+	if ((*cmd)->output)
+		switching_input_output(data, cmd, 'e');
 	// closing_input_output(data);
 	// close(data->file_out);
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))

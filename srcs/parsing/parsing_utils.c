@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:09:53 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:16:20 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,30 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	input_redirection(t_minish *data, int *i)
+void	input_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 		error_manager(8, data, NULL);
 	else
 	{
-		data->cmds->input = open(data->tokens[*i + 1], O_RDONLY);
-		if (data->cmds->input == -1)
-				ft_printf("INPUT ERROR: %s\n", strerror(errno));
+		(*node)->input = open(data->tokens[*i + 1], O_RDONLY);
+		if ((*node)->input == -1)
+			error_manager(9, data, NULL);
+		*i += 1;
 	}
 }
 
-void	output_redirection(t_minish *data, int *i)
+void	output_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 		error_manager(8, data, NULL);
 	else
 	{
-		data->cmds->output = open(data->tokens[*i + 1], O_CREAT
+		(*node)->output = open(data->tokens[*i + 1], O_CREAT
 			| O_WRONLY | O_TRUNC, 0644);
-		if (data->cmds->output == -1)
+		if ((*node)->output == -1)
 			error_manager(5, data, NULL);
+		*i += 1;
 	}
 }
 

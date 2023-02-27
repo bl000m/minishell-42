@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:08:25 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 14:56:34 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,18 @@ void	creating_cmd_list(t_minish *data)
 void	checking_token(t_minish *data, t_cmd **node, int *i)
 {
 	if (data->tokens[*i][0] == '<')
-		input_redirection(data, i);
+		input_redirection(data, node, i);
 	else if (data->tokens[*i][0] == '>')
-		output_redirection(data, i);
+		output_redirection(data, node, i);
 	else if (data->tokens[*i][0] == '|')
 		pipe_new_node(data, node, i);
 	else
-		stocking_cmd_and_arguments(data, node, i);
+	{
+		if (*i > 0 && (data->tokens[*i - 1][0] == '<' || data->tokens[*i - 1][0] == '>'))
+			*i += 1;
+		else
+			stocking_cmd_and_arguments(data, node, i);
+	}
 }
 
 int	checking_quotes(char *token)

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:02:31 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:21:17 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ static void	init_ptrs(t_minish *data, char *envp[])
 {
 	data->path = NULL;
 	data->path_dir = NULL;
-	// data->commands = NULL;
 	data->input = NULL;
-	data->dir_command = NULL;
 	data->tokens = NULL;
 	data->aux = NULL;
 	data->env_table = NULL;
