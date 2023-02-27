@@ -18,7 +18,7 @@ void	lexer_full_command(t_minish *data)
 	expand_path(data);
 	parsing_path(data);
 	creating_cmd_list(data);
-	// print_out_tokens(data);
+	print_out_tokens(data);
 }
 
 char	**split_tokens(t_minish *data)

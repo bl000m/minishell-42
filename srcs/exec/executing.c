@@ -14,24 +14,27 @@
 
 void	executing_commands(t_minish *data)
 {
-	// printf("cmd full cmd = %s\n", data->cmds->full_cmd[0]);
-	// printf("cmd full path = %s\n", data->cmds->full_path);
-	// printf("cmd input = %d\n", data->cmds->input);
-	// printf("cmd output = %d\n", data->cmds->output);
-	// printf("cmds_number(data) = %d\n", cmds_number(data));
-	while (data->cmds)
+	t_cmd	*ptr;
+
+	ptr = data->cmds;
+	printf("cmd full cmd = %s\n", data->cmds->full_cmd[0]);
+	printf("cmd full path = %s\n", data->cmds->full_path);
+	printf("cmd input = %d\n", data->cmds->input);
+	printf("cmd output = %d\n", data->cmds->output);
+	printf("cmds_number(data) = %d\n", cmds_number(data));
+	while (ptr)
 	{
 		if (cmds_number(data) != 1)
 			creating_pipe(data);
 		creating_child(data, 2);
 		if (data->child == 0)
-			child_process(data, &data->cmds);
+			child_process(data, &ptr);
 		// if (cmds_number(data) != 1)
 		// {
 		// 	switching_input_output(data, 'r');
 		// 	closing_input_output(data);
 		// }
-		data->cmds = data->cmds->next;
+		ptr = ptr->next;
 	}
 	// closing_input_output(data);
 	// close(data->file_out);
@@ -49,5 +52,12 @@ void	child_process(t_minish *data, t_cmd **cmd)
 		// switching_input_output(data, 'w');
 	// closing_input_output(data);
 	// close(data->file_out);
-	launching_command(data, cmd);
+	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
+		pwd(data, (*cmd)->output);
+	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
+		env(data, (*cmd)->output);
+	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5) &&  (*cmd)->full_cmd[1])
+		unset(data, (*cmd)->full_cmd[1]);
+	else
+		launching_command(data, cmd);
 }

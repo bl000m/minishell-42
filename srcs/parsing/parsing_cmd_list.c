@@ -22,6 +22,9 @@ void	creating_cmd_list(t_minish *data)
 	node = data->cmds;
 	while (i < data->n_tokens)
 		checking_token(data, &node, &i);
+	printf("full_cmd = %s\n", data->cmds->full_cmd[0]);
+	printf("full_cmd = %s\n", data->cmds->full_cmd[1]);
+	// printf("full_cmd = %s\n", data->cmds->full_cmd[2]);
 }
 
 void	checking_token(t_minish *data, t_cmd **node, int *i)
@@ -36,19 +39,50 @@ void	checking_token(t_minish *data, t_cmd **node, int *i)
 		stocking_cmd_and_arguments(data, node, i);
 }
 
+int	checking_quotes(char *token)
+{
+	return(token[0] == '\"' || token[0] == '\'');
+}
+
+char	*getting_rid_of_quotes(char *token)
+{
+	int		i;
+	int		j;
+	char	*result;
+
+	i = 1;
+	j = 0;
+	result = malloc(sizeof(char) * (int)ft_strlen(token) + 1);
+	if (!result)
+		return (NULL);
+	while(token[i] && i < (int)ft_strlen(token) - 1)
+		result[j++] = token[i++];
+	result[i] = 0;
+	return (result);
+}
 
 void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 {
-	int	arg;
+	int		arg;
+	char	*token_no_quotes;
 
 	arg = 0;
+	token_no_quotes = NULL;
 	(*node)->full_cmd = malloc(sizeof(char *) * count_token_cmd(data, i) + 1);
 	if (!(*node)->full_cmd)
 		return ;
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
-		(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
+		if (checking_quotes(data->tokens[*i]))
+		{
+			token_no_quotes = getting_rid_of_quotes(data->tokens[*i]);
+			(*node)->full_cmd[arg] = ft_strdup(token_no_quotes);
+			free(token_no_quotes);
+			token_no_quotes = NULL;
+		}
+		else
+			(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
 		adding_full_path(data, node);
 		*i += 1;
 		arg++;
