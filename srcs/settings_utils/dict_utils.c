@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/02/24 17:14:34 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/02/28 16:37:59 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,35 @@ t_dict	*dict_findvar(t_dict *envp, char *variable, size_t len)
 		ptr = ptr->next;
 	}
 	return (NULL);
+}
+
+/**
+ * @brief
+ * Takes a t_dict list in argument and returns a 
+ * duplicated copy of the
+ * list.
+*/
+t_dict	*dict_duplst(t_dict *dict)
+{
+	t_dict	*dup;
+	t_dict	*tmp;
+
+	dup = NULL;
+	while (dict)
+	{
+		tmp = ft_calloc(1, sizeof(t_dict));
+		if (!tmp)
+		{
+			dict_free(&dup);
+			return (NULL);
+		}
+		tmp->has_value = dict->has_value;
+		tmp->key_len = dict->key_len;
+		tmp->next = NULL;
+		tmp->key = ft_strdup(dict->key);
+		tmp->value = ft_strdup(dict->value);
+		dict_addback(&dup, tmp);
+		dict = dict->next;
+	}
+	return (dup);
 }

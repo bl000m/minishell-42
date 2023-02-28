@@ -14,7 +14,6 @@ NAME 		= minishell
 
 # mandatory srcs / obj files
 SRCS 		= main.c \
-			env_utils.c \
      		user/prompt.c \
 			user/here_doc.c \
 			parsing/lexer.c \
@@ -25,12 +24,15 @@ SRCS 		= main.c \
 			parsing/parsing.c \
 			parsing/parsing_cmd_list.c \
 			parsing/parsing_utils.c \
+			settings_utils/dict_utils.c \
+			settings_utils/dict_utils2.c \
 			settings_utils/memory_stuff.c \
 			settings_utils/settings.c \
 			settings_utils/error_management.c \
       		settings_utils/utils.c \
 			exec/executing.c \
-			exec/builtins.c
+			exec/builtins.c \
+			exec/builtins_utils.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
 
