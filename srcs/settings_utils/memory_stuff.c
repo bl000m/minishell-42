@@ -12,13 +12,6 @@
 
 #include "../includes/minishell.h"
 
-// s == sending || r == receiving || p == parent
-void	closing_input_output(t_minish *data)
-{
-	close(data->pipe[0]);
-	close(data->pipe[1]);
-}
-
 void	free_path_dir(t_minish *data)
 {
 	int	i;
@@ -34,6 +27,49 @@ void	free_path_dir(t_minish *data)
 		}
 		free(data->path_dir);
 		data->path_dir = NULL;
+	}
+}
+void	free_env_table(t_minish *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->env_table)
+	{
+		while (data->env_table[i])
+		{
+			free(data->env_table[i]);
+			data->env_table[i] = NULL;
+			i++;
+		}
+		free(data->env_table);
+		data->env_table = NULL;
+	}
+}
+
+void	free_linked_list_full_cmd(t_minish *data)
+{
+	t_cmd	*ptr;
+	int	i;
+
+	i = 0;
+	ptr = data->cmds;
+	if (ptr)
+	{
+		while (ptr->full_cmd[i])
+		{
+			free(ptr->full_cmd[i]);
+			ptr->full_cmd[i] = NULL;
+			// ptr->full_path = NULL;
+			// if (ptr->input != 0)
+			// 	close(ptr->input);
+			// if (ptr->output != 1)
+			// 	close(ptr->output);
+			i++;
+		}
+		free(ptr->full_cmd);
+		ptr->full_cmd = NULL;
+		ptr = ptr->next;
 	}
 }
 
@@ -56,14 +92,12 @@ void	free_tokens(t_minish *data)
 void	exit_clean(t_minish *data)
 {
 	free_tokens(data);
+	free_env_table(data);
+	free_linked_list_full_cmd(data);
 	free_path_dir(data);
-	if (data->pipe[0])
-		close(data->pipe[0]);
-	if (data->pipe[1])
-		close(data->pipe[1]);
-	if (data->file_in)
-		close(data->file_in);
-	if (data->file_out)
-		close(data->file_out);
+	// if (data->pipe[0])
+	// 	close(data->pipe[0]);
+	// if (data->pipe[1])
+	// 	close(data->pipe[1]);
 	free(data);
 }

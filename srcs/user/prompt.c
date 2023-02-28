@@ -12,7 +12,6 @@
 
 #include "../includes/minishell.h"
 
-/* still to be free all (data->tokens etc) before starting over a new loop*/
 void	setting_prompt(t_minish *data)
 {
     data->input = NULL;
@@ -26,5 +25,6 @@ void	setting_prompt(t_minish *data)
 		executing_commands(data);
 		free(data->input);
 		data->input = NULL;
+		exit_clean(data);
 	}
 }

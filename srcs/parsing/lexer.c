@@ -18,7 +18,6 @@ void	lexer_input(t_minish *data)
 	expand_path(data);
 	parsing_path(data);
 	creating_cmd_list(data);
-	// print_out_tokens(data);
 }
 
 char	**split_tokens(t_minish *data)
@@ -40,15 +39,3 @@ char	**split_tokens(t_minish *data)
 	return (table);
 }
 
-//temporary
-void	print_out_tokens(t_minish *data)
-{
-	int i;
-
-	i = 0;
-	while (i < data->n_tokens)
-	{
-		ft_printf("%s\n", data->tokens[i]);
-		i++;
-	}
-}

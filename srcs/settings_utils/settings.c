@@ -46,7 +46,7 @@ char	**tab_envp_updated(t_minish *data)
 	int		n_var;
 
 	n_var = 0;
-	data->env_table = malloc(sizeof(char *) * dict_size(data->envp) + 1);
+	data->env_table = malloc(sizeof(char *) * (dict_size(data->envp) + 1));
 	if (!data->envp)
 		return (NULL);
 	ptr = data->envp;
@@ -56,7 +56,7 @@ char	**tab_envp_updated(t_minish *data)
 		n_var++;
 		ptr = ptr->next;
 	}
-	data->env_table[n_var] = 0;
+	data->env_table[n_var] = NULL;
 	return (data->env_table);
 }
 

@@ -14,31 +14,26 @@
 
 void	switching_input_output(t_minish *data, t_cmd **cmd, char c)
 {
-	if (c == 'r')
+	if (c == 'i')
 	{
-		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
-			error_manager(6, data, cmd);
+		if ((*cmd)->input)
+		{
+			if (dup2((*cmd)->input, STDIN_FILENO) < 0)
+				error_manager(6, data, cmd);
+		}
 	}
-	else if (c == 's')
+	else if (c == 'o')
 	{
-		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
-			error_manager(6, data, cmd);
-	}
-	else if (c == 'e')
-	{
-		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
-			error_manager(6, data, cmd);
-	}
-	else if (c == 'w')
-	{
-		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
-			error_manager(6, data, cmd);
+		if ((*cmd)->output != 1)
+		{
+			if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
+				error_manager(6, data, cmd);
+		}
 	}
 }
 
 void	launching_command(t_minish *data, t_cmd **cmd)
 {
-	// printf("%d", execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1);
 	if (execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1)
 		error_manager(3, data, cmd);
 }
