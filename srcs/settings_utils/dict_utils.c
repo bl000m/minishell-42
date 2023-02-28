@@ -6,11 +6,11 @@
 /*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/02/28 16:37:59 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/02/28 18:45:18 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /**
  * @brief
@@ -111,7 +111,7 @@ t_dict	*dict_findvar(t_dict *envp, char *variable, size_t len)
 
 /**
  * @brief
- * Takes a t_dict list in argument and returns a 
+ * Takes a t_dict list in argument and returns a
  * duplicated copy of the
  * list.
 */
