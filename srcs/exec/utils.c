@@ -34,7 +34,6 @@ void	switching_input_output(t_minish *data, t_cmd **cmd, char c)
 
 void	launching_command(t_minish *data, t_cmd **cmd)
 {
-	// printf("%d", execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1);
 	if (execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1)
 		error_manager(3, data, cmd);
 }

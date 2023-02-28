@@ -71,7 +71,7 @@ void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 
 	arg = 0;
 	token_no_quotes = NULL;
-	(*node)->full_cmd = malloc(sizeof(char *) * count_token_cmd(data, i) + 1);
+	(*node)->full_cmd = malloc(sizeof(char *) * (count_token_cmd(data, i) + 1));
 	if (!(*node)->full_cmd)
 		return ;
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
@@ -90,7 +90,7 @@ void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 		*i += 1;
 		arg++;
 	}
-	(*node)->full_cmd[*i] = NULL;
+	(*node)->full_cmd[arg] = NULL;
 }
 
 void	adding_full_path(t_minish *data, t_cmd **node)
@@ -100,7 +100,6 @@ void	adding_full_path(t_minish *data, t_cmd **node)
 	else if (!is_builtin((*node)->full_cmd[0]))
 	{
 		(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
-		// printf("(*node)->full_path = %s\n", (*node)->full_path);
 		// if (!(*node)->full_path == 0)
 		// 	error_manager(3, data, node);
 	}

@@ -24,34 +24,29 @@ void	executing_commands(t_minish *data)
 			child_process(data, &ptr);
 		if (cmds_number(data) != 1)
 			switching_input_output(data, &ptr, 'i');
-		// if (ptr->input != 0)
-		// 	close(ptr->input);
 		ptr = ptr->next;
 	}
-	// close(data->pipe[0]);
-	// close(data->pipe[1]);
-	// if (ptr->output != 1)
-	// 	close(ptr->output);
-	// closing_input_output(data, &data->cmds);
+	if (data->pipe[0])
+		close(data->pipe[0]);
 	while (waitpid(-1, NULL, 0) > 0)
 		;
 }
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	printf("cmd = %s\n", (*cmd)->full_cmd[0]);
-	printf("input = %d\n", (*cmd)->input);
-	printf("output = %d\n", (*cmd)->output);
+	// printf("cmd = %s\n", (*cmd)->full_cmd[0]);
+	// printf("input = %d\n", (*cmd)->input);
+	// printf("output = %d\n", (*cmd)->output);
 	switching_input_output(data, cmd, 'i');
 	switching_input_output(data, cmd, 'o');
-	close((*cmd)->input);
-	// close(data->pipe[0]);
-	// close(data->pipe[1]);
-	// closing_input_output(data, cmd);
-	// if ((*cmd)->input != 0)
-	// 		close((*cmd)->input);
-	// if ((*cmd)->output != 1)
-	// 	close((*cmd)->output);
+	if ((*cmd)->output != 1)
+		close((*cmd)->output);
+	if ((*cmd)->input != 0)
+		close((*cmd)->input);
+	if (data->pipe[1])
+		close(data->pipe[1]);
+	if (data->pipe[0])
+		close(data->pipe[0]);
 	if (check_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
