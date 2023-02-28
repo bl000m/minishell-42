@@ -52,14 +52,6 @@ void	creating_child(t_minish *data, int err)
 		error_manager(err, data, NULL);
 }
 
-void	closing_input_output(t_minish *data, t_cmd **cmd)
-{
-	(void) data;
-	if ((*cmd)->input != 0)
-		close((*cmd)->input);
-	if ((*cmd)->output != 1)
-		close((*cmd)->output);
-}
 // void	opening_files(t_minish *data, char *argv[], char flag)
 // {
 // 	if (flag == 'h')

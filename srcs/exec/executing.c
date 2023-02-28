@@ -22,11 +22,16 @@ void	executing_commands(t_minish *data)
 		creating_child(data, 2);
 		if (data->child == 0)
 			child_process(data, &ptr);
-		switching_input_output(data, &ptr, 'i');
+		if (cmds_number(data) != 1)
+			switching_input_output(data, &ptr, 'i');
+		// if (ptr->input != 0)
+		// 	close(ptr->input);
 		ptr = ptr->next;
 	}
 	// close(data->pipe[0]);
 	// close(data->pipe[1]);
+	// if (ptr->output != 1)
+	// 	close(ptr->output);
 	// closing_input_output(data, &data->cmds);
 	while (waitpid(-1, NULL, 0) > 0)
 		;
@@ -39,9 +44,14 @@ void	child_process(t_minish *data, t_cmd **cmd)
 	printf("output = %d\n", (*cmd)->output);
 	switching_input_output(data, cmd, 'i');
 	switching_input_output(data, cmd, 'o');
+	close((*cmd)->input);
 	// close(data->pipe[0]);
 	// close(data->pipe[1]);
-	closing_input_output(data, cmd);
+	// closing_input_output(data, cmd);
+	// if ((*cmd)->input != 0)
+	// 		close((*cmd)->input);
+	// if ((*cmd)->output != 1)
+	// 	close((*cmd)->output);
 	if (check_builtin(cmd))
 		executing_builtin(data, cmd);
 	else

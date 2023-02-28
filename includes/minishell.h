@@ -134,7 +134,6 @@ int			are_quotes(char c);
 // void		print_out_tokens(t_minish *data);
 void		pipe_redirections_handling(int *n_tokens);
 void		pipe_redirections_token(int *start, int *end);
-void		closing_input_output(t_minish *data, t_cmd **cmd);
 int			check_pipes(t_minish *data);
 
 /* lexical analysis utils */
