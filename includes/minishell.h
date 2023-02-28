@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 15:08:31 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:56:54 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ typedef struct s_minish
 void		pwd(t_minish *data, int fd);
 void		unset(t_minish *data, char *variable);
 void		env(t_minish *data, int fd);
+void		print_sorted(t_dict *envp, int fd);
+void		export(t_minish *data, int fd, char *param);
+void		echo(t_minish *data, int fd, char *arg);
 
 /* settings */
 
@@ -84,6 +87,9 @@ t_dict		*dict_newnode(char *str);
 void		dict_addback(t_dict **dict, t_dict *new);
 size_t		dict_size(t_dict *dict);
 t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
+t_dict		*dict_duplst(t_dict *dict);
+void		dict_free(t_dict **dict);
+
 
 /* parsing */
 
