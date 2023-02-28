@@ -36,6 +36,23 @@ void	free_path_dir(t_minish *data)
 		data->path_dir = NULL;
 	}
 }
+void	free_env_table(t_minish *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->env_table)
+	{
+		while (data->env_table[i])
+		{
+			free(data->env_table[i]);
+			data->env_table[i] = NULL;
+			i++;
+		}
+		free(data->env_table);
+		data->env_table = NULL;
+	}
+}
 
 void	free_tokens(t_minish *data)
 {
@@ -56,6 +73,7 @@ void	free_tokens(t_minish *data)
 void	exit_clean(t_minish *data)
 {
 	free_tokens(data);
+	free_env_table(data);
 	free_path_dir(data);
 	if (data->pipe[0])
 		close(data->pipe[0]);
