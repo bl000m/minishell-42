@@ -6,7 +6,7 @@
 /*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/28 16:38:01 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/02/28 21:56:54 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void		unset(t_minish *data, char *variable);
 void		env(t_minish *data, int fd);
 void		print_sorted(t_dict *envp, int fd);
 void		export(t_minish *data, int fd, char *param);
+void		echo(t_minish *data, int fd, char *arg);
 
 /* settings */
 
