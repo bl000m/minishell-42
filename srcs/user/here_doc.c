@@ -12,6 +12,20 @@
 
 #include "../includes/minishell.h"
 
+// int	checking_here_doc(int argc, char *argv[], t_minish *data)
+// {
+// 	if (argv[1] && (ft_strncmp(argv[1], "here_doc", 8) == 0)
+// 		&& argv[1][8] == '\0')
+// 	{
+// 		data->pos = 3;
+// 		data->n_cmd = 2;
+// 		here_doc(argc, argv, data);
+// 		opening_files(data, argv, 'h');
+// 		return (1);
+// 	}
+// 	return (0);
+// }
+
 // void	here_doc(int argc, char *argv[], t_minish *data)
 // {
 // 	int		fd;

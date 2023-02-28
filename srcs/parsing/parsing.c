@@ -43,19 +43,6 @@ char	*find_varvalue(t_minish *data, char *variable, size_t len)
 	return (ptr->value);
 }
 
-// char	*searching_path(char *envp[])
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (envp[i] && ft_strncmp(envp[i], "PATH", 4))
-// 		i++;
-// 	if (envp[i] != NULL)
-// 		return (envp[i] + 5);
-// 	else
-// 		return (NULL);
-// }
-
 char	*find_dir_command(t_minish *data, char *command)
 {
 	int		i;

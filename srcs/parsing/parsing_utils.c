@@ -106,3 +106,17 @@ int	cmds_number(t_minish *data)
 	}
 	return (count);
 }
+
+int	check_pipes(t_minish *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->tokens[i])
+	{
+		if (data->tokens[i][0] == '|')
+			return (1);
+		i++;
+	}
+	return (0);
+}

@@ -93,9 +93,7 @@ void		dict_free(t_dict **dict);
 
 /* parsing */
 
-// void		opening_files(t_minish *data, char *argv[], char flag);
 void		parsing_path(t_minish *data);
-char		*searching_path(char *envp[]);
 char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
@@ -118,7 +116,6 @@ int			cmds_number(t_minish *data);
 int			checking_here_doc(int argc, char *argv[], t_minish *data);
 void		here_doc(int argc, char *argv[], t_minish *data);
 void		getting_and_writing_input_on_file(char *limiter, int fd);
-void		multiple_commands_handling(int argc, char *argv[], t_minish *data);
 
 /* executing */
 
@@ -126,18 +123,20 @@ void		executing_commands(t_minish *data);
 void		creating_pipe(t_minish *data);
 void		creating_child(t_minish *data, int err);
 void		child_process(t_minish *data, t_cmd **cmd);
+void		executing_builtin(t_minish *data, t_cmd **cmd);
+int			check_builtin(t_cmd **cmd);
 
 /* utils */
 
-void		matching_commands_with_right_path(t_minish *data, char *argv[], int pos);
 void		switching_input_output(t_minish *data, t_cmd **cmd, char flag);
 void		launching_command(t_minish *data, t_cmd **cmd);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
-void		print_out_tokens(t_minish *data);
 void		pipe_redirections_handling(int *n_tokens);
 void		pipe_redirections_token(int *start, int *end);
+void		closing_input_output(t_minish *data, t_cmd **cmd);
+int			check_pipes(t_minish *data);
 
 /* lexical analysis utils */
 
@@ -151,7 +150,6 @@ void		check_error(int argc);
 
 /* memory stuff */
 
-void		closing_input_output(t_minish *data);
 void		waiting_childs_finishing(t_minish *data);
 void		free_path_dir(t_minish *data);
 void		free_tokens(t_minish *data);
