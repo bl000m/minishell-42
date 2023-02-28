@@ -14,25 +14,21 @@
 
 void	switching_input_output(t_minish *data, t_cmd **cmd, char c)
 {
-	if (c == 'r')
+	if (c == 'i')
 	{
-		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
-			error_manager(6, data, cmd);
+		if ((*cmd)->input)
+		{
+			if (dup2((*cmd)->input, STDIN_FILENO) < 0)
+				error_manager(6, data, cmd);
+		}
 	}
-	else if (c == 's')
+	else if (c == 'o')
 	{
-		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
-			error_manager(6, data, cmd);
-	}
-	else if (c == 'e')
-	{
-		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
-			error_manager(6, data, cmd);
-	}
-	else if (c == 'w')
-	{
-		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
-			error_manager(6, data, cmd);
+		if ((*cmd)->output != 1)
+		{
+			if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
+				error_manager(6, data, cmd);
+		}
 	}
 }
 
@@ -56,6 +52,14 @@ void	creating_child(t_minish *data, int err)
 		error_manager(err, data, NULL);
 }
 
+void	closing_input_output(t_minish *data, t_cmd **cmd)
+{
+	(void) data;
+	if ((*cmd)->input != 0)
+		close((*cmd)->input);
+	if ((*cmd)->output != 1)
+		close((*cmd)->output);
+}
 // void	opening_files(t_minish *data, char *argv[], char flag)
 // {
 // 	if (flag == 'h')

@@ -19,40 +19,50 @@ void	executing_commands(t_minish *data)
 	ptr = data->cmds;
 	while (ptr)
 	{
-		if (cmds_number(data) != 1)
-			creating_pipe(data);
 		creating_child(data, 2);
 		if (data->child == 0)
 			child_process(data, &ptr);
-		// if (cmds_number(data) != 1)
-		// {
-		// 	switching_input_output(data, 'r');
-		// 	closing_input_output(data);
-		// }
+		switching_input_output(data, &ptr, 'i');
 		ptr = ptr->next;
 	}
-	// closing_input_output(data);
-	// close(data->file_out);
-	// exit_clean(data);
+	// close(data->pipe[0]);
+	// close(data->pipe[1]);
+	// closing_input_output(data, &data->cmds);
 	while (waitpid(-1, NULL, 0) > 0)
 		;
 }
 
-
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	if ((*cmd)->input)
-		switching_input_output(data, cmd, 'r');
-	if ((*cmd)->output)
-		switching_input_output(data, cmd, 'e');
-	// closing_input_output(data);
-	// close(data->file_out);
+	printf("cmd = %s\n", (*cmd)->full_cmd[0]);
+	printf("input = %d\n", (*cmd)->input);
+	printf("output = %d\n", (*cmd)->output);
+	switching_input_output(data, cmd, 'i');
+	switching_input_output(data, cmd, 'o');
+	// close(data->pipe[0]);
+	// close(data->pipe[1]);
+	closing_input_output(data, cmd);
+	if (check_builtin(cmd))
+		executing_builtin(data, cmd);
+	else
+		launching_command(data, cmd);
+}
+
+int	check_builtin(t_cmd **cmd)
+{
+	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3)
+		|| !ft_strncmp((*cmd)->full_cmd[0], "env", 3)
+		|| (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5) 
+		&&  (*cmd)->full_cmd[1]));
+}
+
+void	executing_builtin(t_minish *data, t_cmd **cmd)
+{
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
 		pwd(data, (*cmd)->output);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
 		env(data, (*cmd)->output);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5) &&  (*cmd)->full_cmd[1])
 		unset(data, (*cmd)->full_cmd[1]);
-	else
-		launching_command(data, cmd);
+
 }

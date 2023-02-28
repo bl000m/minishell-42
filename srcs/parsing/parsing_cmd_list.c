@@ -12,7 +12,6 @@
 
 #include <../includes/minishell.h>
 
-
 void	creating_cmd_list(t_minish *data)
 {
 	int		i;
@@ -20,6 +19,8 @@ void	creating_cmd_list(t_minish *data)
 
 	i = 0;
 	node = data->cmds;
+	if (check_pipes(data))
+		creating_pipe(data);
 	while (i < data->n_tokens)
 		checking_token(data, &node, &i);
 }

@@ -54,9 +54,7 @@ void add_token(char *s, int *start, int *end)
 	else if (s[*end] == ' ')
 		space_token(s, start, end);
 	else
-	{
 		all_other_token(s, start, end);
-	}
 }
 
 char	**tokens_table_filling(t_minish *data, char **table)

@@ -12,13 +12,6 @@
 
 #include "../includes/minishell.h"
 
-// s == sending || r == receiving || p == parent
-void	closing_input_output(t_minish *data)
-{
-	close(data->pipe[0]);
-	close(data->pipe[1]);
-}
-
 void	free_path_dir(t_minish *data)
 {
 	int	i;
