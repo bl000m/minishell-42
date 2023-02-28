@@ -25,6 +25,6 @@ void	setting_prompt(t_minish *data)
 		executing_commands(data);
 		free(data->input);
 		data->input = NULL;
-		exit_clean(data);
+		// exit_clean(data);
 	}
 }
