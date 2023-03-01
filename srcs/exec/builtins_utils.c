@@ -67,3 +67,37 @@ void	print_sorted(t_dict *envp, int fd)
 	}
 	dict_free(&sorted);
 }
+
+/**
+ * @brief
+ * Gets the actuel path to create a string to put on the prefix of the executable
+ * It will create the pattern
+ * "LOGIN@@minishell:PATH$ "
+ * (if that's the case will replace the HOME path by '~')
+ * to be used in the readline()
+*/
+char	*get_lineprefix(t_minish *data)
+{
+	char	*line1;
+	char	*line2;
+	char	*prefix;
+	size_t	len;
+
+	line2 = NULL;
+	line1 = getcwd(NULL, 0);
+	line2 = find_varvalue(data, "HOME", 4);
+	len = ft_strlen(line2);
+	if (line2 && !ft_memcmp(line2, line1, len))
+	{
+		line2 = ft_strjoin("~", &line1[len]);
+		free(line1);
+		line1 = line2;
+	}
+	line2 = ft_strjoin(line1, "$ ");
+	free(line1);
+	line1 = ft_strjoin(find_varvalue(data, "USER", 4), "@minishell:");
+	prefix = ft_strjoin(line1, line2);
+	free(line2);
+	free(line1);
+	return (prefix);
+}

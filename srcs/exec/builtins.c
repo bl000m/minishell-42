@@ -12,11 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-void	pwd(t_minish *data, int fd)
-{
-	ft_putendl_fd(find_varvalue(data, "PWD", 3), fd);
-}
-
 void	unset(t_minish *data, char *variable)
 {
 	t_dict	*curr;
@@ -71,10 +66,7 @@ void	export(t_minish *data, int fd, char *arg)
 		if (!ptr)
 			dict_addback(&data->envp, dict_newnode(arg));
 		if (arg[len] == '=' && ptr)
-		{
-			free(ptr->value);
-			ptr->value = ft_strdup(&arg[len + 1]);
-		}
+			set_varvalue(data->envp, ptr->key, ptr->key_len, &arg[len + 1]);
 	}
 }
 
