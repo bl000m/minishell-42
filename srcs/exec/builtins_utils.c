@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/02/28 16:38:03 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/01 12:10:18 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,40 @@ void	print_sorted(t_dict *envp, int fd)
 		ft_putchar_fd('\n', fd);
 	}
 	dict_free(&sorted);
+}
+
+/**
+ * @brief
+ * Gets the actuel path to create a string to put on the prefix of the executable
+ * It will create the pattern
+ * "@ minishell:PATH(if that's the case will replace the HOME path by '~')$ "
+ * to be used in the readline()
+*/
+char	*get_lineprefix(t_minish *data)
+{
+	char	*prefix;
+	char	*tmp;
+	size_t	len;
+
+	tmp = NULL;
+	prefix = getcwd(NULL, 0);
+	tmp = find_varvalue(data, "HOME", 4);
+	len = ft_strlen(tmp);
+	if (tmp && !ft_memcmp(tmp, prefix, len))
+	{
+		tmp = ft_strjoin("~", &prefix[len]);
+		free(prefix);
+		prefix = ft_strjoin("@minishell:", tmp);
+		free(tmp);
+	}
+	else
+	{
+		tmp = ft_strjoin("@minishell:", prefix);
+		free(prefix);
+		prefix = tmp;
+	}
+	tmp = ft_strjoin(prefix, "$ ");
+	free(prefix);
+	prefix = tmp;
+	return (prefix);
 }

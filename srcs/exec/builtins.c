@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/02/28 18:36:07 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/01 11:38:04 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	pwd(t_minish *data, int fd)
-{
-	ft_putendl_fd(find_varvalue(data, "PWD", 3), fd);
-}
 
 void	unset(t_minish *data, char *variable)
 {
@@ -71,14 +66,11 @@ void	export(t_minish *data, int fd, char *arg)
 		if (!ptr)
 			dict_addback(&data->envp, dict_newnode(arg));
 		if (arg[len] == '=' && ptr)
-		{
-			free(ptr->value);
-			ptr->value = ft_strdup(&arg[len + 1]);
-		}
+			set_varvalue(data->envp, ptr->key, ptr->key_len, &arg[len + 1]);
 	}
 }
 
-void	echo(t_minish *data, int fd, char *arg)
+void	echo(int fd, char *arg)
 {
 	int	i;
 	int	j;
