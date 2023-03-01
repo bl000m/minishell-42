@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:21:17 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/01 18:12:50 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	generate_envp(t_dict **dict)
+{
+	t_dict	*ptr;
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	ptr = dict_newnode("OLDPWD");
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+	ptr = dict_newnode(ft_strjoin("PWD=", pwd));
+	free(pwd);
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+	ptr = dict_newnode("SHLVL=1");
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+	ptr = dict_newnode("_=~/Documents/minishell/./minishell");
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+}
 
 /**
  * @brief
@@ -19,7 +44,7 @@
  * variable.
  * That way it will return a linked list with all the variables.
  *
- * OBS: add a function to deal with "env -i"
+ * OBS: descobrir o que eh o '_' e ajustar o SHLVL
 */
 static t_dict	*dup_envp(char **envp)
 {
@@ -37,6 +62,10 @@ static t_dict	*dup_envp(char **envp)
 			return (NULL);
 		dict_addback(&dict, tmp);
 	}
+	if (!dict)
+		generate_envp(&dict);
+	else
+		update_envp(dict);
 	return (dict);
 }
 
@@ -44,6 +73,7 @@ char	**tab_envp_updated(t_minish *data)
 {
 	t_dict	*ptr;
 	int		n_var;
+	char	*join;
 
 	n_var = 0;
 	data->env_table = malloc(sizeof(char *) * (dict_size(data->envp) + 1));
@@ -52,7 +82,9 @@ char	**tab_envp_updated(t_minish *data)
 	ptr = data->envp;
 	while (ptr)
 	{
-		data->env_table[n_var] = ft_strjoin(ft_strjoin(ptr->key, "="), ptr->value);
+		join = ft_strjoin(ptr->key, "=");
+		data->env_table[n_var] = ft_strjoin(join, ptr->value);
+		free(join);
 		n_var++;
 		ptr = ptr->next;
 	}
@@ -106,4 +138,17 @@ t_minish	*init_data(char *envp[])
 	init_cmd(data);
 	init_ptrs(data, envp);
 	return (data);
+}
+
+void	update_envp(t_dict *envp)
+{
+	char	*newlvl;
+	int		lvl;
+	t_dict	*ptr;
+
+	set_varvalue(envp, "SHELL", 5, "minishell");
+	ptr = dict_findvar(envp, "SHLVL", 5);
+	lvl = ft_atoi(ptr->value) + 1;
+	free(ptr->value);
+	ptr->value = ft_itoa(lvl);
 }

@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/01 11:38:04 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/01 13:08:05 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	export(t_minish *data, int fd, char *arg)
 	t_dict	*ptr;
 	size_t	len;
 
-	if (!arg)
+	if (!arg || !ft_strlen(arg))
 		print_sorted(data->envp, fd);
 	else
 	{
