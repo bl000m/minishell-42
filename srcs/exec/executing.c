@@ -57,7 +57,9 @@ int	check_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "env", 3)
-		|| (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5) 
+		|| (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5)
+		&&  (*cmd)->full_cmd[1])
+		|| (!ft_strncmp((*cmd)->full_cmd[0], "echo", 4) 
 		&&  (*cmd)->full_cmd[1]));
 }
 
@@ -69,5 +71,7 @@ void	executing_builtin(t_minish *data, t_cmd **cmd)
 		env(data, (*cmd)->output);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5) &&  (*cmd)->full_cmd[1])
 		unset(data, (*cmd)->full_cmd[1]);
+	else if (!ft_strncmp((*cmd)->full_cmd[0], "echo", 4) &&  (*cmd)->full_cmd[1])
+		echo((*cmd)->output, (*cmd)->full_cmd[1]);
 
 }
