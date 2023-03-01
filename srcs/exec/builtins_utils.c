@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/02/28 16:38:03 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/01 12:49:50 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	print_sorted(t_dict *envp, int fd)
 			ft_putchar_fd('"', fd);
 		}
 		ft_putchar_fd('\n', fd);
+		sorted = sorted->next;
 	}
 	dict_free(&sorted);
 }

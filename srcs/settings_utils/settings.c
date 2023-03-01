@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:21:17 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/01 14:35:50 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	generate_envp(t_dict **dict)
+{
+	t_dict	*ptr;
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	ptr = dict_newnode("OLDPWD");
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+	ptr = dict_newnode(ft_strjoin("PWD=", pwd));
+	free(pwd);
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+	ptr = dict_newnode("SHLVL=1");
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+	ptr = dict_newnode("_=a decouvrir");
+	if (!ptr)
+		return ;
+	dict_addback(dict, ptr);
+}
 
 /**
  * @brief
@@ -19,7 +44,7 @@
  * variable.
  * That way it will return a linked list with all the variables.
  *
- * OBS: add a function to deal with "env -i"
+ * OBS: descobrir o que eh o '_' e ajustar o SHLVL
 */
 static t_dict	*dup_envp(char **envp)
 {
@@ -37,6 +62,10 @@ static t_dict	*dup_envp(char **envp)
 			return (NULL);
 		dict_addback(&dict, tmp);
 	}
+	if (!dict)
+		generate_envp(&dict);
+	else
+		update_envp(dict);
 	return (dict);
 }
 
