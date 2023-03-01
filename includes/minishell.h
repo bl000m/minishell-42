@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/28 21:56:54 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/01 11:48:07 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,15 @@ void		unset(t_minish *data, char *variable);
 void		env(t_minish *data, int fd);
 void		print_sorted(t_dict *envp, int fd);
 void		export(t_minish *data, int fd, char *param);
-void		echo(t_minish *data, int fd, char *arg);
+void		echo(int fd, char *arg);
+void		cd(t_minish *data, char *path);
 
 /* settings */
 
 t_minish	*init_data(char *envp[]);
 void		setting_prompt(t_minish *data);
 char		**tab_envp_updated(t_minish *data);
+char		*get_lineprefix(t_minish *data);
 
 /* lexical analysis */
 
@@ -89,6 +91,7 @@ size_t		dict_size(t_dict *dict);
 t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 t_dict		*dict_duplst(t_dict *dict);
 void		dict_free(t_dict **dict);
+void		set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
 
 
 /* parsing */

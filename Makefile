@@ -31,6 +31,7 @@ SRCS 		= main.c \
 			settings_utils/error_management.c \
 			exec/executing.c \
 			exec/builtins.c \
+			exec/builtins_dir.c \
 			exec/builtins_utils.c \
 			exec/utils.c
 
