@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/01 12:10:18 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/01 17:47:45 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	print_sorted(t_dict *envp, int fd)
 			ft_putchar_fd('"', fd);
 		}
 		ft_putchar_fd('\n', fd);
+		sorted = sorted->next;
 	}
 	dict_free(&sorted);
 }
@@ -71,34 +72,32 @@ void	print_sorted(t_dict *envp, int fd)
  * @brief
  * Gets the actuel path to create a string to put on the prefix of the executable
  * It will create the pattern
- * "@ minishell:PATH(if that's the case will replace the HOME path by '~')$ "
+ * "LOGIN@@minishell:PATH$ "
+ * (if that's the case will replace the HOME path by '~')
  * to be used in the readline()
 */
 char	*get_lineprefix(t_minish *data)
 {
+	char	*line1;
+	char	*line2;
 	char	*prefix;
-	char	*tmp;
 	size_t	len;
 
-	tmp = NULL;
-	prefix = getcwd(NULL, 0);
-	tmp = find_varvalue(data, "HOME", 4);
-	len = ft_strlen(tmp);
-	if (tmp && !ft_memcmp(tmp, prefix, len))
+	line2 = NULL;
+	line1 = getcwd(NULL, 0);
+	line2 = find_varvalue(data, "HOME", 4);
+	len = ft_strlen(line2);
+	if (line2 && !ft_memcmp(line2, line1, len))
 	{
-		tmp = ft_strjoin("~", &prefix[len]);
-		free(prefix);
-		prefix = ft_strjoin("@minishell:", tmp);
-		free(tmp);
+		line2 = ft_strjoin("~", &line1[len]);
+		free(line1);
+		line1 = line2;
 	}
-	else
-	{
-		tmp = ft_strjoin("@minishell:", prefix);
-		free(prefix);
-		prefix = tmp;
-	}
-	tmp = ft_strjoin(prefix, "$ ");
-	free(prefix);
-	prefix = tmp;
+	line2 = ft_strjoin(line1, "$ ");
+	free(line1);
+	line1 = ft_strjoin(find_varvalue(data, "USER", 4), "@minishell:");
+	prefix = ft_strjoin(line1, line2);
+	free(line2);
+	free(line1);
 	return (prefix);
 }
