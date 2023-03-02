@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 15:14:50 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/02 12:57:49 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,19 @@ void	child_process(t_minish *data, t_cmd **cmd)
 		launching_command(data, cmd);
 }
 
+/* doubt: should we rename the builtins?*/
 int	check_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "env", 3)
-		|| (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5) 
-		&&  (*cmd)->full_cmd[1]));
+		|| !ft_strncmp((*cmd)->full_cmd[0], "unset", 5)
+		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 6)
+		|| !ft_strncmp((*cmd)->full_cmd[0], "echo", 4)
+		|| !ft_strncmp((*cmd)->full_cmd[0], "cd", 2));
 }
+
+/* call tab_envp_updated(data) if (unset) || (export) in order
+	to  recreate the env table if modified (after freeing the previous one)*/
 
 void	executing_builtin(t_minish *data, t_cmd **cmd)
 {
@@ -67,7 +73,13 @@ void	executing_builtin(t_minish *data, t_cmd **cmd)
 		pwd(data, (*cmd)->output);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
 		env(data, (*cmd)->output);
-	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5) &&  (*cmd)->full_cmd[1])
+	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5))
 		unset(data, (*cmd)->full_cmd[1]);
+	else if (!ft_strncmp((*cmd)->full_cmd[0], "export", 6))
+		export(data, (*cmd)->output, (*cmd)->full_cmd[1]);
+	else if (!ft_strncmp((*cmd)->full_cmd[0], "echo", 4))
+		echo((*cmd)->output, (*cmd)->full_cmd[1]);
+	else if (!ft_strncmp((*cmd)->full_cmd[0], "cd", 2))
+		cd(data, (*cmd)->full_cmd[1]);
 
 }
