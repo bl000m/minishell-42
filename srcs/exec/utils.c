@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 15:12:16 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/02 12:37:30 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	switching_input_output(t_minish *data, t_cmd **cmd, char c)
 	}
 }
 
+// before execve call the tab_envp_updated function
 void	launching_command(t_minish *data, t_cmd **cmd)
 {
 	if (execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1)

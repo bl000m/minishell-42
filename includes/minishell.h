@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/01 11:48:07 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/02 12:24:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_minish	*init_data(char *envp[]);
 void		setting_prompt(t_minish *data);
 char		**tab_envp_updated(t_minish *data);
 char		*get_lineprefix(t_minish *data);
+void		update_envp(t_dict *envp);
 
 /* lexical analysis */
 
