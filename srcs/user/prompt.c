@@ -22,10 +22,12 @@ void	setting_prompt(t_minish *data)
 		prefix = get_lineprefix(data);
 		data->input = readline(prefix);
 		if (data->input && *data->input)
+		{
 			add_history (data->input);
-		tab_envp_updated(data);
-		lexer_input(data);
-		executing_commands(data);
+			tab_envp_updated(data);
+			lexer_input(data);
+			executing_commands(data);
+		}
 		free(data->input);
 		data->input = NULL;
 		free(prefix);

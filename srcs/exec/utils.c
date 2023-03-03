@@ -39,10 +39,20 @@ void	launching_command(t_minish *data, t_cmd **cmd)
 		error_manager(3, data, cmd);
 }
 
-void	creating_pipe(t_minish *data)
+void	creating_pipes(t_minish *data)
 {
-	if (pipe(data->pipe) == -1)
-		error_manager(1, data, NULL);
+	int		fd[2];
+	t_cmd	*cmd;
+
+	cmd = data->cmds;
+	while (cmds->next != NULL)
+	{
+		if (pipe(fd) == -1)
+			error_manager(1, data, NULL);
+	cmd->outfile = fd[1];
+	cmd->next->infile = fd[0];
+	cmd = cmd->next;
+	}
 }
 
 void	creating_child(t_minish *data, int err)

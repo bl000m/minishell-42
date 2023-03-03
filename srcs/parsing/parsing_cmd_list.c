@@ -20,7 +20,7 @@ void	creating_cmd_list(t_minish *data)
 	i = 0;
 	node = data->cmds;
 	if (check_pipes(data))
-		creating_pipe(data);
+		creating_pipes(data);
 	while (i < data->n_tokens)
 		checking_token(data, &node, &i);
 }

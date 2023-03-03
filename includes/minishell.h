@@ -55,7 +55,7 @@ typedef struct s_minish
 	t_dict	*envp;
 	int		file_in;
 	int		file_out;
-	int		pipe[2];
+	// int		pipe[2];
 	pid_t	child;
 	t_list	*aux;
 }	t_minish;
@@ -124,7 +124,7 @@ void		getting_and_writing_input_on_file(char *limiter, int fd);
 /* executing */
 
 void		executing_commands(t_minish *data);
-void		creating_pipe(t_minish *data);
+void		creating_pipes(t_minish *data);
 void		creating_child(t_minish *data, int err);
 void		child_process(t_minish *data, t_cmd **cmd);
 void		executing_builtin(t_minish *data, t_cmd **cmd);
