@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/02 12:24:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/03 16:46:27 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_cmd
 	char			*full_path;
 	int				input;
 	int				output;
+	int				file_in;
+	int				file_out;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -53,8 +55,6 @@ typedef struct s_minish
 	char	**path_dir;
 	char	**env_table;
 	t_dict	*envp;
-	int		file_in;
-	int		file_out;
 	// int		pipe[2];
 	pid_t	child;
 	t_list	*aux;
@@ -107,7 +107,7 @@ void		stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 void		adding_full_path(t_minish *data, t_cmd **node);
 
 /* parsing utils */
-void		create_new_cmd_list_node(t_cmd **node, t_minish *data);
+void		create_new_cmd_list_node(t_cmd **node);
 int			count_token_cmd(t_minish *data, int *i);
 int			is_builtin(char *cmd);
 void		input_redirection(t_minish *data, t_cmd **node, int *i);
@@ -125,22 +125,23 @@ void		getting_and_writing_input_on_file(char *limiter, int fd);
 
 void		executing_commands(t_minish *data);
 void		creating_pipes(t_minish *data);
-void		creating_child(t_minish *data, int err);
+t_cmd		*creating_child(t_cmd **cmd, t_minish *data);
 void		child_process(t_minish *data, t_cmd **cmd);
 void		executing_builtin(t_minish *data, t_cmd **cmd);
 int			check_builtin(t_cmd **cmd);
 
 /* utils */
 
-void		switching_input_output(t_minish *data, t_cmd **cmd, char flag);
+void		switching_input_output(t_minish *data, t_cmd **cmd);
 void		launching_command(t_minish *data, t_cmd **cmd);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
 void		pipe_redirections_handling(int *n_tokens);
 void		pipe_redirections_token(int *start, int *end);
-void		closing_input_output(t_minish *data, t_cmd **cmd);
+void		closing_input_output(t_minish *data, t_cmd *cmd);
 int			check_pipes(t_minish *data);
+void		closing_fork_fd(int output, int input, t_minish *data);
 
 /* lexical analysis utils */
 

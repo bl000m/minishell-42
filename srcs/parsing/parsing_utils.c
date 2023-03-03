@@ -6,13 +6,13 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 15:16:20 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/03 12:53:03 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	create_new_cmd_list_node(t_cmd **node, t_minish *data)
+void	create_new_cmd_list_node(t_cmd **node)
 {
 	t_cmd	*new_elem;
 	t_cmd	*ptr;
@@ -37,17 +37,19 @@ int	count_token_cmd(t_minish *data, int *i)
 	int	count;
 
 	count = *i;
-	while (data->tokens[count] && data->tokens[count][0] != '|' && data->tokens[count][0] != '\0'
-	&& data->tokens[count][0] != '<' && data->tokens[count][0] != '>')
+	while (data->tokens[count] && data->tokens[count][0] != '|'
+		&& data->tokens[count][0] != '\0' && data->tokens[count][0] != '<'
+		&& data->tokens[count][0] != '>')
 		count++;
 	return (count);
 }
 
 int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(cmd,"unset", 5) || !ft_strncmp(cmd,"env", 3) || !ft_strncmp(cmd,"pwd", 3)
-		|| !ft_strncmp(cmd,"export", 6) || !ft_strncmp(cmd,"cd", 2) || !ft_strncmp(cmd,"echo", 4)
-		|| !ft_strncmp(cmd,"exit", 4))
+	if (!ft_strncmp(cmd, "unset", 5) || !ft_strncmp(cmd, "env", 3)
+		|| !ft_strncmp(cmd, "pwd", 3) || !ft_strncmp(cmd, "export", 6)
+		|| !ft_strncmp(cmd, "cd", 2) || !ft_strncmp(cmd, "echo", 4)
+		|| !ft_strncmp(cmd, "exit", 4))
 		return (1);
 	return (0);
 }
@@ -58,8 +60,8 @@ void	input_redirection(t_minish *data, t_cmd **node, int *i)
 		error_manager(8, data, NULL);
 	else
 	{
-		(*node)->input = open(data->tokens[*i + 1], O_RDONLY);
-		if ((*node)->input == -1)
+		(*node)->file_in = open(data->tokens[*i + 1], O_RDONLY);
+		if ((*node)->file_in == -1)
 			error_manager(9, data, NULL);
 		*i += 1;
 	}
@@ -71,9 +73,9 @@ void	output_redirection(t_minish *data, t_cmd **node, int *i)
 		error_manager(8, data, NULL);
 	else
 	{
-		(*node)->output = open(data->tokens[*i + 1], O_CREAT
-			| O_WRONLY | O_TRUNC, 0644);
-		if ((*node)->output == -1)
+		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
+				| O_WRONLY | O_TRUNC, 0644);
+		if ((*node)->file_in == -1)
 			error_manager(5, data, NULL);
 		*i += 1;
 	}
@@ -87,7 +89,7 @@ void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 	else
 	{
 		// (*node)->output = data->pipe[1];
-		create_new_cmd_list_node(node, data);
+		create_new_cmd_list_node(node);
 		*i += 1;
 	}
 }

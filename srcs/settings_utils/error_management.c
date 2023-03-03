@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:41:48 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/03 12:54:26 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		ft_printf("ENV PATH not set\n");
 	else if (error == 5)
 	{
-		if (data->file_in)
-			close(data->file_in);
+		if ((*cmd)->file_in)
+			close((*cmd)->file_in);
 		ft_printf("OUTPUT ERROR\n", strerror(errno));
 	}
 	else if (error == 6)

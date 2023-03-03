@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/02 12:24:27 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/03 15:03:37 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,11 @@ static void	init_cmd(t_minish *data)
 	command = malloc(sizeof(*command));
 	command->full_cmd = NULL;
 	command->full_path = NULL;
+	command->next = NULL;
 	command->input = 0;
 	command->output = 1;
-	command->next = NULL;
+	command->file_in = 0;
+	command->file_out = 0;
 	data->cmds = command;
 }
 
@@ -128,13 +130,11 @@ t_minish	*init_data(char *envp[])
 		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
 		exit(1);
 	}
-	data->pipe[1] = 0;
-	data->pipe[0] = 0;
+	// data->pipe[1] = 0;
+	// data->pipe[0] = 0;
 	data->n_cmd = 0;
 	data->n_tokens = 0;
 	data->child = 0;
-	data->file_in = 0;
-	data->file_out = 0;
 	init_cmd(data);
 	init_ptrs(data, envp);
 	return (data);

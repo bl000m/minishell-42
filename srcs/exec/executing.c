@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/02 12:57:49 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:33:47 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,49 @@
 
 void	executing_commands(t_minish *data)
 {
-	t_cmd	*ptr;
+	t_cmd	*cmd;
 
-	ptr = data->cmds;
-	while (ptr)
+	cmd = data->cmds;
+	creating_pipes(data);
+	while (cmd && cmd->full_cmd)
+		cmd = creating_child(&cmd, data);
+	cmd = data->cmds;
+	printf("cmd at beginning= %s\n", cmd->full_cmd[0]);
+	while (cmd != NULL)
 	{
-		creating_child(data, 2);
-		if (data->child == 0)
-			child_process(data, &ptr);
-		if (cmds_number(data) != 1)
-			switching_input_output(data, &ptr, 'i');
-		ptr = ptr->next;
+		printf("here\n");
+		waitpid(data->child, NULL, 0);
+		cmd = cmd->next;
 	}
-	if (data->pipe[0])
-		close(data->pipe[0]);
-	while (waitpid(-1, NULL, 0) > 0)
-		;
 }
 
+t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
+{
+	int	pid;
+
+	pid = fork();
+	// data->child = pid;
+	if (pid == -1)
+		error_manager(2, data, NULL);
+	else if (pid == 0)
+		child_process(data, cmd);
+	close((*cmd)->output);
+	close((*cmd)->input);
+	return ((*cmd)->next);
+}
+
+// if (!ft_strlen(cmd->full_cmd))
+// 	ft_exit
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	// printf("cmd = %s\n", (*cmd)->full_cmd[0]);
-	// printf("input = %d\n", (*cmd)->input);
-	// printf("output = %d\n", (*cmd)->output);
-	switching_input_output(data, cmd, 'i');
-	switching_input_output(data, cmd, 'o');
-	if ((*cmd)->output != 1)
-		close((*cmd)->output);
-	if ((*cmd)->input != 0)
-		close((*cmd)->input);
-	if (data->pipe[1])
-		close(data->pipe[1]);
-	if (data->pipe[0])
-		close(data->pipe[0]);
+	int	input;
+	int	output;
+
+	input = (*cmd)->input;
+	output = (*cmd)->output;
+	printf("cmd = %s, input = %d, output = %d\n", (*cmd)->full_cmd[0], (*cmd)->input, (*cmd)->output);
+	closing_fork_fd(output, input, data);
+	switching_input_output(data, cmd);
 	if (check_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
@@ -58,9 +68,9 @@ int	check_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "env", 3)
+		|| !ft_strncmp((*cmd)->full_cmd[0], "echo", 4)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "unset", 5)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 6)
-		|| !ft_strncmp((*cmd)->full_cmd[0], "echo", 4)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "cd", 2));
 }
 
