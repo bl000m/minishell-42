@@ -15,35 +15,32 @@
 void	switching_input_output(t_minish *data, t_cmd **cmd)
 {
 
-	printf("command entered in switch: %s\n", (*cmd)->full_cmd[0]);
 	if ((*cmd)->output > 1)
 	{
-		printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
 			error_manager(6, data, cmd);
-		// close((*cmd)->output);
+		close((*cmd)->output);
 	}
 	if ((*cmd)->input)
 	{
-		printf("input = %d for %s\n", (*cmd)->input, (*cmd)->full_cmd[0]);
-		printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
 			error_manager(6, data, cmd);
-		// close((*cmd)->input);
-		// dup(1);
+		close((*cmd)->input);
 	}
-	// if ((*cmd)->file_in)
-	// {
-	// 	if (dup2((*cmd)->file_in, STDIN_FILENO) < 0)
-	// 		error_manager(6, data, cmd);
-	// 	close((*cmd)->file_in);
-	// }
-	// if ((*cmd)->file_out)
-	// {
-	// 	if (dup2((*cmd)->file_out, STDOUT_FILENO) < 0)
-	// 		error_manager(6, data, cmd);
-	// 	close((*cmd)->file_out);
-	// }
+	if ((*cmd)->file_in)
+	{
+		if (dup2((*cmd)->file_in, STDIN_FILENO) < 0)
+			error_manager(6, data, cmd);
+		close((*cmd)->file_in);
+		// close((*cmd)->input);
+	}
+	if ((*cmd)->file_out)
+	{
+		if (dup2((*cmd)->file_out, STDOUT_FILENO) < 0)
+			error_manager(6, data, cmd);
+		close((*cmd)->file_out);
+		close((*cmd)->output);
+	}
 }
 
 // before execve call the tab_envp_updated function
@@ -93,7 +90,6 @@ void	closing_fork_fd(int output, int input, t_minish *data)
 	while (cmd)
 	{
 		if (cmd->output != output)
-			printf("ciao\n");
 			// close(cmd->output);
 		if (cmd->input != input)
 			close(cmd->input);

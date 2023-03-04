@@ -24,7 +24,6 @@ void	executing_commands(t_minish *data)
 	printf("cmd at beginning= %s\n", cmd->full_cmd[0]);
 	while (cmd != NULL)
 	{
-		printf("here\n");
 		waitpid(data->child, NULL, 0);
 		cmd = cmd->next;
 	}
@@ -40,8 +39,6 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		error_manager(2, data, NULL);
 	else if (pid == 0)
 		child_process(data, cmd);
-	close((*cmd)->output);
-	close((*cmd)->input);
 	return ((*cmd)->next);
 }
 
