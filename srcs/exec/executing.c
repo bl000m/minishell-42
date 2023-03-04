@@ -22,11 +22,16 @@ void	executing_commands(t_minish *data)
 		cmd = creating_child(&cmd, data);
 	cmd = data->cmds;
 	printf("cmd at beginning= %s\n", cmd->full_cmd[0]);
-	while (cmd != NULL)
-	{
-		waitpid(data->child, NULL, 0);
-		cmd = cmd->next;
-	}
+	// exit_clean(data);
+	closing_all_fd(data);
+	while (waitpid(-1, NULL, 0) > 0)
+		;
+	// while (cmd != NULL)
+	// {
+	// 	printf("here\n");
+	// 	waitpid(data->child, NULL, 0);
+	// 	cmd = cmd->next;
+	// }
 }
 
 t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
@@ -34,11 +39,13 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 	int	pid;
 
 	pid = fork();
-	// data->child = pid;
+	data->child = pid;
 	if (pid == -1)
 		error_manager(2, data, NULL);
 	else if (pid == 0)
 		child_process(data, cmd);
+	// close((*cmd)->output);
+	// close((*cmd)->input);
 	return ((*cmd)->next);
 }
 
@@ -46,18 +53,15 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 // 	ft_exit
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	int	input;
-	int	output;
-
-	input = (*cmd)->input;
-	output = (*cmd)->output;
 	printf("cmd = %s, input = %d, output = %d\n", (*cmd)->full_cmd[0], (*cmd)->input, (*cmd)->output);
-	closing_fork_fd(output, input, data);
+	// closing_fork_fd((*cmd)->output;, (*cmd)->input, data);
 	switching_input_output(data, cmd);
+	closing_all_fd(data);
 	if (check_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
 		launching_command(data, cmd);
+	exit_clean(data);
 }
 
 /* doubt: should we rename the builtins?*/

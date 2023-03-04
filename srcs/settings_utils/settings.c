@@ -104,6 +104,7 @@ static void	init_cmd(t_minish *data)
 	command->output = 1;
 	command->file_in = 0;
 	command->file_out = 0;
+	command->last = 0;
 	data->cmds = command;
 }
 
@@ -119,17 +120,9 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->env_table = NULL;
 }
 
-t_minish	*init_data(char *envp[])
+void	init_data(t_minish *data, char *envp[])
 {
-	t_minish	*data;
-
-	(void) envp;
-	data = malloc(sizeof(*data));
-	if (!data)
-	{
-		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
-		exit(1);
-	}
+	// (void) envp;
 	// data->pipe[1] = 0;
 	// data->pipe[0] = 0;
 	data->n_cmd = 0;
@@ -137,7 +130,6 @@ t_minish	*init_data(char *envp[])
 	data->child = 0;
 	init_cmd(data);
 	init_ptrs(data, envp);
-	return (data);
 }
 
 void	update_envp(t_dict *envp)

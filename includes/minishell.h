@@ -41,6 +41,7 @@ typedef struct s_cmd
 	int				output;
 	int				file_in;
 	int				file_out;
+	int				last;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -73,8 +74,8 @@ void		cd(t_minish *data, char *path);
 
 /* settings */
 
-t_minish	*init_data(char *envp[]);
-void		setting_prompt(t_minish *data);
+void		init_data(t_minish *data, char *envp[]);
+void		setting_prompt(t_minish *data, char **envp);
 char		**tab_envp_updated(t_minish *data);
 char		*get_lineprefix(t_minish *data);
 void		update_envp(t_dict *envp);
@@ -142,6 +143,7 @@ void		pipe_redirections_token(int *start, int *end);
 void		closing_input_output(t_minish *data, t_cmd *cmd);
 int			check_pipes(t_minish *data);
 void		closing_fork_fd(int output, int input, t_minish *data);
+void		closing_all_fd(t_minish *data);
 
 /* lexical analysis utils */
 

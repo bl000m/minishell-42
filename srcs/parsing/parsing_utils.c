@@ -25,6 +25,7 @@ void	create_new_cmd_list_node(t_cmd **node)
 		return ;
 	new_elem->full_cmd = NULL;
 	new_elem->full_path = NULL;
+	new_elem->last = 0;
 	new_elem->input = STDIN_FILENO;
 	new_elem->output = STDOUT_FILENO;
 	new_elem->next = NULL;
@@ -90,6 +91,7 @@ void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 	{
 		// (*node)->output = data->pipe[1];
 		create_new_cmd_list_node(node);
+		// *node = (*node)->next;
 		*i += 1;
 	}
 }
