@@ -19,7 +19,12 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void) argv;
 	check_error(argc);
-	data = init_data(envp);
-	setting_prompt(data);
+	data = malloc(sizeof(*data));
+	if (!data)
+	{
+		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
+		exit(1);
+	}
+	setting_prompt(data, envp);
 	return (0);
 }

@@ -12,20 +12,23 @@
 
 #include "../includes/minishell.h"
 
-void	setting_prompt(t_minish *data)
+void	setting_prompt(t_minish *data, char **envp)
 {
 	char	*prefix;
 
-	data->input = NULL;
+	// data->input = NULL;
 	while (1)
 	{
+		init_data(data, envp);
 		prefix = get_lineprefix(data);
 		data->input = readline(prefix);
 		if (data->input && *data->input)
+		{
 			add_history (data->input);
-		tab_envp_updated(data);
-		lexer_input(data);
-		executing_commands(data);
+			tab_envp_updated(data);
+			lexer_input(data);
+			executing_commands(data);
+		}
 		free(data->input);
 		data->input = NULL;
 		free(prefix);
