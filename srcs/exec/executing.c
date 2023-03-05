@@ -39,12 +39,8 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 	return ((*cmd)->next);
 }
 
-// if (!ft_strlen(cmd->full_cmd))
-// 	ft_exit
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	printf("cmd = %s, input = %d, output = %d\n", (*cmd)->full_cmd[0], (*cmd)->input, (*cmd)->output);
-	// closing_fork_fd((*cmd)->output;, (*cmd)->input, data);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
 	if (check_builtin(cmd))

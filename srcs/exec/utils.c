@@ -15,18 +15,14 @@
 void	switching_input_output(t_minish *data, t_cmd **cmd)
 {
 
-	// printf("command entered in switch: %s\n", (*cmd)->full_cmd[0]);
 	if ((*cmd)->output > 1)
 	{
-		// printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->output);
 	}
 	if ((*cmd)->input)
 	{
-		// printf("input = %d for %s\n", (*cmd)->input, (*cmd)->full_cmd[0]);
-		// printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->input);
@@ -86,13 +82,10 @@ void	creating_pipes(t_minish *data)
 {
 	int		fd[2];
 	t_cmd	*cmd;
-	int count = 0;
 
 	cmd = data->cmds;
-	// printf("EEEEEEvery time I'm here\n");
 	while (cmd->next != NULL)
 	{
-		// printf("creating pipe in cmd: %s\n", cmd->full_cmd[0]);
 		if (pipe(fd) == -1)
 			error_manager(1, data, NULL);
 		cmd->output = fd[1];
@@ -101,30 +94,7 @@ void	creating_pipes(t_minish *data)
 			cmd->next->last = 1;
 		cmd = cmd->next;
 	}
-	cmd = data->cmds;
-	while (cmd)
-	{
-		count ++;
-		cmd = cmd->next;
-	}
-	// printf("n commands = %d\n", count);
 	closing_fd_if_redirections(data);
-}
-
-void	closing_fork_fd(int output, int input, t_minish *data)
-{
-	t_cmd	*cmd;
-
-	cmd = data->cmds;
-	while (cmd)
-	{
-		if (cmd->output != output)
-			close(cmd->output);
-			// printf("ciao\n");
-		if (cmd->input != input)
-			close(cmd->input);
-		cmd = cmd->next;
-	}
 }
 
 // void	opening_files(t_minish *data, char *argv[], char flag)
