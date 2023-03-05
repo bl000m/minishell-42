@@ -15,36 +15,33 @@
 void	switching_input_output(t_minish *data, t_cmd **cmd)
 {
 
-	printf("command entered in switch: %s\n", (*cmd)->full_cmd[0]);
+	// printf("command entered in switch: %s\n", (*cmd)->full_cmd[0]);
 	if ((*cmd)->output > 1)
 	{
-		printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
+		// printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->output);
 	}
 	if ((*cmd)->input)
 	{
-		printf("input = %d for %s\n", (*cmd)->input, (*cmd)->full_cmd[0]);
-		printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
+		// printf("input = %d for %s\n", (*cmd)->input, (*cmd)->full_cmd[0]);
+		// printf("output = %d for %s\n", (*cmd)->output, (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->input);
-		// dup(1);
 	}
 	if ((*cmd)->file_in)
 	{
 		if (dup2((*cmd)->file_in, STDIN_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->file_in);
-		// close((*cmd)->input);
 	}
 	if ((*cmd)->file_out)
 	{
 		if (dup2((*cmd)->file_out, STDOUT_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->file_out);
-		// close((*cmd)->output);
 	}
 }
 
@@ -92,10 +89,10 @@ void	creating_pipes(t_minish *data)
 	int count = 0;
 
 	cmd = data->cmds;
-	printf("EEEEEEvery time I'm here\n");
+	// printf("EEEEEEvery time I'm here\n");
 	while (cmd->next != NULL)
 	{
-		printf("creating pipe in cmd: %s\n", cmd->full_cmd[0]);
+		// printf("creating pipe in cmd: %s\n", cmd->full_cmd[0]);
 		if (pipe(fd) == -1)
 			error_manager(1, data, NULL);
 		cmd->output = fd[1];
@@ -107,12 +104,10 @@ void	creating_pipes(t_minish *data)
 	cmd = data->cmds;
 	while (cmd)
 	{
-		// if (cmd->last)
-		// 	printf("last one is %s\n", cmd->full_cmd[0]);
 		count ++;
 		cmd = cmd->next;
 	}
-	printf("n commands = %d\n", count);
+	// printf("n commands = %d\n", count);
 	closing_fd_if_redirections(data);
 }
 

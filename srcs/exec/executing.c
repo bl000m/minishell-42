@@ -20,18 +20,10 @@ void	executing_commands(t_minish *data)
 	creating_pipes(data);
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
-	cmd = data->cmds;
-	printf("cmd at beginning= %s\n", cmd->full_cmd[0]);
-	// exit_clean(data);
+	exit_clean(data);
 	closing_all_fd(data);
 	while (waitpid(-1, NULL, 0) > 0)
 		;
-	// while (cmd != NULL)
-	// {
-	// 	printf("here\n");
-	// 	waitpid(data->child, NULL, 0);
-	// 	cmd = cmd->next;
-	// }
 }
 
 t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
@@ -44,8 +36,6 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		error_manager(2, data, NULL);
 	else if (pid == 0)
 		child_process(data, cmd);
-	// close((*cmd)->output);
-	// close((*cmd)->input);
 	return ((*cmd)->next);
 }
 
