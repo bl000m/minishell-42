@@ -124,3 +124,13 @@ int	check_pipes(t_minish *data)
 	}
 	return (0);
 }
+
+void	heredoc_handling(t_minish *data, t_cmd **node, int *i)
+{
+	if (!data->tokens[*i + 1])
+		error_manager(11, data, NULL);
+	else
+	{
+		here_doc(data, node, i);
+	}
+}

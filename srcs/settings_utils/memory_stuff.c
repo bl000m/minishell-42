@@ -94,7 +94,7 @@ void	exit_clean(t_minish *data)
 	free_env_table(data);
 	free_linked_list_full_cmd(data);
 	free_path_dir(data);
-	closing_all_fd(data);
+	// closing_all_fd(data);
 	// if (data->pipe[0])
 	// 	close(data->pipe[0]);
 	// if (data->pipe[1])

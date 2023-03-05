@@ -29,6 +29,8 @@ void	checking_token(t_minish *data, t_cmd **node, int *i)
 		input_redirection(data, node, i);
 	else if (data->tokens[*i][0] == '>')
 		output_redirection(data, node, i);
+	else if (!ft_strncmp(data->tokens[*i], "<<", 2))
+		heredoc_handling(data, node, i);
 	else if (data->tokens[*i][0] == '|')
 		pipe_new_node(data, node, i);
 	else

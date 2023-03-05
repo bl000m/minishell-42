@@ -115,12 +115,13 @@ void		input_redirection(t_minish *data, t_cmd **node, int *i);
 void		output_redirection(t_minish *data, t_cmd **node, int *i);
 void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
+void		heredoc_handling(t_minish *data, t_cmd **node, int *i);
 
 /* Bonus features */
 
 int			checking_here_doc(int argc, char *argv[], t_minish *data);
-void		here_doc(int argc, char *argv[], t_minish *data);
-void		getting_and_writing_input_on_file(char *limiter, int fd);
+void		here_doc(t_minish *data, t_cmd **node, int *i);
+void		getting_and_writing_input_on_pipe(char *limiter, int fd);
 
 /* executing */
 
@@ -142,7 +143,6 @@ void		pipe_redirections_handling(int *n_tokens);
 void		pipe_redirections_token(int *start, int *end);
 void		closing_input_output(t_minish *data, t_cmd *cmd);
 int			check_pipes(t_minish *data);
-void		closing_fork_fd(int output, int input, t_minish *data);
 void		closing_all_fd(t_minish *data);
 
 /* lexical analysis utils */

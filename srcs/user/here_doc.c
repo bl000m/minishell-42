@@ -26,50 +26,41 @@
 // 	return (0);
 // }
 
-// void	here_doc(int argc, char *argv[], t_minish *data)
-// {
-// 	int		fd;
+void	here_doc(t_minish *data, t_cmd **node, int *i)
+{
+	int		fd[2];
 
-// 	if (argc != 6)
-// 	{
-// 		exit_clean(data);
-// 		exit(1);
-// 	}
-// 	// write to pipe[1] instead
-// 	fd = open(".here_doc", O_CREAT | O_RDWR | O_TRUNC, 0644);
-// 	if (fd < 0)
-// 		error_manager(6, data, NULL);
-// 	getting_and_writing_input_on_file(argv[2], fd);
-// 	data->file_in = open(".here_doc", O_RDONLY);
-// 	if (data->file_in < 0)
-// 		error_manager(6, data, NULL);
-// 	switching_input_output(data, 's');
-// 	close(data->file_in);
-// }
+	// write to pipe[1] instead
+    if (pipe(fd) == -1)
+			error_manager(1, data, NULL);
+	(*node)->output = fd[1];
+    (*node)->next->input = fd[0];
+	getting_and_writing_input_on_pipe(data->tokens[*i + 1], (*node)->output);
+}
 
-// void	getting_and_writing_input_on_file(char *limiter, int fd)
-// {
-// 	char	*input;
+void	getting_and_writing_input_on_pipe(char *limiter, int fd)
+{
+	char	*input;
 
-// 	while (1)
-// 	{
-// 		ft_printf("pipex here_doc> ");
-// 		input = get_next_line(STDIN_FILENO);
-// 		if (!input)
-// 		{
-// 			close(fd);
-// 			exit(1);
-// 		}
-// 		if (input[ft_strlen(limiter)] == '\n' && limiter
-// 			&& (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0))
-// 		{
-// 			close(fd);
-// 			break ;
-// 		}
-// 		ft_putstr_fd(input, fd);
-// 		free(input);
-// 		input = NULL;
-// 	}
-// 	free(input);
-// 	close(fd);
-// }
+	while (1)
+	{
+		ft_printf("here_doc> ");
+		input = get_next_line(STDIN_FILENO);
+		if (!input)
+		{
+			close(fd);
+			exit(1);
+		}
+		if (input[ft_strlen(limiter)] == '\n' && limiter
+			&& (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0))
+		{
+			close(fd);
+			break ;
+		}
+		ft_putstr_fd(input, fd);
+		free(input);
+		input = NULL;
+	}
+	free(input);
+	close(fd);
+}
