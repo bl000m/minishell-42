@@ -72,8 +72,6 @@ void	closing_fd_if_redirections(t_minish *data)
 	{
 		if (cmd->file_in && cmd->input)
 			close(cmd->input);
-		if (cmd->file_out && cmd->output)
-			close(cmd->output);
 		cmd = cmd->next;
 	}
 }
