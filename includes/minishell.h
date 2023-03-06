@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 16:46:27 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/06 11:30:13 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ void		launching_command(t_minish *data, t_cmd **cmd);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
-void		pipe_redirections_handling(int *n_tokens);
-void		pipe_redirections_token(int *start, int *end);
+void		pipe_redirections_handling(char *s, int *n_tokens, int *i);
+void		pipe_redirections_token(char *s, int *start, int *end);
 void		closing_input_output(t_minish *data, t_cmd *cmd);
 int			check_pipes(t_minish *data);
 void		closing_all_fd(t_minish *data);
