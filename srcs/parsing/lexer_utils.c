@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/23 12:30:58 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/06 12:05:08 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ char	*duplicating_token(char *s, int start, int end)
 	if (!token)
 		return (0);
 	while (s[start] && start < end)
+	{
+		if (s[start] == '\"' || s[start] == '\'')
+			start++;
 		token[n_token++] = s[start++];
+	}
 	token[n_token] = 0;
 	return (token);
 }
