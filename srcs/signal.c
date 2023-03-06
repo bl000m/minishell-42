@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 13:46:56 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 18:58:09 by fbelfort         ###   ########.fr       */
+/*   Created: 2023/03/06 19:51:32 by fbelfort          #+#    #+#             */
+/*   Updated: 2023/03/06 20:01:38 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	handle_ctrlc(int sign)
 {
-	char	*result;
+	if (sign == SIGINT)
+		// rl_on_new_line();
+}
 
-	if (!s1)
-		return (NULL);
-	result = malloc(sizeof(*result) * ft_strlen(s1) + ft_strlen(s2) +1);
-	if (!result)
-		return (NULL);
-	ft_strlcpy(result, (char *)s1, ft_strlen(s1) + 1);
-	ft_strlcpy(result + ft_strlen(s1), (char *)s2, ft_strlen(s2) + 1);
-	return (result);
+void	handle_ctrld(int sign)
+{
+	(void)sign;
 }

@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/01 12:49:50 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/06 19:50:55 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,23 @@ char	*get_lineprefix(t_minish *data)
 	char	*prefix;
 	size_t	len;
 
-	line2 = NULL;
-	line1 = getcwd(NULL, 0);
+	line1 = ft_strjoin(find_varvalue(data, "PWD", 3), "\e[1;34m$ \e[0m");
 	line2 = find_varvalue(data, "HOME", 4);
-	len = ft_strlen(line2);
+	if (line2)
+		len = ft_strlen(line2);
 	if (line2 && !ft_memcmp(line2, line1, len))
 	{
 		line2 = ft_strjoin("~", &line1[len]);
 		free(line1);
 		line1 = line2;
 	}
-	line2 = ft_strjoin(line1, "$ ");
+	prefix = find_varvalue(data, "USER", 4);
+	if (!prefix)
+		prefix = ft_strjoin("\e[1;33mguest", "\e[1;31m@minisHell:\e[1;30m");
+	else
+		prefix = ft_strjoin(prefix, "\e[1;31m@minisHell:\e[1;30m");
+	line2 = ft_strjoin(prefix, line1);
 	free(line1);
-	line1 = ft_strjoin(find_varvalue(data, "USER", 4), "@minishell:");
-	prefix = ft_strjoin(line1, line2);
-	free(line2);
-	free(line1);
-	return (prefix);
+	free(prefix);
+	return (line2);
 }
