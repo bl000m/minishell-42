@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:36:33 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 12:56:33 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:20:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
 		exit(1);
 	}
-	setting_prompt(data, envp);
+	data->envp = dup_envp(envp);
+	setting_prompt(data);
 	return (0);
 }

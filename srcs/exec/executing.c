@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 17:33:47 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:32:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,34 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 {
 	int	pid;
 
-	pid = fork();
-	data->child = pid;
-	if (pid == -1)
-		error_manager(2, data, NULL);
-	else if (pid == 0)
-		child_process(data, cmd);
+	// printf("cmd = %s, input= %d, output %d\n", (*cmd)->full_cmd[0], (*cmd)->input, (*cmd)->output);
+	if (check_builtin(cmd))
+	{
+		switching_input_output(data, cmd);
+		write(1, "coucou\n", 7);
+		closing_all_fd(data);
+		executing_builtin(data, cmd);
+		// return ((*cmd)->next);
+	}
+	else
+	{
+		// printf("this is not a builtin\n");
+		pid = fork();
+		data->child = pid;
+		if (pid == -1)
+			error_manager(2, data, NULL);
+		else if (pid == 0)
+			child_process(data, cmd);
+	}
 	return ((*cmd)->next);
 }
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
+	// printf("we are in child\n");
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
-	if (check_builtin(cmd))
-		executing_builtin(data, cmd);
-	else
-		launching_command(data, cmd);
-	exit_clean(data);
+	launching_command(data, cmd);
 }
 
 /* doubt: should we rename the builtins?*/

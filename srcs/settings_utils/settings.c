@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 15:03:37 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:21:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	generate_envp(t_dict **dict)
  *
  * OBS: descobrir o que eh o '_' e ajustar o SHLVL
 */
-static t_dict	*dup_envp(char **envp)
+t_dict	*dup_envp(char **envp)
 {
 	t_dict	*dict;
 	t_dict	*tmp;
@@ -100,15 +100,15 @@ static void	init_cmd(t_minish *data)
 	command->full_cmd = NULL;
 	command->full_path = NULL;
 	command->next = NULL;
-	command->input = 0;
-	command->output = 1;
+	command->input = STDIN_FILENO;
+	command->output = STDOUT_FILENO;
 	command->file_in = 0;
 	command->file_out = 0;
 	command->last = 0;
 	data->cmds = command;
 }
 
-static void	init_ptrs(t_minish *data, char *envp[])
+static void	init_ptrs(t_minish *data)
 {
 	data->path = NULL;
 	data->path_dir = NULL;
@@ -116,20 +116,16 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->tokens = NULL;
 	data->aux = NULL;
 	data->env_table = NULL;
-	data->envp = dup_envp(envp);
 	data->env_table = NULL;
 }
 
-void	init_data(t_minish *data, char *envp[])
+void	init_data(t_minish *data)
 {
-	// (void) envp;
-	// data->pipe[1] = 0;
-	// data->pipe[0] = 0;
 	data->n_cmd = 0;
 	data->n_tokens = 0;
 	data->child = 0;
 	init_cmd(data);
-	init_ptrs(data, envp);
+	init_ptrs(data);
 }
 
 void	update_envp(t_dict *envp)

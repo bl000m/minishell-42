@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 12:38:01 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:20:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,12 @@ void		cd(t_minish *data, char *path);
 
 /* settings */
 
-void		init_data(t_minish *data, char *envp[]);
-void		setting_prompt(t_minish *data, char **envp);
+void		init_data(t_minish *data);
+void		setting_prompt(t_minish *data);
 char		**tab_envp_updated(t_minish *data);
 char		*get_lineprefix(t_minish *data);
 void		update_envp(t_dict *envp);
+t_dict		*dup_envp(char **envp);
 
 /* lexical analysis */
 

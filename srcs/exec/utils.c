@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 17:33:12 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:32:25 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,30 @@
 
 void	switching_input_output(t_minish *data, t_cmd **cmd)
 {
-
 	if ((*cmd)->output > 1)
 	{
+		// printf("cmd in switching - output > 1 = %s\n", (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->output);
 	}
 	if ((*cmd)->input)
 	{
+		// printf("cmd in switching - input > 0 = %s\n", (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->input);
 	}
 	if ((*cmd)->file_in)
 	{
+		// printf("cmd in switching - file_in > 1 = %s\n", (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->file_in, STDIN_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->file_in);
 	}
 	if ((*cmd)->file_out)
 	{
+		// printf("cmd in switching - file_out > 1 = %s\n", (*cmd)->full_cmd[0]);
 		if (dup2((*cmd)->file_out, STDOUT_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->file_out);
@@ -80,18 +83,27 @@ void	creating_pipes(t_minish *data)
 {
 	int		fd[2];
 	t_cmd	*cmd;
+	int count = 0;
 
 	cmd = data->cmds;
 	while (cmd->next != NULL)
 	{
 		if (pipe(fd) == -1)
 			error_manager(1, data, NULL);
+		// printf("creating pipe for %s\n", cmd->full_cmd[0]);
 		cmd->output = fd[1];
 		cmd->next->input = fd[0];
 		if (!cmd->next->next)
 			cmd->next->last = 1;
 		cmd = cmd->next;
 	}
+	cmd = data->cmds;
+	while (cmd)
+	{
+		count++;
+		cmd = cmd->next;
+	}
+	// printf("n commands = %d\n", count);
 	closing_fd_if_redirections(data);
 }
 
