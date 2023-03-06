@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 11:30:13 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/06 12:38:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,7 @@ void		heredoc_handling(t_minish *data, t_cmd **node, int *i);
 /* Bonus features */
 
 int			checking_here_doc(int argc, char *argv[], t_minish *data);
-void		here_doc(t_minish *data, t_cmd **node, int *i);
-void		getting_and_writing_input_on_pipe(char *limiter, int fd);
+void		here_doc(t_minish *data, int *i, int fd);
 
 /* executing */
 
