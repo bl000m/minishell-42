@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:26:18 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:33:55 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ void	updating_data(t_minish *data, char *prefix)
 	init_cmd(data);
 }
 
-void	setting_prompt(t_minish *data, char **envp)
+void	setting_prompt(t_minish *data)
 {
 	char	*prefix;
 
-	init_data(data, envp);
 	while (1)
 	{
 		prefix = get_lineprefix(data);

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:26:46 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:31:59 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,22 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->env_table = NULL;
 }
 
-void	init_data(t_minish *data, char *envp[])
+t_minish	*init_data(char *envp[])
 {
+	t_minish	*data;
+
+	data = malloc(sizeof(*data));
+	if (!data)
+	{
+		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
+		exit(1);
+	}
 	data->n_cmd = 0;
 	data->n_tokens = 0;
 	data->child = 0;
 	init_cmd(data);
 	init_ptrs(data, envp);
+	return (data);
 }
 
 void	update_envp(t_dict *envp)

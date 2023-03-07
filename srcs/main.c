@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:36:33 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:28:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:34:04 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void) argv;
 	check_error(argc);
-	data = malloc(sizeof(*data));
-	if (!data)
-	{
-		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
-		exit(1);
-	}
-	setting_prompt(data, envp);
+	data = init_data(envp);
+	setting_prompt(data);
 	return (0);
 }

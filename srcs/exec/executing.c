@@ -6,13 +6,13 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:26:20 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:36:34 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-//export cd unset exit
+//export cd unset exit to be launched by main process
 void	executing_commands(t_minish *data)
 {
 	t_cmd	*cmd;
@@ -62,7 +62,6 @@ int	check_builtin(t_cmd **cmd)
 
 /* call tab_envp_updated(data) if (unset) || (export) in order
 	to  recreate the env table if modified (after freeing the previous one)*/
-
 void	executing_builtin(t_minish *data, t_cmd **cmd)
 {
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
