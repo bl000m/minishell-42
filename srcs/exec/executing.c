@@ -6,12 +6,13 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 17:33:47 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 14:41:50 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+//export cd unset exit
 void	executing_commands(t_minish *data)
 {
 	t_cmd	*cmd;
@@ -41,13 +42,13 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
+	printf("cmd = %s, input = %d, output = %d\n", (*cmd)->full_cmd[0], (*cmd)->input, (*cmd)->output);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
 	if (check_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
 		launching_command(data, cmd);
-	exit_clean(data);
 }
 
 /* doubt: should we rename the builtins?*/
@@ -69,7 +70,7 @@ void	executing_builtin(t_minish *data, t_cmd **cmd)
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
 		pwd(data, (*cmd)->output);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
-		env(data, (*cmd)->output);
+		env(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5))
 		unset(data, (*cmd)->full_cmd[1]);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "export", 6))

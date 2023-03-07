@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/01 13:08:05 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/07 14:44:02 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	unset(t_minish *data, char *variable)
 	}
 }
 
-void	env(t_minish *data, int fd)
+void	env(t_minish *data)
 {
 	t_dict	*ptr;
 
@@ -41,13 +41,10 @@ void	env(t_minish *data, int fd)
 	while (ptr)
 	{
 		if (ptr->has_value)
-		{
-			ft_putstr_fd(ptr->key, fd);
-			ft_putchar_fd('=', fd);
-			ft_putendl_fd(ptr->value, fd);
-		}
+			printf("%s=%s\n", ptr->key, ptr->value);
 		ptr = ptr->next;
 	}
+	exit(0);
 }
 
 void	export(t_minish *data, int fd, char *arg)
