@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 13:25:30 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:29:00 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,8 @@ void	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 		if (pipe(fd) == -1)
 			error_manager(1, data, NULL);
 		(*node)->input = fd[0];
-		// dup2((*node)->input, STDIN_FILENO);
 		here_doc(data, i, fd[1]);
-		// if (*i)
-			*i += 1;
-		// else
-		// 	exit(1);
+		*i += 1;
 	}
 }
 

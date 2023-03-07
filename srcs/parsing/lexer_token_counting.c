@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 17:19:47 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:45:05 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	all_other_handling(char *s, int *n_tokens, int *i)
 	if (s[*i] != '<' || s[*i] != '>' || s[*i] != '|')
 		*i -= 1;
 	*n_tokens += 1;
-	printf("n token in other = %d\n", *n_tokens);
 }
 
 void	pipe_redirections_handling(char *s, int *n_tokens, int *i)
@@ -53,7 +52,6 @@ void	pipe_redirections_handling(char *s, int *n_tokens, int *i)
 	}
 	else
 		*n_tokens += 1;
-	printf("n token in pipe = %d\n", *n_tokens);
 }
 
 void identify_token(char *s, char character, int *n_tokens, int *i)
@@ -82,6 +80,5 @@ int	*tokens_counter(char *s, int *n_tokens)
 		identify_token(s, s[i], n_tokens, &i);
 		i++;
 	}
-	printf("tot n token = %d\n", *n_tokens);
 	return (n_tokens);
 }
