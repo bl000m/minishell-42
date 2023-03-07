@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 14:42:49 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 15:09:16 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ typedef struct s_minish
 
 /* builtins */
 
-void		pwd(t_minish *data, int fd);
+void		pwd(t_minish *data);
 void		unset(t_minish *data, char *variable);
 void		env(t_minish *data);
-void		print_sorted(t_dict *envp, int fd);
-void		export(t_minish *data, int fd, char *param);
-void		echo(int fd, char *arg);
+void		print_sorted(t_dict *envp);
+void		export(t_minish *data, char *param);
+void		echo(char *arg);
 void		cd(t_minish *data, char *path);
 
 /* settings */

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 14:41:50 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 15:08:31 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	printf("cmd = %s, input = %d, output = %d\n", (*cmd)->full_cmd[0], (*cmd)->input, (*cmd)->output);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
 	if (check_builtin(cmd))
@@ -68,15 +67,15 @@ int	check_builtin(t_cmd **cmd)
 void	executing_builtin(t_minish *data, t_cmd **cmd)
 {
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
-		pwd(data, (*cmd)->output);
+		pwd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
 		env(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5))
 		unset(data, (*cmd)->full_cmd[1]);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "export", 6))
-		export(data, (*cmd)->output, (*cmd)->full_cmd[1]);
+		export(data, (*cmd)->full_cmd[1]);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "echo", 4))
-		echo((*cmd)->output, (*cmd)->full_cmd[1]);
+		echo((*cmd)->full_cmd[1]);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "cd", 2))
 		cd(data, (*cmd)->full_cmd[1]);
 

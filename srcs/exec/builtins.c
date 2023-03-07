@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/07 14:44:02 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 15:12:15 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ void	env(t_minish *data)
 	exit(0);
 }
 
-void	export(t_minish *data, int fd, char *arg)
+void	export(t_minish *data, char *arg)
 {
 	t_dict	*ptr;
 	size_t	len;
 
 	if (!arg || !ft_strlen(arg))
-		print_sorted(data->envp, fd);
+		print_sorted(data->envp);
 	else
 	{
 		len = 0;
@@ -67,7 +67,7 @@ void	export(t_minish *data, int fd, char *arg)
 	}
 }
 
-void	echo(int fd, char *arg)
+void	echo(char *arg)
 {
 	int	i;
 	int	j;
@@ -90,7 +90,8 @@ void	echo(int fd, char *arg)
 		if (arg[i] != ' ')
 			break ;
 	}
-	ft_putstr_fd(&arg[i], fd);
+	printf("%s", &arg[i]);
 	if (!n)
-		ft_putchar_fd('\n', fd);
+		printf("\n");
+	exit (0);
 }

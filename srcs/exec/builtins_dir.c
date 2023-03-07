@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_dir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:40:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/01 11:40:34 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:10:03 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	cd(t_minish *data, char *path)
 	free(pwd);
 }
 
-void	pwd(t_minish *data, int fd)
+void	pwd(t_minish *data)
 {
-	ft_putendl_fd(find_varvalue(data, "PWD", 3), fd);
+	printf("%s", find_varvalue(data, "PWD", 3));
+	exit(0);
 }
