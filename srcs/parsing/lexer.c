@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 12:06:00 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:03:24 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 
 void	lexer_input(t_minish *data)
 {
+	int i = 0;
+
 	data->tokens = split_tokens(data);
+	while(data->tokens[i])
+	{
+		printf("%s\n", data->tokens[i]);
+		i++;
+	}
 	expand_path(data);
 	parsing_path(data);
 	creating_cmd_list(data);
