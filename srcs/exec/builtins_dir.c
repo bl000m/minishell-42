@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:40:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/07 15:10:03 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:27:33 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	cd(t_minish *data, char *path)
 
 void	pwd(t_minish *data)
 {
-	printf("%s", find_varvalue(data, "PWD", 3));
+	printf("%s\n", find_varvalue(data, "PWD", 3));
 	exit(0);
 }

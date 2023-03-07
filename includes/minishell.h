@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 15:09:16 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:26:37 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ typedef struct s_minish
 	char	**path_dir;
 	char	**env_table;
 	t_dict	*envp;
-	// int		pipe[2];
 	pid_t	child;
 	t_list	*aux;
 }	t_minish;
@@ -79,6 +78,7 @@ void		setting_prompt(t_minish *data, char **envp);
 char		**tab_envp_updated(t_minish *data);
 char		*get_lineprefix(t_minish *data);
 void		update_envp(t_dict *envp);
+void		init_cmd(t_minish *data);
 
 /* lexical analysis */
 
@@ -159,6 +159,6 @@ void		check_error(int argc);
 void		waiting_childs_finishing(t_minish *data);
 void		free_path_dir(t_minish *data);
 void		free_tokens(t_minish *data);
-void		exit_clean(t_minish *data);
+void		free_linked_list_full_cmd(t_minish *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 15:08:31 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:26:20 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	executing_commands(t_minish *data)
 	creating_pipes(data);
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
-	exit_clean(data);
 	closing_all_fd(data);
 	while (waitpid(-1, NULL, 0) > 0)
 		;

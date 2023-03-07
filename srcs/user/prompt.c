@@ -6,20 +6,32 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/02 12:39:03 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:26:18 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	updating_data(t_minish *data, char *prefix)
+{
+	free_path_dir(data);
+	free(data->input);
+	data->input = NULL;
+	free(prefix);
+	if (data->cmds)
+		free_linked_list_full_cmd(data);
+	if (data->tokens)
+		free_tokens(data);
+	init_cmd(data);
+}
+
 void	setting_prompt(t_minish *data, char **envp)
 {
 	char	*prefix;
 
-	// data->input = NULL;
+	init_data(data, envp);
 	while (1)
 	{
-		init_data(data, envp);
 		prefix = get_lineprefix(data);
 		data->input = readline(prefix);
 		if (data->input && *data->input)
@@ -29,9 +41,6 @@ void	setting_prompt(t_minish *data, char **envp)
 			lexer_input(data);
 			executing_commands(data);
 		}
-		free(data->input);
-		data->input = NULL;
-		free(prefix);
-		// exit_clean(data);
+		updating_data(data, prefix);
 	}
 }

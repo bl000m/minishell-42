@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 15:03:37 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:26:46 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	**tab_envp_updated(t_minish *data)
 	return (data->env_table);
 }
 
-static void	init_cmd(t_minish *data)
+void	init_cmd(t_minish *data)
 {
 	t_cmd	*command;
 
@@ -122,9 +122,6 @@ static void	init_ptrs(t_minish *data, char *envp[])
 
 void	init_data(t_minish *data, char *envp[])
 {
-	// (void) envp;
-	// data->pipe[1] = 0;
-	// data->pipe[0] = 0;
 	data->n_cmd = 0;
 	data->n_tokens = 0;
 	data->child = 0;

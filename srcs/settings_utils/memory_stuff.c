@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 14:26:24 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:23:58 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,4 @@ void	free_tokens(t_minish *data)
 		}
 		free(data->tokens);
 	}
-}
-
-void	exit_clean(t_minish *data)
-{
-	free_tokens(data);
-	free_env_table(data);
-	free_linked_list_full_cmd(data);
-	free_path_dir(data);
-	// closing_all_fd(data);
-	// if (data->pipe[0])
-	// 	close(data->pipe[0]);
-	// if (data->pipe[1])
-	// 	close(data->pipe[1]);
-	// free(data);
 }
