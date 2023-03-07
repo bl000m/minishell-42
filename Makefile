@@ -40,7 +40,7 @@ OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
 
 # compile
 CC 			= cc
-CFLAGS 		= -Wall -Werror -Wextra
+CFLAGS 		= -Wall -Werror -Wextra -g
 
 # directories
 SRCS_DIR	= ./srcs

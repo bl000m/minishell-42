@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/02/27 13:03:38 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 16:23:58 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	free_linked_list_full_cmd(t_minish *data)
 	ptr = data->cmds;
 	while (ptr)
 	{
-		while (ptr->full_cmd[i])
+		while (ptr->full_cmd && ptr->full_cmd[i])
 		{
 			free(ptr->full_cmd[i]);
 			ptr->full_cmd[i] = NULL;
@@ -86,18 +86,4 @@ void	free_tokens(t_minish *data)
 		}
 		free(data->tokens);
 	}
-}
-
-void	exit_clean(t_minish *data)
-{
-	free_tokens(data);
-	free_env_table(data);
-	free_linked_list_full_cmd(data);
-	free_path_dir(data);
-	closing_all_fd(data);
-	// if (data->pipe[0])
-	// 	close(data->pipe[0]);
-	// if (data->pipe[1])
-	// 	close(data->pipe[1]);
-	// free(data);
 }

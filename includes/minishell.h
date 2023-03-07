@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 19:57:25 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:36:53 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_minish
 	char	**path_dir;
 	char	**env_table;
 	t_dict	*envp;
-	// int		pipe[2];
 	pid_t	child;
 	t_list	*aux;
 }	t_minish;
@@ -65,21 +64,22 @@ typedef struct s_minish
 
 /* builtins */
 
-void		pwd(t_minish *data, int fd);
+void		pwd(t_minish *data);
 void		unset(t_minish *data, char *variable);
-void		env(t_minish *data, int fd);
-void		print_sorted(t_dict *envp, int fd);
-void		export(t_minish *data, int fd, char *param);
-void		echo(int fd, char *arg);
+void		env(t_minish *data);
+void		print_sorted(t_dict *envp);
+void		export(t_minish *data, char *param);
+void		echo(char *arg);
 void		cd(t_minish *data, char *path);
 
 /* settings */
 
-void		init_data(t_minish *data, char *envp[]);
-void		setting_prompt(t_minish *data, char **envp);
+t_minish	*init_data(char *envp[]);
+void		setting_prompt(t_minish *data);
 char		**tab_envp_updated(t_minish *data);
 char		*get_lineprefix(t_minish *data);
 void		update_envp(t_dict *envp);
+void		init_cmd(t_minish *data);
 
 /* lexical analysis */
 
@@ -116,12 +116,12 @@ void		input_redirection(t_minish *data, t_cmd **node, int *i);
 void		output_redirection(t_minish *data, t_cmd **node, int *i);
 void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
+void		heredoc_handling(t_minish *data, t_cmd **node, int *i);
 
 /* Bonus features */
 
 int			checking_here_doc(int argc, char *argv[], t_minish *data);
-void		here_doc(int argc, char *argv[], t_minish *data);
-void		getting_and_writing_input_on_file(char *limiter, int fd);
+void		here_doc(t_minish *data, int *i, int fd);
 
 /* executing */
 
@@ -139,11 +139,10 @@ void		launching_command(t_minish *data, t_cmd **cmd);
 char		*duplicating_token(char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
-void		pipe_redirections_handling(int *n_tokens);
-void		pipe_redirections_token(int *start, int *end);
+void		pipe_redirections_handling(char *s, int *n_tokens, int *i);
+void		pipe_redirections_token(char *s, int *start, int *end);
 void		closing_input_output(t_minish *data, t_cmd *cmd);
 int			check_pipes(t_minish *data);
-void		closing_fork_fd(int output, int input, t_minish *data);
 void		closing_all_fd(t_minish *data);
 
 /* lexical analysis utils */
@@ -161,6 +160,6 @@ void		check_error(int argc);
 void		waiting_childs_finishing(t_minish *data);
 void		free_path_dir(t_minish *data);
 void		free_tokens(t_minish *data);
-void		exit_clean(t_minish *data);
+void		free_linked_list_full_cmd(t_minish *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 12:53:03 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 17:29:00 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
+void	heredoc_handling(t_minish *data, t_cmd **node, int *i)
+{
+	int		fd[2];
+
+	if (!data->tokens[*i + 1])
+		error_manager(11, data, NULL);
+	else
+	{
+		if (pipe(fd) == -1)
+			error_manager(1, data, NULL);
+		(*node)->input = fd[0];
+		here_doc(data, i, fd[1]);
+		*i += 1;
+	}
+}
+
 void	input_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
@@ -89,9 +105,7 @@ void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 		error_manager(7, data, NULL);
 	else
 	{
-		// (*node)->output = data->pipe[1];
 		create_new_cmd_list_node(node);
-		// *node = (*node)->next;
 		*i += 1;
 	}
 }
@@ -124,3 +138,4 @@ int	check_pipes(t_minish *data)
 	}
 	return (0);
 }
+

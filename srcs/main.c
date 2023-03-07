@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:36:33 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 14:30:55 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:35:36 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void) argv;
 	check_error(argc);
-	data = malloc(sizeof(*data));
-	if (!data)
-	{
-		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
-		exit(1);
-	}
-	setting_prompt(data, envp);
+	data = init_data(envp);
+	setting_prompt(data);
 	return (0);
 }

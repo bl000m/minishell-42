@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 19:58:43 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:44:41 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,26 @@
 
 void	handle_ctrlc(int sign);
 
-void	setting_prompt(t_minish *data, char **envp)
+void	updating_data(t_minish *data, char *prefix)
+{
+	free_path_dir(data);
+	free(data->input);
+	data->input = NULL;
+	free(prefix);
+	if (data->cmds)
+		free_linked_list_full_cmd(data);
+	if (data->tokens)
+		free_tokens(data);
+	init_cmd(data);
+}
+
+void	setting_prompt(t_minish *data)
 {
 	char	*prefix;
 	signal(SIGINT, handle_ctrlc);
 
-	// data->input = NULL;
 	while (1)
 	{
-		init_data(data, envp);
 		prefix = get_lineprefix(data);
 		data->input = readline(prefix);
 		if (data->input && *data->input)
@@ -32,9 +43,6 @@ void	setting_prompt(t_minish *data, char **envp)
 			lexer_input(data);
 			executing_commands(data);
 		}
-		free(data->input);
-		data->input = NULL;
-		free(prefix);
-		// exit_clean(data);
+		updating_data(data, prefix);
 	}
 }

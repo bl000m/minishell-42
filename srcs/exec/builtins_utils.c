@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/06 19:50:55 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:47:23 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	dict_sort(t_dict *tosort)
 	}
 }
 
-void	print_sorted(t_dict *envp, int fd)
+void	print_sorted(t_dict *envp)
 {
 	t_dict	*sorted;
 
@@ -54,15 +54,10 @@ void	print_sorted(t_dict *envp, int fd)
 	dict_sort(sorted);
 	while (sorted)
 	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(sorted->key, fd);
+		printf("declare -x %s", sorted->key);
 		if (sorted->has_value)
-		{
-			ft_putstr_fd("=\"", fd);
-			ft_putstr_fd(sorted->value, fd);
-			ft_putchar_fd('"', fd);
-		}
-		ft_putchar_fd('\n', fd);
+			printf("=\"%s\"", sorted->value);
+		printf("\n");
 		sorted = sorted->next;
 	}
 	dict_free(&sorted);
