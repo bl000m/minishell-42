@@ -49,6 +49,8 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		ft_printf("INPUT ERROR: %s\n", strerror(errno));
 	else if (error == 10)
 		ft_printf("ERROR in switching INPUT for %s fd\n", (*cmd)->full_cmd[0]);
+	else if (error == 11)
+		ft_printf("syntax error near unexpected token `newline'\n", (*cmd)->full_cmd[0]);
 	// exit_clean(data);
 	exit(1);
 }
