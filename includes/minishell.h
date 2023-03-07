@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:34:31 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 18:29:27 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "../libft/libft.h"
 # include <errno.h>
 # include <string.h>
+
+int g_status ;
 
 typedef struct s_dict
 {
@@ -70,6 +72,7 @@ void		print_sorted(t_dict *envp);
 void		export(t_minish *data, char *param);
 void		echo(char *arg);
 void		cd(t_minish *data, char *path);
+void		mini_exit(t_cmd **cmd);
 
 /* settings */
 
