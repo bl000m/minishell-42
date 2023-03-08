@@ -24,7 +24,7 @@
 # include <errno.h>
 # include <string.h>
 
-int g_status ;
+// int g_status ;
 
 typedef struct s_dict
 {
@@ -132,7 +132,8 @@ void		creating_pipes(t_minish *data);
 t_cmd		*creating_child(t_cmd **cmd, t_minish *data);
 void		child_process(t_minish *data, t_cmd **cmd);
 void		executing_builtin(t_minish *data, t_cmd **cmd);
-int			check_builtin(t_cmd **cmd);
+int			check_child_builtin(t_cmd **cmd);
+int			check_parent_builtin(t_cmd **cmd);
 
 /* utils */
 

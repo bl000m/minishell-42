@@ -12,32 +12,29 @@
 
 #include "../includes/minishell.h"
 
+/* remember to replace atoi with right ft_atoi*/
 void	mini_exit(t_cmd **cmd)
 {
 	int	i;
-	int	exit_code;
 
 	i = 0;
 	printf("exit\n");
 	if (!(*cmd)->full_cmd[1])
 		exit(0);
-	while ((*cmd)->full_cmd[1][i])
-	{
-		if ((*cmd)->full_cmd[1][i] < '0' || (*cmd)->full_cmd[1][i] > '9')
-		{
-			printf("exit: %s: numeric argument required\n", (*cmd)->full_cmd[1]);
-			exit(2);
-		}
-	}
 	if ((*cmd)->full_cmd[2])
-	{
-		ft_putstr_fd("exit: ", 2);
-		ft_putstr_fd(": too many arguments\n", 2);
-		cmd = 0;
-	}
+		printf("exit: too many arguments\n");
 	else
 	{
-		exit_code = ft_atoi((*cmd)->full_cmd[1]);
-		exit(exit_code%256);
+		while ((*cmd)->full_cmd[1][i])
+		{
+			if ((*cmd)->full_cmd[1][i] < '0' || (*cmd)->full_cmd[1][i] > '9')
+			{
+				printf("exit: %s: numeric argument required\n", (*cmd)->full_cmd[1]);
+				exit(2);
+			}
+			else if ((*cmd)->full_cmd[1][i] > '0' && (*cmd)->full_cmd[1][i] < '9')
+				exit((atoi((*cmd)->full_cmd[1])) % 256);
+			i++;
+		}
 	}
 }
