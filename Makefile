@@ -34,6 +34,7 @@ SRCS 		= main.c \
 			exec/builtins.c \
 			exec/builtins_dir.c \
 			exec/builtins_utils.c \
+			exec/mini_exit.c \
 			exec/utils.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)

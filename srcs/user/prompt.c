@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 21:44:08 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/08 18:01:11 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	handle_ctrlc(int sign);
 
 void	updating_data(t_minish *data, char *prefix)
 {
@@ -31,10 +29,7 @@ void	setting_prompt(t_minish *data)
 {
 	char	*prefix;
 
-	signal(SIGQUIT, handle_ctrlc);
-	signal(SIGINT, handle_ctrlc);
-	signal(EOF, handle_ctrlc);
-
+	set_signals(PROMPT);
 	while (1)
 	{
 		prefix = get_lineprefix(data);
@@ -46,6 +41,9 @@ void	setting_prompt(t_minish *data)
 			lexer_input(data);
 			executing_commands(data);
 		}
+		if (data->input == NULL)
+			break ;
 		updating_data(data, prefix);
 	}
+	printf("exit\n");
 }

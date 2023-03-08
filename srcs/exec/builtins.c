@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/07 21:35:35 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/08 19:16:39 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,29 @@ void	export(t_minish *data, char *arg)
 	}
 }
 
-void	echo(char *arg)
+void	echo(char **arg)
 {
 	int	i;
 	int	j;
 	int	n;
 
-	i = -1;
+	i = 0;
 	n = 0;
 	while (arg[++i])
 	{
-		if (arg[i] == '-' && arg[i + 1] == 'n')
+		if (arg[i][0] == '-' && arg[i][1] == 'n')
 		{
-			j = i + 1;
-			while (arg[j] == 'n')
+			j = 2;
+			while (arg[i][j] == 'n')
 				j++;
-			if (arg[j] == ' ')
-				i = j;
-			if (arg[i] == ' ')
-				n++;
+			if (!arg[i][j] && n == i - 1)
+				n = i;
 		}
-		if (arg[i] != ' ')
-			break ;
+		if (n != i)
+			printf("%s", arg[i]);
+		if (arg[i + 1])
+			printf(" ");
 	}
-	printf("%s", &arg[i]);
 	if (!n)
 		printf("\n");
 	exit (0);

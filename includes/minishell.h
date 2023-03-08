@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 18:36:53 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/08 18:12:08 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <unistd.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -23,7 +24,8 @@
 # include "../libft/libft.h"
 # include <errno.h>
 # include <string.h>
-# include <signal.h>
+
+int g_status;
 
 typedef struct s_dict
 {
@@ -61,6 +63,9 @@ typedef struct s_minish
 	t_list	*aux;
 }	t_minish;
 
+/* signals */
+
+void		set_signals(int caller);
 
 /* builtins */
 
@@ -69,8 +74,9 @@ void		unset(t_minish *data, char *variable);
 void		env(t_minish *data);
 void		print_sorted(t_dict *envp);
 void		export(t_minish *data, char *param);
-void		echo(char *arg);
+void		echo(char **arg);
 void		cd(t_minish *data, char *path);
+void		mini_exit(t_cmd **cmd);
 
 /* settings */
 
@@ -96,7 +102,6 @@ t_dict		*dict_duplst(t_dict *dict);
 void		dict_free(t_dict **dict);
 void		set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
 
-
 /* parsing */
 
 void		parsing_path(t_minish *data);
@@ -109,6 +114,7 @@ void		stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 void		adding_full_path(t_minish *data, t_cmd **node);
 
 /* parsing utils */
+
 void		create_new_cmd_list_node(t_cmd **node);
 int			count_token_cmd(t_minish *data, int *i);
 int			is_builtin(char *cmd);
@@ -130,7 +136,8 @@ void		creating_pipes(t_minish *data);
 t_cmd		*creating_child(t_cmd **cmd, t_minish *data);
 void		child_process(t_minish *data, t_cmd **cmd);
 void		executing_builtin(t_minish *data, t_cmd **cmd);
-int			check_builtin(t_cmd **cmd);
+int			check_child_builtin(t_cmd **cmd);
+int			check_parent_builtin(t_cmd **cmd);
 
 /* utils */
 
@@ -161,5 +168,9 @@ void		waiting_childs_finishing(t_minish *data);
 void		free_path_dir(t_minish *data);
 void		free_tokens(t_minish *data);
 void		free_linked_list_full_cmd(t_minish *data);
+
+# define PROMPT 0
+# define HEREDOC 1
+# define EXEC 2
 
 #endif

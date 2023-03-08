@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/02/23 12:30:07 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:23:26 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static int	expand_var(t_minish *data, int index, int i, int j)
 		k++;
 	tmp = find_varvalue(data, data->tokens[index] + i + 1, k - 1);
 	line = ft_strdup(tmp);
+	if (data->tokens[index][i + k++] == '?')
+		line = ft_itoa(g_status);
 	if (line)
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	return (i + k);
