@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:31:59 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/07 21:43:04 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	generate_envp(t_dict **dict)
  * variable.
  * That way it will return a linked list with all the variables.
  *
- * OBS: descobrir o que eh o '_' e ajustar o SHLVL
 */
 static t_dict	*dup_envp(char **envp)
 {
@@ -66,6 +65,8 @@ static t_dict	*dup_envp(char **envp)
 		generate_envp(&dict);
 	else
 		update_envp(dict);
+	tmp = dict_newnode(ft_strjoin("pid=", ft_itoa(getpid())));
+	dict_addback(&dict, tmp);
 	return (dict);
 }
 

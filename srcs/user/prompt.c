@@ -6,11 +6,11 @@
 /*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 18:44:41 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/07 21:44:08 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	handle_ctrlc(int sign);
 
@@ -30,7 +30,10 @@ void	updating_data(t_minish *data, char *prefix)
 void	setting_prompt(t_minish *data)
 {
 	char	*prefix;
+
+	signal(SIGQUIT, handle_ctrlc);
 	signal(SIGINT, handle_ctrlc);
+	signal(EOF, handle_ctrlc);
 
 	while (1)
 	{
