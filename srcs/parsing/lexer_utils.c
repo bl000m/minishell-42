@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 12:05:08 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 14:47:49 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,17 @@ char	*duplicating_token(char *s, int start, int end)
 	token = malloc(sizeof(char) * (end - start + 1));
 	if (!token)
 		return (0);
+	printf("start = %d\n", start);
+	printf("end = %d\n", end);
 	while (s[start] && start < end)
 	{
-		if (s[start] == '\"' || s[start] == '\'')
+		if ((s[start] == '\"' || s[start] == '\''))
 			start++;
+		printf("start = %d\n", start);
+		printf("last char of token: %c\n", s[start]);
 		token[n_token++] = s[start++];
 	}
+	printf("token: %sciao\n", token);
 	token[n_token] = 0;
 	return (token);
 }

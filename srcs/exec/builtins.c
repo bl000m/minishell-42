@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/09 00:14:49 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 13:50:00 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/* check if we need to return a g_status*/
 void	unset(t_minish *data)
 {
 	t_dict	*curr;
@@ -28,8 +29,10 @@ void	unset(t_minish *data)
 		if (len == 1 && !ft_memcmp(variable, "_", 1))
 			return ;
 		curr = dict_findvar(data->envp, variable, len);
+		printf("curr = %s\n", curr->key);
 		if (curr)
 		{
+			printf("HERE?\n");
 			next = curr->next;
 			free(curr->key);
 			if (curr->value)
@@ -37,6 +40,14 @@ void	unset(t_minish *data)
 			free(curr);
 			curr = next;
 		}
+
+		printf("variable: %s\n", variable);
+	}
+	curr = data->envp;
+	while (curr)
+	{
+		printf("%s\n", curr->key);
+		curr = curr->next;
 	}
 }
 
@@ -47,7 +58,7 @@ void	env(t_minish *data)
 	if (data->cmds->full_cmd[1])
 	{
 		printf("Error: We have to manage the errors\n");
-		exit(1); // verify
+		exit(EXIT_FAILURE);
 	}
 	ptr = data->envp;
 	while (ptr)
@@ -93,6 +104,7 @@ void	echo(t_minish *data)
 	n = 0;
 	while (data->cmds->full_cmd[++i])
 	{
+		printf("\ncmd in echo= %sciao\n", data->cmds->full_cmd[i]);
 		if (data->cmds->full_cmd[i][0] == '-'
 			&& data->cmds->full_cmd[i][1] == 'n')
 		{
