@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:31:59 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 03:21:10 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	generate_envp(t_dict **dict)
 {
@@ -44,7 +44,6 @@ static void	generate_envp(t_dict **dict)
  * variable.
  * That way it will return a linked list with all the variables.
  *
- * OBS: descobrir o que eh o '_' e ajustar o SHLVL
 */
 static t_dict	*dup_envp(char **envp)
 {

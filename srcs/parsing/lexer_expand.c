@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/02/23 12:30:07 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/09 03:20:40 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /**
  * @brief
  * Iterates over the list to create a line with the content of all the nodes
  *  and returns the line after free the list.
 */
-static char	*create_expanded_line(t_list **lst)
+char	*make_line_fromlst(t_list **lst)
 {
 	char	*line;
 	t_list	*tmp;
@@ -68,6 +68,8 @@ static int	expand_var(t_minish *data, int index, int i, int j)
 		k++;
 	tmp = find_varvalue(data, data->tokens[index] + i + 1, k - 1);
 	line = ft_strdup(tmp);
+	if (data->tokens[index][i + k++] == '?')
+		line = ft_itoa(g_status);
 	if (line)
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	return (i + k);
@@ -167,6 +169,6 @@ void	expand_path(t_minish *data)
 			ft_lstadd_back(&data->aux, ft_lstnew(subline));
 		}
 		free(data->tokens[index]);
-		data->tokens[index] = create_expanded_line(&data->aux);
+		data->tokens[index] = make_line_fromlst(&data->aux);
 	}
 }

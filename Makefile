@@ -14,6 +14,7 @@ NAME 		= minishell
 
 # mandatory srcs / obj files
 SRCS 		= main.c \
+			signal.c \
      		user/prompt.c \
 			user/here_doc.c \
 			parsing/lexer.c \

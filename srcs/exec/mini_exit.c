@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 18:08:20 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 18:32:06 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/08 12:21:27 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ void	mini_exit(t_cmd **cmd)
 		{
 			if ((*cmd)->full_cmd[1][i] < '0' || (*cmd)->full_cmd[1][i] > '9')
 			{
-				printf("exit: %s: numeric argument required\n", (*cmd)->full_cmd[1]);
+				printf("exit: %s: numeric argument required\n",
+					(*cmd)->full_cmd[1]);
 				exit(2);
 			}
-			else if ((*cmd)->full_cmd[1][i] > '0' && (*cmd)->full_cmd[1][i] < '9')
-				exit((atoi((*cmd)->full_cmd[1])) % 256);
+			else if ((*cmd)->full_cmd[1][i] > '0'
+				&& (*cmd)->full_cmd[1][i] < '9')
+				exit((ft_atoi((*cmd)->full_cmd[1])) % 256);
 			i++;
 		}
 	}
