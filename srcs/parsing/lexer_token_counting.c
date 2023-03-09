@@ -50,6 +50,11 @@ void	pipe_redirections_handling(char *s, int *n_tokens, int *i)
 		*i += 1;
 		*n_tokens += 1;
 	}
+	else if (s[*i] == '>' && s[*i + 1] == '>')
+	{
+		*i += 1;
+		*n_tokens += 1;
+	}
 	else
 		*n_tokens += 1;
 }

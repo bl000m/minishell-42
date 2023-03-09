@@ -48,6 +48,11 @@ void	pipe_redirections_token(char *s, int *start, int *end)
 		*start = *end;
 		*end += 2;
 	}
+	else if (s[*end] == '>' && s[*end + 1] == '>')
+	{
+		*start = *end;
+		*end += 2;
+	}
 	else
 	{
 		*start = *end;

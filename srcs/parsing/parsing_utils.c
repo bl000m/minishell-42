@@ -40,7 +40,8 @@ int	count_token_cmd(t_minish *data, int *i)
 	count = *i;
 	while (data->tokens[count] && data->tokens[count][0] != '|'
 		&& data->tokens[count][0] != '\0' && data->tokens[count][0] != '<'
-		&& data->tokens[count][0] != '>')
+		&& data->tokens[count][0] != '>' && (!ft_strncmp(data->tokens[*i], "<<", 2))
+		&& (!ft_strncmp(data->tokens[*i], ">>", 2)))
 		count++;
 	return (count);
 }
@@ -92,6 +93,20 @@ void	output_redirection(t_minish *data, t_cmd **node, int *i)
 	{
 		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
 				| O_WRONLY | O_TRUNC, 0644);
+		if ((*node)->file_in == -1)
+			error_manager(5, data, NULL);
+		*i += 1;
+	}
+}
+
+void	output_append_redirection(t_minish *data, t_cmd **node, int *i)
+{
+	if (!data->tokens[*i + 1])
+		error_manager(8, data, NULL);
+	else
+	{
+		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
+				| O_WRONLY | O_APPEND, 0644);
 		if ((*node)->file_in == -1)
 			error_manager(5, data, NULL);
 		*i += 1;

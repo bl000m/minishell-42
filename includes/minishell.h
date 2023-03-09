@@ -120,6 +120,7 @@ int			count_token_cmd(t_minish *data, int *i);
 int			is_builtin(char *cmd);
 void		input_redirection(t_minish *data, t_cmd **node, int *i);
 void		output_redirection(t_minish *data, t_cmd **node, int *i);
+void		output_append_redirection(t_minish *data, t_cmd **node, int *i);
 void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
 void		heredoc_handling(t_minish *data, t_cmd **node, int *i);
