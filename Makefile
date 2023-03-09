@@ -75,6 +75,9 @@ $(OBJDIR)/%.o: $(SRCS_DIR)/%.c Makefile $(INCS_DIR)/minishell.h $(LIBFT)
 $(LIBFT):	FORCE
 	make -C $(LIBFT_DIR)
 
+val: 
+	valgrind --suppressions=valgrind_ignore_leaks.txt --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-mismatched-frees=yes --read-var-info=yes ./minishell
+
 FORCE	:
 
 clean:
