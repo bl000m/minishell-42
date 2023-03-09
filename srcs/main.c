@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:36:33 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/08 18:25:35 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/09 03:19:47 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int	main(int argc, char *argv[], char *envp[])
 	check_error(argc);
 	data = init_data(envp);
 	setting_prompt(data);
+	exit_clean(data);
 	return (0);
 }

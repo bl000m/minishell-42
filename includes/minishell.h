@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/08 18:12:08 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/09 03:19:12 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ void		set_signals(int caller);
 /* builtins */
 
 void		pwd(t_minish *data);
-void		unset(t_minish *data, char *variable);
+void		unset(t_minish *data);
 void		env(t_minish *data);
 void		print_sorted(t_dict *envp);
-void		export(t_minish *data, char *param);
-void		echo(char **arg);
-void		cd(t_minish *data, char *path);
+void		export(t_minish *data);
+void		echo(t_minish *data);
+void		cd(t_minish *data);
 void		mini_exit(t_cmd **cmd);
 
 /* settings */
@@ -99,7 +99,6 @@ void		dict_addback(t_dict **dict, t_dict *new);
 size_t		dict_size(t_dict *dict);
 t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 t_dict		*dict_duplst(t_dict *dict);
-void		dict_free(t_dict **dict);
 void		set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
 
 /* parsing */
@@ -107,6 +106,7 @@ void		set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
 void		parsing_path(t_minish *data);
 char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
+char		*make_line_fromlst(t_list **lst);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
 void		creating_cmd_list(t_minish *data);
 void		checking_token(t_minish *data, t_cmd **node, int *i);
@@ -164,13 +164,24 @@ void		check_error(int argc);
 
 /* memory stuff */
 
+void		dict_free(t_dict **dict);
 void		waiting_childs_finishing(t_minish *data);
 void		free_path_dir(t_minish *data);
 void		free_tokens(t_minish *data);
 void		free_linked_list_full_cmd(t_minish *data);
+void		exit_clean(t_minish *data);
 
 # define PROMPT 0
 # define HEREDOC 1
 # define EXEC 2
+# define NO_COLOR "\033[0m"
+# define BLACK "\033[1;90m"
+# define RED "\033[1;91m"
+# define GREEN "\033[1;92m"
+# define YELLOW "\033[1;93m"
+# define BLUE "\033[1;94m"
+# define PURPLE "\033[1;95m"
+# define CYAN "\033[1;96m"
+# define WHITE "\033[1;97m"
 
 #endif

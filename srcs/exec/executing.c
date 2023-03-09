@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/08 18:15:16 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/09 03:21:43 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 //export cd unset exit to be launched by main process
 void	executing_commands(t_minish *data)
@@ -80,13 +80,13 @@ void	executing_builtin(t_minish *data, t_cmd **cmd)
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
 		env(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5))
-		unset(data, (*cmd)->full_cmd[1]);
+		unset(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "echo", 4))
-		echo((*cmd)->full_cmd);
+		echo(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "export", 6))
-		export(data, (*cmd)->full_cmd[1]);
+		export(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "cd", 2))
-		cd(data, (*cmd)->full_cmd[1]);
+		cd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "exit", 4))
 		mini_exit(cmd);
 

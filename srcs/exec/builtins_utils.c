@@ -6,7 +6,7 @@
 /*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/07 18:47:23 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 02:58:47 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,26 @@
 
 static void	swap_dict(t_dict *node1, t_dict *node2)
 {
-	t_dict	*tmp;
+	int		has_value;
+	int		key_len;
+	char	*key;
+	char	*value;
 
-	tmp = node1;
-	tmp->next = node2->next;
-	node2->next = tmp;
-	node1 = node2;
+	has_value = node1->has_value;
+	key_len = node1->key_len;
+	key = node1->key;
+	value = node1->value;
+	node1->has_value = node2->has_value;
+	node1->key_len = node2->key_len;
+	node1->key = node2->key;
+	node1->value = node2->value;
+	node2->has_value = has_value;
+	node2->key_len = key_len;
+	node2->key = key;
+	node2->value = value;
 }
 
-static void	dict_sort(t_dict *tosort)
+static void	dict_sort(t_dict **tosort)
 {
 	t_dict	*node;
 	size_t	swapped;
@@ -31,18 +42,19 @@ static void	dict_sort(t_dict *tosort)
 	while (swapped)
 	{
 		swapped = 0;
-		node = tosort;
+		node = *tosort;
 		while (node->next)
 		{
 			if (ft_memcmp(node->key, node->next->key, node->key_len) > 0)
 			{
 				swap_dict(node, node->next);
-				swapped = 1;
+				swapped++;
 			}
 			node = node->next;
 		}
 	}
 }
+
 
 void	print_sorted(t_dict *envp)
 {
@@ -51,7 +63,7 @@ void	print_sorted(t_dict *envp)
 	sorted = dict_duplst(envp);
 	if (!sorted)
 		return ;
-	dict_sort(sorted);
+	dict_sort(&sorted);
 	while (sorted)
 	{
 		printf("declare -x %s", sorted->key);
@@ -73,28 +85,29 @@ void	print_sorted(t_dict *envp)
 */
 char	*get_lineprefix(t_minish *data)
 {
+	t_list	*prefix;
 	char	*line1;
-	char	*line2;
-	char	*prefix;
 	size_t	len;
 
-	line1 = ft_strjoin(find_varvalue(data, "PWD", 3), "\e[1;34m$ \e[0m");
-	line2 = find_varvalue(data, "HOME", 4);
-	if (line2)
-		len = ft_strlen(line2);
-	if (line2 && !ft_memcmp(line2, line1, len))
-	{
-		line2 = ft_strjoin("~", &line1[len]);
-		free(line1);
-		line1 = line2;
-	}
-	prefix = find_varvalue(data, "USER", 4);
-	if (!prefix)
-		prefix = ft_strjoin("\e[1;33mguest", "\e[1;31m@minisHell:\e[1;30m");
+	prefix = NULL;
+	line1 = find_varvalue(data, "USER", 4);
+	if (!line1)
+		ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin(YELLOW, "guest")));
 	else
-		prefix = ft_strjoin(prefix, "\e[1;31m@minisHell:\e[1;30m");
-	line2 = ft_strjoin(prefix, line1);
-	free(line1);
-	free(prefix);
-	return (line2);
+		ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin(BLUE, line1)));
+	ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin(RED, "@minisHELL:")));
+	ft_lstadd_back(&prefix, ft_lstnew(ft_strdup(WHITE)));
+	ft_lstadd_back(&prefix, ft_lstnew(getcwd(NULL, 0)));
+	line1 = find_varvalue(data, "HOME", 4);
+	if (line1)
+		len = ft_strlen(line1);
+	if (line1 && !ft_memcmp(line1, line1, len))
+	{
+		line1 = ft_strjoin("~", &ft_lstlast(prefix)->content[len]);
+		free(ft_lstlast(prefix)->content);
+		ft_lstlast(prefix)->content = line1;
+	}
+	ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin(GREEN, "$ ")));
+	ft_lstadd_back(&prefix, ft_lstnew(ft_strdup(NO_COLOR)));
+	return (make_line_fromlst(&prefix));
 }

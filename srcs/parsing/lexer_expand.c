@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/08 16:23:26 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/09 03:20:40 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /**
  * @brief
  * Iterates over the list to create a line with the content of all the nodes
  *  and returns the line after free the list.
 */
-static char	*create_expanded_line(t_list **lst)
+char	*make_line_fromlst(t_list **lst)
 {
 	char	*line;
 	t_list	*tmp;
@@ -169,6 +169,6 @@ void	expand_path(t_minish *data)
 			ft_lstadd_back(&data->aux, ft_lstnew(subline));
 		}
 		free(data->tokens[index]);
-		data->tokens[index] = create_expanded_line(&data->aux);
+		data->tokens[index] = make_line_fromlst(&data->aux);
 	}
 }

@@ -3,36 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_dir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:40:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/07 16:27:33 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 00:06:49 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	cd(t_minish *data, char *path)
+void	cd(t_minish *data)
 {
 	char	*pwd;
 
-	if (strchr(path, ' '))
-		ft_putendl_fd("cd: too many arguments", 1);
-	pwd = getcwd(NULL, 0);
-	if (chdir(path) != 0)
-		ft_putendl_fd("cd: HOME: No such file or directory", 1);
+	if (data->cmds->full_cmd[2])
+		printf("cd: too many arguments\n");
 	else
 	{
-		set_varvalue(data->envp, "OLDPWD", 6, pwd);
-		free(pwd);
 		pwd = getcwd(NULL, 0);
-		set_varvalue(data->envp, "PWD", 3, pwd);
+		if (chdir(data->cmds->full_cmd[1]) != 0)
+			printf("cd: %s: No such file or directory\n",
+				data->cmds->full_cmd[1]);
+		else
+		{
+			set_varvalue(data->envp, "OLDPWD", 6, pwd);
+			free(pwd);
+			pwd = getcwd(NULL, 0);
+			set_varvalue(data->envp, "PWD", 3, pwd);
+		}
+		free(pwd);
 	}
-	free(pwd);
 }
 
 void	pwd(t_minish *data)
 {
-	printf("%s\n", find_varvalue(data, "PWD", 3));
+	char	*pwd;
+
+	(void)data;
+	pwd = getcwd(NULL, 0);
+	printf("%s\n", pwd);
+	free(pwd);
 	exit(0);
 }

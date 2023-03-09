@@ -3,33 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/08 19:16:39 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/09 00:14:49 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	unset(t_minish *data, char *variable)
+void	unset(t_minish *data)
 {
 	t_dict	*curr;
 	t_dict	*next;
 	size_t	len;
+	int		i;
+	char	*variable;
 
-	len = ft_strlen(variable);
-	if (len == 1 && !ft_memcmp(variable, "_", 1))
-		return ;
-	curr = dict_findvar(data->envp, variable, len);
-	if (curr)
+	i = 0;
+	while (data->cmds->full_cmd[++i])
 	{
-		next = curr->next;
-		free(curr->key);
-		if (curr->value)
-			free(curr->value);
-		free(curr);
-		curr = next;
+		variable = data->cmds->full_cmd[i];
+		len = ft_strlen(variable);
+		if (len == 1 && !ft_memcmp(variable, "_", 1))
+			return ;
+		curr = dict_findvar(data->envp, variable, len);
+		if (curr)
+		{
+			next = curr->next;
+			free(curr->key);
+			if (curr->value)
+				free(curr->value);
+			free(curr);
+			curr = next;
+		}
 	}
 }
 
@@ -37,6 +44,11 @@ void	env(t_minish *data)
 {
 	t_dict	*ptr;
 
+	if (data->cmds->full_cmd[1])
+	{
+		printf("Error: We have to manage the errors\n");
+		exit(1); // verify
+	}
 	ptr = data->envp;
 	while (ptr)
 	{
@@ -47,15 +59,19 @@ void	env(t_minish *data)
 	exit(0);
 }
 
-void	export(t_minish *data, char *arg)
+void	export(t_minish *data)
 {
 	t_dict	*ptr;
 	size_t	len;
+	char	*arg;
+	int		i;
 
-	if (!arg || !ft_strlen(arg))
+	if (!data->cmds->full_cmd[1])
 		print_sorted(data->envp);
-	else
+	i = 0;
+	while (data->cmds->full_cmd[++i])
 	{
+		arg = data->cmds->full_cmd[i];
 		len = 0;
 		while (arg[len] && arg[len] != '=')
 			len++;
@@ -67,7 +83,7 @@ void	export(t_minish *data, char *arg)
 	}
 }
 
-void	echo(char **arg)
+void	echo(t_minish *data)
 {
 	int	i;
 	int	j;
@@ -75,19 +91,20 @@ void	echo(char **arg)
 
 	i = 0;
 	n = 0;
-	while (arg[++i])
+	while (data->cmds->full_cmd[++i])
 	{
-		if (arg[i][0] == '-' && arg[i][1] == 'n')
+		if (data->cmds->full_cmd[i][0] == '-'
+			&& data->cmds->full_cmd[i][1] == 'n')
 		{
 			j = 2;
-			while (arg[i][j] == 'n')
+			while (data->cmds->full_cmd[i][j] == 'n')
 				j++;
-			if (!arg[i][j] && n == i - 1)
+			if (!data->cmds->full_cmd[i][j] && n == i - 1)
 				n = i;
 		}
 		if (n != i)
-			printf("%s", arg[i]);
-		if (arg[i + 1])
+			printf("%s", data->cmds->full_cmd[i]);
+		if (data->cmds->full_cmd[i + 1] && n != i)
 			printf(" ");
 	}
 	if (!n)

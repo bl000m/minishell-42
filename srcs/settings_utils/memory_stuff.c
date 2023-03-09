@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   memory_stuff.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 16:23:58 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 03:18:47 by FelipeBelfo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	free_path_dir(t_minish *data)
 {
@@ -29,6 +29,7 @@ void	free_path_dir(t_minish *data)
 		data->path_dir = NULL;
 	}
 }
+
 void	free_env_table(t_minish *data)
 {
 	int	i;
@@ -51,7 +52,7 @@ void	free_linked_list_full_cmd(t_minish *data)
 {
 	t_cmd	*tmp;
 	t_cmd	*ptr;
-	int	i;
+	int		i;
 
 	i = 0;
 	ptr = data->cmds;
@@ -85,5 +86,26 @@ void	free_tokens(t_minish *data)
 			i++;
 		}
 		free(data->tokens);
+	}
+}
+
+void	exit_clean(t_minish *data)
+{
+	if (data)
+	{
+		if (data->input)
+			free(data->input);
+		if (data->path)
+			free(data->path);
+		if (data->envp)
+			dict_free(data->envp);
+		free_tokens(data);
+		if (data->cmds)
+			free_linked_list_full_cmd(data);
+		free_path_dir(data);
+		free_env_table(data);
+		if (data->aux)
+			ft_lstclear(data->aux, free);
+		free(data);
 	}
 }
