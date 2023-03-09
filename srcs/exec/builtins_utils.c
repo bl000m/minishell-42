@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/09 11:32:11 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 12:25:03 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ char	*get_lineprefix(t_minish *data)
 	ft_lstadd_back(&prefix, ft_lstnew(getcwd(NULL, 0)));
 	line1 = find_varvalue(data, "HOME", 4);
 	if (line1)
-		len = ft_strlen(ft_lstlast(prefix)->content);
+		len = ft_strlen(line1);
 	if (line1 && !ft_memcmp(ft_lstlast(prefix)->content, line1, len))
 	{
-		line1 = ft_strjoin("~", ft_lstlast(prefix)->content);
+		line1 = ft_strjoin("~", (char *)ft_lstlast(prefix)->content + len);
 		free(ft_lstlast(prefix)->content);
 		ft_lstlast(prefix)->content = line1;
 	}
