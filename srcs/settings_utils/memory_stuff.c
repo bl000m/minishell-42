@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_stuff.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 03:18:47 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 11:00:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ void	exit_clean(t_minish *data)
 		if (data->path)
 			free(data->path);
 		if (data->envp)
-			dict_free(data->envp);
+			dict_free(&data->envp);
 		free_tokens(data);
 		if (data->cmds)
 			free_linked_list_full_cmd(data);
 		free_path_dir(data);
 		free_env_table(data);
 		if (data->aux)
-			ft_lstclear(data->aux, free);
+			ft_lstclear(&data->aux, free);
 		free(data);
 	}
 }
