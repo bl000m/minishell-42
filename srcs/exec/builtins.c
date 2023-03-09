@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/09 13:50:00 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 15:25:54 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void	echo(t_minish *data)
 	n = 0;
 	while (data->cmds->full_cmd[++i])
 	{
-		printf("\ncmd in echo= %sciao\n", data->cmds->full_cmd[i]);
 		if (data->cmds->full_cmd[i][0] == '-'
 			&& data->cmds->full_cmd[i][1] == 'n')
 		{
