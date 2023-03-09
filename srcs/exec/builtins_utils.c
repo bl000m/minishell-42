@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/09 02:58:47 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 12:25:03 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ char	*get_lineprefix(t_minish *data)
 	line1 = find_varvalue(data, "HOME", 4);
 	if (line1)
 		len = ft_strlen(line1);
-	if (line1 && !ft_memcmp(line1, line1, len))
+	if (line1 && !ft_memcmp(ft_lstlast(prefix)->content, line1, len))
 	{
-		line1 = ft_strjoin("~", &ft_lstlast(prefix)->content[len]);
+		line1 = ft_strjoin("~", (char *)ft_lstlast(prefix)->content + len);
 		free(ft_lstlast(prefix)->content);
 		ft_lstlast(prefix)->content = line1;
 	}
