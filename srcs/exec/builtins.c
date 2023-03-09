@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/09 00:14:49 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 16:26:47 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	unset(t_minish *data)
+void	unset(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*curr;
 	t_dict	*next;
@@ -21,33 +21,52 @@ void	unset(t_minish *data)
 	char	*variable;
 
 	i = 0;
-	while (data->cmds->full_cmd[++i])
+	while (cmd->full_cmd[++i])
 	{
-		variable = data->cmds->full_cmd[i];
+		variable = cmd->full_cmd[i];
 		len = ft_strlen(variable);
 		if (len == 1 && !ft_memcmp(variable, "_", 1))
 			return ;
 		curr = dict_findvar(data->envp, variable, len);
 		if (curr)
 		{
-			next = curr->next;
-			free(curr->key);
-			if (curr->value)
-				free(curr->value);
-			free(curr);
-			curr = next;
+			// dict_delone(&data->envp, curr);
+			// next = curr->next;
+			// free(curr->key);
+			// if (curr->value)
+			// 	free(curr->value);
+			// free(curr);
+			// curr = next;
+
+			next = curr;
+			printf("next -> %s and next->next ->%s\n", next->key, next->next->key);
+			curr = NULL;
+			curr = next->next;
+			printf("curr -> %s\n", curr->key);
+			free(next->key);
+			if (next->value)
+				free(next->value);
+			free(next);
 		}
 	}
+	env(data, NULL);
+			printf("Nao sou eu!\n");
+	g_status = EXIT_SUCCESS;
 }
 
-void	env(t_minish *data)
+void	env(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*ptr;
 
-	if (data->cmds->full_cmd[1])
+	if (cmd)
 	{
-		printf("Error: We have to manage the errors\n");
-		exit(1); // verify
+
+		if (cmd->full_cmd[1])
+		{
+			g_status = EXIT_FAILURE;
+			printf("Error: We have to manage the errors\n");
+			exit(g_status);
+		}
 	}
 	ptr = data->envp;
 	while (ptr)
@@ -56,22 +75,23 @@ void	env(t_minish *data)
 			printf("%s=%s\n", ptr->key, ptr->value);
 		ptr = ptr->next;
 	}
-	exit(0);
+	g_status = EXIT_SUCCESS;
+	exit(g_status);
 }
 
-void	export(t_minish *data)
+void	export(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*ptr;
 	size_t	len;
 	char	*arg;
 	int		i;
 
-	if (!data->cmds->full_cmd[1])
+	if (!cmd->full_cmd[1])
 		print_sorted(data->envp);
 	i = 0;
-	while (data->cmds->full_cmd[++i])
+	while (cmd->full_cmd[++i])
 	{
-		arg = data->cmds->full_cmd[i];
+		arg = cmd->full_cmd[i];
 		len = 0;
 		while (arg[len] && arg[len] != '=')
 			len++;
@@ -81,9 +101,10 @@ void	export(t_minish *data)
 		if (arg[len] == '=' && ptr)
 			set_varvalue(data->envp, ptr->key, ptr->key_len, &arg[len + 1]);
 	}
+	g_status = EXIT_SUCCESS;
 }
 
-void	echo(t_minish *data)
+void	echo(t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -91,23 +112,23 @@ void	echo(t_minish *data)
 
 	i = 0;
 	n = 0;
-	while (data->cmds->full_cmd[++i])
+	while (cmd->full_cmd[++i])
 	{
-		if (data->cmds->full_cmd[i][0] == '-'
-			&& data->cmds->full_cmd[i][1] == 'n')
+		if (cmd->full_cmd[i][0] == '-' && cmd->full_cmd[i][1] == 'n')
 		{
 			j = 2;
-			while (data->cmds->full_cmd[i][j] == 'n')
+			while (cmd->full_cmd[i][j] == 'n')
 				j++;
-			if (!data->cmds->full_cmd[i][j] && n == i - 1)
+			if (!cmd->full_cmd[i][j] && n == i - 1)
 				n = i;
 		}
 		if (n != i)
-			printf("%s", data->cmds->full_cmd[i]);
-		if (data->cmds->full_cmd[i + 1] && n != i)
+			printf("%s", cmd->full_cmd[i]);
+		if (cmd->full_cmd[i + 1] && n != i)
 			printf(" ");
 	}
 	if (!n)
 		printf("\n");
-	exit (0);
+	g_status = EXIT_SUCCESS;
+	exit(g_status);
 }

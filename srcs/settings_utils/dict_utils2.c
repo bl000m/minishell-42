@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:06:57 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/01 10:37:09 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:00:18 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,34 @@ void	set_varvalue(t_dict *envp, char *variable, size_t len, char *newvalue)
 		free(ptr->value);
 	ptr->value = ft_strdup(newvalue);
 	ptr->has_value = 1;
+}
+
+void	dict_delone(t_dict **lst, t_dict *node)
+{
+	t_dict	*ptr;
+
+	if (!ft_memcmp((*lst)->key, node->key, node->key_len))
+	{
+		ptr = *lst;
+		*lst = ptr->next;
+		free(ptr->key);
+		if (ptr->value)
+			free(ptr->value);
+		free(ptr);
+		return ;
+	}
+	while ((*lst)->next)
+	{
+		if (!ft_memcmp((*lst)->next->key, node->key, node->key_len))
+		{
+			ptr = (*lst)->next;
+			(*lst)->next = ptr->next;
+			free(ptr->key);
+			if (ptr->value)
+				free(ptr->value);
+			free(ptr);
+			return ;
+		}
+		*lst = (*lst)->next;
+	}
 }

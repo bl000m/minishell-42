@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 03:21:43 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 15:33:40 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,15 @@ void	executing_builtin(t_minish *data, t_cmd **cmd)
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
 		pwd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
-		env(data);
+		env(data, *cmd);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5))
-		unset(data);
+		unset(data, *cmd);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "echo", 4))
-		echo(data);
+		echo(*cmd);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "export", 6))
-		export(data);
+		export(data, *cmd);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "cd", 2))
-		cd(data);
+		cd(data, *cmd);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "exit", 4))
 		mini_exit(cmd);
 
