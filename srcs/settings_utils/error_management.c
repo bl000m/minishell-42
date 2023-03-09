@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/03 12:54:26 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:22:45 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,22 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 	if (error == 1)
 		ft_printf("ERROR CREATING PIPE\n");
 	else if (error == 2)
+	{
+		g_status = EXIT_FAILURE;
 		ft_printf("ERROR CREATING PROCESS\n");
+	}
 	else if (error == 3)
+	{
 		ft_printf("command not found. %s\n",
 			(*cmd)->full_cmd[0]);
+		g_status = 127;
+	}
+	else if (error == 12)
+	{
+		ft_printf("command found but not executable. %s\n",
+			(*cmd)->full_cmd[0]);
+		g_status = 126;
+	}
 	else if (error == 4)
 		ft_printf("ENV PATH not set\n");
 	else if (error == 5)
@@ -51,6 +63,6 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		ft_printf("ERROR in switching INPUT for %s fd\n", (*cmd)->full_cmd[0]);
 	else if (error == 11)
 		ft_printf("syntax error near unexpected token `newline'\n", (*cmd)->full_cmd[0]);
-	// exit_clean(data);
-	exit(1);
+	exit_clean(data);
+	exit(g_status);
 }

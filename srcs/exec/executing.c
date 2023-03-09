@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 03:21:43 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 16:22:29 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//export cd unset exit to be launched by main process
 void	executing_commands(t_minish *data)
 {
 	t_cmd	*cmd;
@@ -22,15 +21,22 @@ void	executing_commands(t_minish *data)
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
 	closing_all_fd(data);
-	while (waitpid(-1, NULL, 0) > 0)
-		;
-	// g_status = WEXITSTATUS(data->child);
+	cmd = data->cmds;
+	while (cmd)
+	{
+		waitpid(data->child, NULL, 0);
+		g_status = WEXITSTATUS(data->child);
+		cmd = cmd->next;
+	}
 }
 
 t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 {
 	int	pid;
 
+	if (find_dir_command(data, (*cmd)->full_cmd[0])
+		&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
+		error_manager(12, data, cmd);
 	if (check_parent_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
@@ -38,7 +44,10 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		pid = fork();
 		data->child = pid;
 		if (pid == -1)
+		{
+			closing_all_fd(data);
 			error_manager(2, data, NULL);
+		}
 		else if (pid == 0)
 			child_process(data, cmd);
 	}
@@ -89,5 +98,4 @@ void	executing_builtin(t_minish *data, t_cmd **cmd)
 		cd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "exit", 4))
 		mini_exit(cmd);
-
 }
