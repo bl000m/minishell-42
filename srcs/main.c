@@ -12,7 +12,8 @@
 
 #include "../includes/minishell.h"
 
-/* remember to free (and = NULL) full_command*/
+int g_status;
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_minish	*data;

@@ -25,7 +25,7 @@
 # include <errno.h>
 # include <string.h>
 
-int g_status;
+extern int	g_status;
 
 typedef struct s_dict
 {
