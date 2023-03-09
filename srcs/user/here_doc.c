@@ -18,7 +18,6 @@ void	here_doc(t_minish *data, int *i, int fd)
 	char	*limiter;
 
 	limiter = data->tokens[*i + 1];
-	printf("limiter = %s\n", limiter);
 	while (1)
 	{
 		input = readline("> ");
@@ -26,6 +25,7 @@ void	here_doc(t_minish *data, int *i, int fd)
 			return ;
 		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0))
 		{
+			g_status = EXIT_FAILURE;
 			close(fd);
 			break ;
 		}
@@ -34,6 +34,7 @@ void	here_doc(t_minish *data, int *i, int fd)
 		free(input);
 		input = NULL;
 	}
-	// free(input);
-	// close(fd);
+	free(input);
+	close(fd);
+	g_status = 0;
 }
