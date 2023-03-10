@@ -24,21 +24,7 @@ void	all_other_token(char *s, int *start, int *end)
 	*start = *end;
 	while (s[*end] && s[*end] != ' '
 			&& s[*end] != '<' && s[*end] != '>' && s[*end] != '|')
-	{
-		if (s[*end] == '\"')
-		{
-			*end += 1;
-			while (s[*end] != '\"')
-				*end += 1;
-		}
-		if (s[*end] == '\'')
-		{
-			*end += 1;
-			while (s[*end] != '\'')
-				*end += 1;
-		}
 		*end += 1;
-	}
 }
 
 void	pipe_redirections_token(char *s, int *start, int *end)

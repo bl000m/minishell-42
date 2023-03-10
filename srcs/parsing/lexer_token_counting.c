@@ -23,21 +23,7 @@ void	all_other_handling(char *s, int *n_tokens, int *i)
 {
 	while (s[*i] && s[*i] != ' '
 			&& s[*i] != '<' && s[*i] != '>' && s[*i] != '|')
-	{
-		if (s[*i] == '\"')
-		{
-			*i += 1;
-			while (s[*i] != '\"')
-				*i += 1;
-		}
-		if (s[*i] == '\'')
-		{
-			*i += 1;
-			while (s[*i] != '\'')
-				*i += 1;
-		}
 		*i += 1;
-	}
 	if (s[*i] != '<' || s[*i] != '>' || s[*i] != '|')
 		*i -= 1;
 	*n_tokens += 1;
