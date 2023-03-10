@@ -40,8 +40,7 @@ int	count_token_cmd(t_minish *data, int *i)
 	count = *i;
 	while (data->tokens[count] && data->tokens[count][0] != '|'
 		&& data->tokens[count][0] != '\0' && data->tokens[count][0] != '<'
-		&& data->tokens[count][0] != '>' && (!ft_strncmp(data->tokens[*i], "<<", 2))
-		&& (!ft_strncmp(data->tokens[*i], ">>", 2)))
+		&& data->tokens[count][0] != '>')
 		count++;
 	return (count);
 }
