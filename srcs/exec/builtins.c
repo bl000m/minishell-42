@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/22 11:44:54 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:13:15 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	unset(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*curr;
-	t_dict	*next;
 	size_t	len;
 	int		i;
 	char	*variable;
@@ -25,41 +24,12 @@ void	unset(t_minish *data, t_cmd *cmd)
 	{
 		variable = cmd->full_cmd[i];
 		len = ft_strlen(variable);
-		if (len == 1 && !ft_memcmp(variable, "_", 1))
-			return ;
+		if (!ft_memcmp(variable, "_", len))
+			continue ;
 		curr = dict_findvar(data->envp, variable, len);
-		printf("curr = %s\n", curr->key);
 		if (curr)
-		{
-			// dict_delone(&data->envp, curr);
-			// next = curr->next;
-			// free(curr->key);
-			// if (curr->value)
-			// 	free(curr->value);
-			// free(curr);
-			// curr = next;
-
-			next = curr;
-			printf("next -> %s and next->next ->%s\n", next->key, next->next->key);
-			curr = NULL;
-			curr = next->next;
-			printf("curr -> %s\n", curr->key);
-			free(next->key);
-			if (next->value)
-				free(next->value);
-			free(next);
-		}
-
-		printf("variable: %s\n", variable);
+			dict_delone(&data->envp, curr);
 	}
-	curr = data->envp;
-	while (curr)
-	{
-		printf("%s\n", curr->key);
-		curr = curr->next;
-	}
-	env(data, NULL);
-			printf("Nao sou eu!\n");
 	g_status = EXIT_SUCCESS;
 }
 

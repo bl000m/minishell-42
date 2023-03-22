@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/09 00:29:45 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/22 13:30:41 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,18 @@ t_dict	*dict_newnode(char *str)
 	node = ft_calloc(1, sizeof(t_dict));
 	if (!node)
 		return (NULL);
-	while (str[i] != '=' && str[i])
+	while (str[i] && str[i] != '=')
 		i++;
 	node->key = ft_substr(str, 0, i);
 	node->key_len = ft_strlen(node->key);
 	node->has_value = 1;
-	node->value = NULL;
 	if (str[i] == '=')
 		node->value = ft_strdup(str + i + 1);
 	if (!str[i])
+	{
 		node->has_value = 0;
+		node->value = ft_strdup(str + i);
+	}
 	node->next = NULL;
 	return (node);
 }
