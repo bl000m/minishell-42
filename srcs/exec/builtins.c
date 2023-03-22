@@ -6,7 +6,7 @@
 /*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/09 16:26:47 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/22 11:44:54 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	unset(t_minish *data, t_cmd *cmd)
 		if (len == 1 && !ft_memcmp(variable, "_", 1))
 			return ;
 		curr = dict_findvar(data->envp, variable, len);
+		printf("curr = %s\n", curr->key);
 		if (curr)
 		{
 			// dict_delone(&data->envp, curr);
@@ -48,6 +49,14 @@ void	unset(t_minish *data, t_cmd *cmd)
 				free(next->value);
 			free(next);
 		}
+
+		printf("variable: %s\n", variable);
+	}
+	curr = data->envp;
+	while (curr)
+	{
+		printf("%s\n", curr->key);
+		curr = curr->next;
 	}
 	env(data, NULL);
 			printf("Nao sou eu!\n");

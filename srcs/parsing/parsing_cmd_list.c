@@ -27,10 +27,12 @@ void	checking_token(t_minish *data, t_cmd **node, int *i)
 {
 	if (data->tokens[*i][0] == '<' && !data->tokens[*i][1])
 		input_redirection(data, node, i);
-	else if (data->tokens[*i][0] == '>')
+	else if (data->tokens[*i][0] == '>' && !data->tokens[*i][1])
 		output_redirection(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], "<<", 2))
 		heredoc_handling(data, node, i);
+	else if (!ft_strncmp(data->tokens[*i], ">>", 2))
+		output_append_redirection(data, node, i);
 	else if (data->tokens[*i][0] == '|')
 		pipe_new_node(data, node, i);
 	else

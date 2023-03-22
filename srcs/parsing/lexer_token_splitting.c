@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 11:54:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/09 14:59:49 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,17 @@ void	all_other_token(char *s, int *start, int *end)
 	*start = *end;
 	while (s[*end] && s[*end] != ' '
 			&& s[*end] != '<' && s[*end] != '>' && s[*end] != '|')
-	{
-		if (s[*end] == '\"')
-		{
-			*end += 1;
-			while (s[*end] != '\"')
-				*end += 1;
-		}
-		if (s[*end] == '\'')
-		{
-			*end += 1;
-			while (s[*end] != '\'')
-				*end += 1;
-		}
 		*end += 1;
-	}
 }
 
 void	pipe_redirections_token(char *s, int *start, int *end)
 {
 	if (s[*end] == '<' && s[*end + 1] == '<')
+	{
+		*start = *end;
+		*end += 2;
+	}
+	else if (s[*end] == '>' && s[*end + 1] == '>')
 	{
 		*start = *end;
 		*end += 2;

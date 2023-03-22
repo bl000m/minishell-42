@@ -98,6 +98,20 @@ void	output_redirection(t_minish *data, t_cmd **node, int *i)
 	}
 }
 
+void	output_append_redirection(t_minish *data, t_cmd **node, int *i)
+{
+	if (!data->tokens[*i + 1])
+		error_manager(8, data, NULL);
+	else
+	{
+		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
+				| O_WRONLY | O_APPEND, 0644);
+		if ((*node)->file_in == -1)
+			error_manager(5, data, NULL);
+		*i += 1;
+	}
+}
+
 void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 {
 	if (i == 0 || data->tokens[*i - 1][0] == '<'

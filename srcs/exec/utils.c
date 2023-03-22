@@ -94,24 +94,3 @@ void	creating_pipes(t_minish *data)
 	}
 	closing_fd_if_redirections(data);
 }
-
-// void	opening_files(t_minish *data, char *argv[], char flag)
-// {
-// 	if (flag == 'h')
-// 	{
-// 		data->file_out = open(argv[data->argc - 1], O_CREAT
-// 				| O_WRONLY | O_APPEND, 0644);
-// 		if (data->file_out == -1)
-// 			error_manager(5, data);
-// 	}
-// 	else if (flag == 's')
-// 	{
-// 		data->file_in = open(argv[1], O_RDONLY);
-// 		if (data->file_in == -1)
-// 			ft_printf("INPUT ERROR: %s\n", strerror(errno));
-// 		data->file_out = open(argv[data->argc - 1], O_CREAT
-// 				| O_WRONLY | O_TRUNC, 0644);
-// 		if (data->file_out == -1)
-// 			error_manager(5, data);
-// 	}
-// }
