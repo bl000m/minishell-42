@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/22 11:46:21 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/23 17:30:24 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 void	executing_commands(t_minish *data)
 {
 	t_cmd	*cmd;
+	int		process_status;
 
+	process_status = 0;
 	cmd = data->cmds;
 	creating_pipes(data);
 	while (cmd && cmd->full_cmd)
@@ -24,8 +26,9 @@ void	executing_commands(t_minish *data)
 	cmd = data->cmds;
 	while (cmd)
 	{
-		waitpid(data->child, NULL, 0);
-		g_status = WEXITSTATUS(data->child);
+		waitpid(data->child, &process_status, 0);
+		g_status = WEXITSTATUS(process_status);
+		// printf("g_status = %d, cmd = %s\n", g_status, cmd->full_cmd[0]);
 		cmd = cmd->next;
 	}
 }
@@ -34,6 +37,8 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 {
 	int	pid;
 
+	// if (!data->path && !check_child_builtin(cmd) && !check_parent_builtin(cmd))
+	// 	error_manager(4, data, NULL);
 	if (find_dir_command(data, (*cmd)->full_cmd[0])
 		&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
 		error_manager(12, data, cmd);
@@ -85,6 +90,7 @@ int	check_parent_builtin(t_cmd **cmd)
 	to  recreate the env table if modified (after freeing the previous one)*/
 void	executing_builtin(t_minish *data, t_cmd **cmd)
 {
+	set_signals(EXEC);
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
 		pwd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))

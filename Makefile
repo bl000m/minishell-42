@@ -31,10 +31,9 @@ SRCS 		= main.c \
 			settings_utils/settings.c \
 			settings_utils/error_management.c \
 			exec/executing.c \
-			exec/builtins.c \
-			exec/builtins_dir.c \
+			exec/builtins_parent.c \
+			exec/builtins_child.c \
 			exec/builtins_utils.c \
-			exec/mini_exit.c \
 			exec/utils.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
@@ -75,7 +74,7 @@ $(OBJDIR)/%.o: $(SRCS_DIR)/%.c Makefile $(INCS_DIR)/minishell.h $(LIBFT)
 $(LIBFT):	FORCE
 	make -C $(LIBFT_DIR)
 
-val: 
+val:
 	valgrind --suppressions=valgrind_ignore_leaks.txt --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --show-mismatched-frees=yes --read-var-info=yes ./minishell
 
 FORCE	:
