@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 16:22:45 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/23 12:44:06 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,18 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 			(*cmd)->full_cmd[0]);
 		g_status = 126;
 	}
+	else if (error == 13)
+	{
+		printf("cd: No such file or directory\n");
+		g_status = EXIT_FAILURE;
+		// check cloding fd
+	}
+	else if (error == 14)
+	{
+		printf("cd: too many arguments\n");
+		g_status = EXIT_FAILURE;
+		// check cloding fd
+	}
 	else if (error == 4)
 		ft_printf("ENV PATH not set\n");
 	else if (error == 5)
@@ -63,6 +75,9 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		ft_printf("ERROR in switching INPUT for %s fd\n", (*cmd)->full_cmd[0]);
 	else if (error == 11)
 		ft_printf("syntax error near unexpected token `newline'\n", (*cmd)->full_cmd[0]);
-	exit_clean(data);
-	exit(g_status);
+	if (!check_parent_builtin(cmd))
+	{
+		// exit_clean(data);
+		exit(g_status);
+	}
 }
