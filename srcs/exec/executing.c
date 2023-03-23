@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 16:22:29 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/23 10:48:07 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
+	set_signals(EXEC);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
 	if (check_child_builtin(cmd))
