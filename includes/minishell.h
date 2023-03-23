@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 03:19:12 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/09 16:00:35 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ void		set_signals(int caller);
 /* builtins */
 
 void		pwd(t_minish *data);
-void		unset(t_minish *data);
-void		env(t_minish *data);
+void		unset(t_minish *data, t_cmd *cmd);
+void		env(t_minish *data, t_cmd *cmd);
 void		print_sorted(t_dict *envp);
-void		export(t_minish *data);
-void		echo(t_minish *data);
-void		cd(t_minish *data);
+void		export(t_minish *data, t_cmd *cmd);
+void		echo(t_cmd *cmd);
+void		cd(t_minish *data, t_cmd *cmd);
 void		mini_exit(t_cmd **cmd);
 
 /* settings */
@@ -95,6 +95,7 @@ char		**split_tokens(t_minish *data);
 /* t_dict management */
 
 t_dict		*dict_newnode(char *str);
+void		dict_delone(t_dict **lst, t_dict *node);
 void		dict_addback(t_dict **dict, t_dict *new);
 size_t		dict_size(t_dict *dict);
 t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);

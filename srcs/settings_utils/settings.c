@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 03:21:10 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/22 16:32:25 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,17 @@ static void	generate_envp(t_dict **dict)
 {
 	t_dict	*ptr;
 	char	*pwd;
+	char	*tmpvar;
 
 	pwd = getcwd(NULL, 0);
 	ptr = dict_newnode("OLDPWD");
 	if (!ptr)
 		return ;
 	dict_addback(dict, ptr);
-	ptr = dict_newnode(ft_strjoin("PWD=", pwd));
+	tmpvar = ft_strjoin("PWD=", pwd);
 	free(pwd);
+	ptr = dict_newnode(tmpvar);
+	free(tmpvar);
 	if (!ptr)
 		return ;
 	dict_addback(dict, ptr);
