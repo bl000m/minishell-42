@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/23 12:44:06 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/23 12:53:15 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 	else if (error == 14)
 	{
 		printf("cd: too many arguments\n");
+		g_status = EXIT_FAILURE;
+		// check cloding fd
+	}
+	else if (error == 15)
+	{
+		printf("env: minishell should not manage arg for env\n");
 		g_status = EXIT_FAILURE;
 		// check cloding fd
 	}

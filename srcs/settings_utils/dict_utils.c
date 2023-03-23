@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/22 13:30:41 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/23 14:16:24 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,11 @@ t_dict	*dict_duplst(t_dict *dict)
 		dict_addback(&dup, tmp);
 		dict = dict->next;
 	}
+	// while (dup)
+	// {
+	// 	printf("%s=%s\n", dup->key, dup->value);
+	// 	dup = dup->next;
+	// }
+	// return (NULL);
 	return (dup);
 }

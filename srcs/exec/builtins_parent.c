@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins_parent.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/22 16:13:15 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/23 14:07:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/* builtin to be exec in parent process: */
 void	unset(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*curr;
@@ -31,31 +32,6 @@ void	unset(t_minish *data, t_cmd *cmd)
 			dict_delone(&data->envp, curr);
 	}
 	g_status = EXIT_SUCCESS;
-}
-
-void	env(t_minish *data, t_cmd *cmd)
-{
-	t_dict	*ptr;
-
-	if (cmd)
-	{
-
-		if (cmd->full_cmd[1])
-		{
-			g_status = EXIT_FAILURE;
-			printf("Error: We have to manage the errors\n");
-			exit(g_status);
-		}
-	}
-	ptr = data->envp;
-	while (ptr)
-	{
-		if (ptr->has_value)
-			printf("%s=%s\n", ptr->key, ptr->value);
-		ptr = ptr->next;
-	}
-	g_status = EXIT_SUCCESS;
-	exit(g_status);
 }
 
 void	export(t_minish *data, t_cmd *cmd)
@@ -83,31 +59,55 @@ void	export(t_minish *data, t_cmd *cmd)
 	g_status = EXIT_SUCCESS;
 }
 
-void	echo(t_cmd *cmd)
+void	cd(t_minish *data, t_cmd *cmd)
+{
+	char	*pwd;
+
+	if (!cmd->full_cmd[1])
+		return ;
+	if (cmd->full_cmd[2])
+		error_manager(14, data, &cmd);
+	else
+	{
+		if (chdir(cmd->full_cmd[1]) != 0)
+		{
+			error_manager(13, data, &cmd);
+			return ;
+		}
+		pwd = getcwd(NULL, 0);
+		set_varvalue(data->envp, "OLDPWD", 6, pwd);
+		free(pwd);
+		pwd = getcwd(NULL, 0);
+		set_varvalue(data->envp, "PWD", 3, pwd);
+		free(pwd);
+		g_status = EXIT_SUCCESS;
+	}
+}
+
+void	mini_exit(t_cmd **cmd)
 {
 	int	i;
-	int	j;
-	int	n;
 
 	i = 0;
-	n = 0;
-	while (cmd->full_cmd[++i])
+	printf("exit\n");
+	if (!(*cmd)->full_cmd[1])
+		exit(0);
+	if ((*cmd)->full_cmd[2])
+		printf("exit: too many arguments\n");
+	else
 	{
-		if (cmd->full_cmd[i][0] == '-' && cmd->full_cmd[i][1] == 'n')
+		while ((*cmd)->full_cmd[1][i])
 		{
-			j = 2;
-			while (cmd->full_cmd[i][j] == 'n')
-				j++;
-			if (!cmd->full_cmd[i][j] && n == i - 1)
-				n = i;
+			if ((*cmd)->full_cmd[1][i] < '0' || (*cmd)->full_cmd[1][i] > '9')
+			{
+				printf("exit: %s: numeric argument required\n",
+					(*cmd)->full_cmd[1]);
+				exit(2);
+			}
+			else if ((*cmd)->full_cmd[1][i] > '0'
+				&& (*cmd)->full_cmd[1][i] < '9')
+				exit((ft_atoi((*cmd)->full_cmd[1])) % 256);
+			i++;
 		}
-		if (n != i)
-			printf("%s", cmd->full_cmd[i]);
-		if (cmd->full_cmd[i + 1] && n != i)
-			printf(" ");
 	}
-	if (!n)
-		printf("\n");
-	g_status = EXIT_SUCCESS;
-	exit(g_status);
 }

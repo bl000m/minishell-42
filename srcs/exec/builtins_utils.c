@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/22 23:24:32 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/23 14:34:20 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	print_sorted(t_dict *envp)
 	if (!sorted)
 		return ;
 	dict_sort(&sorted);
-	if (!ft_memcmp(sorted->key, "_", sorted->key_len))
+	if (sorted && !ft_memcmp(sorted->key, "_", sorted->key_len))
 		sorted = sorted->next;
 	while (sorted)
 	{
@@ -73,7 +73,7 @@ void	print_sorted(t_dict *envp)
 			printf("=\"%s\"", sorted->value);
 		printf("\n");
 		sorted = sorted->next;
-		if (!ft_memcmp(sorted->key, "_", sorted->key_len))
+		if (sorted && !ft_memcmp(sorted->key, "_", sorted->key_len))
 			sorted = sorted->next;
 	}
 	dict_free(&sorted);
