@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/23 12:55:40 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/23 17:30:24 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(data->child, &process_status, 0);
-		g_status += WEXITSTATUS(process_status);
-		printf("g_status = %d, cmd = %s\n", g_status, cmd->full_cmd[0]);
+		g_status = WEXITSTATUS(process_status);
+		// printf("g_status = %d, cmd = %s\n", g_status, cmd->full_cmd[0]);
 		cmd = cmd->next;
 	}
 }
@@ -37,6 +37,8 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 {
 	int	pid;
 
+	// if (!data->path && !check_child_builtin(cmd) && !check_parent_builtin(cmd))
+	// 	error_manager(4, data, NULL);
 	if (find_dir_command(data, (*cmd)->full_cmd[0])
 		&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
 		error_manager(12, data, cmd);

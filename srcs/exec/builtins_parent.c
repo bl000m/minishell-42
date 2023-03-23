@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/23 14:07:19 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/23 15:30:46 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ void	export(t_minish *data, t_cmd *cmd)
 		len = 0;
 		while (arg[len] && arg[len] != '=')
 			len++;
-		ptr = dict_findvar(data->envp, arg, len);
-		if (!ptr)
-			dict_addback(&data->envp, dict_newnode(arg));
-		if (arg[len] == '=' && ptr)
-			set_varvalue(data->envp, ptr->key, ptr->key_len, &arg[len + 1]);
+		if (ft_memcmp(arg, "_", len))
+		{
+			ptr = dict_findvar(data->envp, arg, len);
+			if (!ptr)
+				dict_addback(&data->envp, dict_newnode(arg));
+			if (arg[len] == '=' && ptr)
+				set_varvalue(data->envp, ptr->key, ptr->key_len, &arg[len + 1]);
+		}
 	}
 	g_status = EXIT_SUCCESS;
 }
