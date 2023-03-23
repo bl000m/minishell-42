@@ -46,7 +46,8 @@ void	handle_ctrlc_heredoc(int signum)
 {
 	write(1, "\n", 1);
 	g_status = 128 + signum;
-	_exit(g_status);
+	close(STDIN_FILENO);
+	// exit(g_status);
 }
 
 /**

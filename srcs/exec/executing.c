@@ -56,6 +56,7 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
+	set_signals(EXEC);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
 	if (check_child_builtin(cmd))
