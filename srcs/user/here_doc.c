@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 14:17:33 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/23 10:37:47 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,19 @@ void	here_doc(t_minish *data, int *i, int fd)
 {
 	char	*input;
 	char	*limiter;
+	int		fd_int;
 
+	set_signals(HEREDOC);
+	fd_int = dup(STDIN_FILENO);
 	limiter = data->tokens[*i + 1];
 	while (1)
 	{
 		input = readline("> ");
 		if (!input)
-			return ;
+		{
+			// error message and \n
+			break ;
+		}
 		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0))
 		{
 			g_status = EXIT_FAILURE;
@@ -36,5 +42,7 @@ void	here_doc(t_minish *data, int *i, int fd)
 	}
 	free(input);
 	close(fd);
+	dup2(fd_int, STDIN_FILENO);
+
 	g_status = 0;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:51:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/08 23:05:25 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/23 10:44:20 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	handle_ctrlc_heredoc(int signum)
 {
 	write(1, "\n", 1);
 	g_status = 128 + signum;
-	_exit(g_status);
+	close(STDIN_FILENO);
+	// exit(g_status);
 }
 
 /**
