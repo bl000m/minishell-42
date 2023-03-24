@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 15:25:51 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 11:39:02 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*duplicating_token(char *s, int start, int end)
 		}
 		if (s[start] == '\'' && btw_double_quotes == 0)
 			start++;
-		if (start == end)
+		if (start == end || (s[start] == '\"'))
 			token[n_token] = 0;
 		else
 			token[n_token] = s[start];
