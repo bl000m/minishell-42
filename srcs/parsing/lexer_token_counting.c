@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 11:15:38 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 11:47:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int	*tokens_counter(char *s, int *n_tokens)
 		identify_token(s, s[i], n_tokens, &i);
 		i++;
 	}
+	printf("n.token = %d\n", *n_tokens);
 	return (n_tokens);
 }
