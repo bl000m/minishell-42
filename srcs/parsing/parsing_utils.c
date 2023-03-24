@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/07 17:29:00 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:14:39 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	output_redirection(t_minish *data, t_cmd **node, int *i)
 	{
 		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
 				| O_WRONLY | O_TRUNC, 0644);
-		if ((*node)->file_in == -1)
+		if ((*node)->file_out == -1)
 			error_manager(5, data, NULL);
 		*i += 1;
 	}
@@ -106,21 +106,30 @@ void	output_append_redirection(t_minish *data, t_cmd **node, int *i)
 	{
 		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
 				| O_WRONLY | O_APPEND, 0644);
-		if ((*node)->file_in == -1)
+		if ((*node)->file_out == -1)
+		{
+			g_status = EXIT_FAILURE;
 			error_manager(5, data, NULL);
+		}
 		*i += 1;
 	}
 }
 
-void	pipe_new_node(t_minish *data, t_cmd **node, int *i)
+int	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 {
-	if (i == 0 || data->tokens[*i - 1][0] == '<'
-		|| data->tokens[*i - 1][0] == '>' || *i == data->n_tokens - 1)
-		error_manager(7, data, NULL);
+	if (*i == 0 || (*i > 0 && (data->tokens[*i - 1][0] == '<'
+			|| data->tokens[*i - 1][0] == '|'
+		|| data->tokens[*i - 1][0] == '>' || *i == data->n_tokens - 1)))
+	{
+		*i += 1;
+		printf("syntax error near unexpected token\n");
+		return (1);
+	}
 	else
 	{
 		create_new_cmd_list_node(node);
 		*i += 1;
+		return (0);
 	}
 }
 

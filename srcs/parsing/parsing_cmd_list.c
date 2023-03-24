@@ -6,35 +6,47 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/06 12:16:17 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:59:20 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <../includes/minishell.h>
 
-void	creating_cmd_list(t_minish *data)
+int	creating_cmd_list(t_minish *data)
 {
 	int		i;
+	int		res;
 	t_cmd	*node;
 
 	i = 0;
+	res = 0;
 	node = data->cmds;
 	while (i < data->n_tokens)
-		checking_token(data, &node, &i);
+		res = checking_token(data, &node, &i);
+	return (res);
 }
 
-void	checking_token(t_minish *data, t_cmd **node, int *i)
+int	checking_token(t_minish *data, t_cmd **node, int *i)
 {
+	int	res;
+
+	res = 0;
 	if (data->tokens[*i][0] == '<' && !data->tokens[*i][1])
 		input_redirection(data, node, i);
-	else if (data->tokens[*i][0] == '>' && !data->tokens[*i][1])
+	else if (data->tokens[*i][0] ==  '>'&& !data->tokens[*i][1])
 		output_redirection(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], "<<", 2))
 		heredoc_handling(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], ">>", 2))
 		output_append_redirection(data, node, i);
+	else if (!ft_strncmp(data->tokens[*i], "||", 2))
+	{
+		*i += 1;
+		printf("syntax error near unexpected token\n");
+		res = 1;
+	}
 	else if (data->tokens[*i][0] == '|')
-		pipe_new_node(data, node, i);
+		res = pipe_new_node(data, node, i);
 	else
 	{
 		if (*i > 0 && (data->tokens[*i - 1][0] == '<'
@@ -43,6 +55,7 @@ void	checking_token(t_minish *data, t_cmd **node, int *i)
 		else
 			stocking_cmd_and_arguments(data, node, i);
 	}
+	return(res);
 }
 
 void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)

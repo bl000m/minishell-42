@@ -6,16 +6,19 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 11:33:40 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:19:38 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	lexer_input(t_minish *data)
+int	lexer_input(t_minish *data)
 {
-	int i = 0;
+	int i;
+	int	res;
 
+	i = 0;
+	res = 0;
 	data->tokens = split_tokens(data);
 	while (data->tokens[i])
 	{
@@ -23,7 +26,8 @@ void	lexer_input(t_minish *data)
 	}
 	expand_path(data);
 	parsing_path(data);
-	creating_cmd_list(data);
+	res = creating_cmd_list(data);
+	return (res);
 }
 
 char	**split_tokens(t_minish *data)

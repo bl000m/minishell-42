@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/23 12:53:15 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:06:53 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,25 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		// check cloding fd
 	}
 	else if (error == 4)
+	{
 		ft_printf("ENV PATH not set\n");
+		exit(EXIT_FAILURE);
+	}
 	else if (error == 5)
 	{
-		if ((*cmd)->file_in)
-			close((*cmd)->file_in);
-		ft_printf("OUTPUT ERROR\n", strerror(errno));
+		// if ((*cmd)->file_in)
+		// 	close((*cmd)->file_in);
+		ft_printf("OUTPUT ERROR: %s\n", strerror(errno));
+		printf("HERE???\n");
+		// exit(g_status);
 	}
 	else if (error == 6)
 		ft_printf("ERROR in switching OUTPUT for %s fd\n", (*cmd)->full_cmd[0]);
 	else if (error == 7)
-		ft_printf("parse error near '|'\n");
+	{
+		ft_printf("syntax error near unexpected token '|'\n");
+		exit(EXIT_FAILURE);
+	}
 	else if (error == 8)
 		ft_printf("syntax error near unexpected token `newline'\n");
 	else if (error == 9)

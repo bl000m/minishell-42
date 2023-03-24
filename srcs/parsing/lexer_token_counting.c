@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 11:47:10 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 15:55:52 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,12 @@ void	pipe_redirections_handling(char *s, int *n_tokens, int *i)
 	else if (s[*i] == '>' && s[*i + 1] == '>')
 	{
 		*i += 1;
+		*n_tokens += 1;
+	}
+	else if (s[*i] == '|')
+	{
+		while (s[*i] == '|')
+			*i += 1;
 		*n_tokens += 1;
 	}
 	else
