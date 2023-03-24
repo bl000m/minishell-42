@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 12:06:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 20:53:47 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ char	*duplicating_token(char *s, int start, int end)
 		return (0);
 	while (s[start] && start < end)
 	{
-		if (s[start] == '\"')
+		if (s[start] == '\"' && s[start + 1] != '|'
+      && s[start + 1] != '<' && s[start + 1] != '>')
 		{
 			printf("start in \"= %d\n", start);
 			btw_double_quotes = 1;
 			if (btw_simple_quotes == 0)
 				start++;
 		}
-		if (s[start] == '\'' && btw_double_quotes == 0)
+		if (s[start] == '\'' && s[start + 1] != '|' && btw_double_quotes == 0
+      && s[start + 1] != '<' && s[start + 1] != '>')
 		{
 			printf("start in \'= %d\n", start);
 			btw_simple_quotes = 1;

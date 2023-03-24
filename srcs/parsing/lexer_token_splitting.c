@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_splitting.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 16:02:18 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 18:55:09 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,12 @@ void	pipe_redirections_token(char *s, int *start, int *end)
 	}
 	else if (s[*end] == '|')
 	{
+		*start = *end;
 		while (s[*end] == '|')
 			*end += 1;
-		printf("end in pipe_redirections= %d\n", *end);
+    // if ((*end - *start) > 1)
+
+		// printf("end in pipe_redirections= %d\n", *end);
 	}
 	else
 	{
