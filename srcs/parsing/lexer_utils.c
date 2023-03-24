@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 15:25:51 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 12:06:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ char	*duplicating_token(char *s, int start, int end)
 	char	*token;
 	int		n_token;
 	int		btw_double_quotes;
+	int		btw_simple_quotes;
 
 	n_token = 0;
 	btw_double_quotes = 0;
+	btw_simple_quotes = 0;
 	token = malloc(sizeof(char) * (end - start + 1));
 	if (!token)
 		return (0);
@@ -27,12 +29,19 @@ char	*duplicating_token(char *s, int start, int end)
 	{
 		if (s[start] == '\"')
 		{
+			printf("start in \"= %d\n", start);
 			btw_double_quotes = 1;
-			start++;
+			if (btw_simple_quotes == 0)
+				start++;
 		}
 		if (s[start] == '\'' && btw_double_quotes == 0)
+		{
+			printf("start in \'= %d\n", start);
+			btw_simple_quotes = 1;
 			start++;
-		if (start == end)
+		}
+		if (start == end
+			|| ((s[start] == '\"' || s[start] == '\'') && s[start + 1] == '\0'))
 			token[n_token] = 0;
 		else
 			token[n_token] = s[start];
