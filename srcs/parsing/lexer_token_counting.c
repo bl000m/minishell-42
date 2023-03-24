@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 15:30:46 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 11:47:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,28 @@ void	space_handling(char *s, int *i)
 	*i -= 1;
 }
 
+// void	double_quote_handling(char *s, int *n_tokens, int *i)
+// {
+// 	*i += 1;
+// 	while (s[*i] != '\"')
+// 		*i += 1;
+// 	*n_tokens += 1;
+// 	*i += 1;
+// }
+
 void	all_other_handling(char *s, int *n_tokens, int *i)
 {
-	while (s[*i] && s[*i] != ' '
-			&& s[*i] != '<' && s[*i] != '>' && s[*i] != '|')
+	while (s[*i] && s[*i] != ' ' && s[*i] != '<'
+		&& s[*i] != '>' && s[*i] != '|')
+	{
+		if (s[*i] == '\"')
+		{
+			*i += 1;
+			while (s[*i] != '\"')
+				*i += 1;
+		}
 		*i += 1;
+	}
 	if (s[*i] != '<' || s[*i] != '>' || s[*i] != '|')
 		*i -= 1;
 	*n_tokens += 1;
@@ -49,6 +66,8 @@ void identify_token(char *s, char character, int *n_tokens, int *i)
 {
 	if (character == '<' || character == '>' || character == '|')
 		pipe_redirections_handling(s, n_tokens, i);
+	// else if (character == '\"')
+	// 	double_quote_handling(s, n_tokens, i);
 	else if (character == ' ')
 		space_handling(s, i);
 	else
@@ -71,5 +90,6 @@ int	*tokens_counter(char *s, int *n_tokens)
 		identify_token(s, s[i], n_tokens, &i);
 		i++;
 	}
+	printf("n.token = %d\n", *n_tokens);
 	return (n_tokens);
 }
