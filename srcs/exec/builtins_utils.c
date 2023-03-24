@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/23 14:34:20 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 11:09:51 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,42 @@ void	print_sorted(t_dict *envp)
  * to be used in the readline()
 */
 char	*get_lineprefix(t_minish *data)
+{
+	t_list	*prefix;
+	char	*line1;
+	size_t	len;
+
+	prefix = NULL;
+	line1 = find_varvalue(data, "USER", 4);
+	if (!line1)
+		ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin("guest", "@minisHELL:")));
+	else
+		ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin(line1, "@minisHELL:")));
+	ft_lstadd_back(&prefix, ft_lstnew(getcwd(NULL, 0)));
+	line1 = find_varvalue(data, "HOME", 4);
+	if (line1)
+		len = ft_strlen(line1);
+	if (line1 && !ft_memcmp(ft_lstlast(prefix)->content, line1, len))
+	{
+		line1 = ft_strjoin("~", (char *)ft_lstlast(prefix)->content + len);
+		free(ft_lstlast(prefix)->content);
+		ft_lstlast(prefix)->content = line1;
+	}
+	ft_lstadd_back(&prefix, ft_lstnew(ft_strdup("$ ")));
+	return (make_line_fromlst(&prefix));
+}
+
+/**
+ * @brief
+ * Gets the actuel path to create a string to put on the prefix of the executable
+ * It will create the pattern
+ * "LOGIN@@minishell:PATH$ "
+ * (if that's the case will replace the HOME path by '~')
+ * to be used in the readline()
+ *
+ * OBS : Is the same function as above, but in colors
+*/
+char	*get_color_lineprefix(t_minish *data)
 {
 	t_list	*prefix;
 	char	*line1;
