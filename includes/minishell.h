@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/09 16:00:35 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:38:55 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		init_cmd(t_minish *data);
 
 /* lexical analysis */
 
-void		lexer_input(t_minish *data);
+int			lexer_input(t_minish *data);
 char		**split_tokens(t_minish *data);
 
 /* t_dict management */
@@ -109,8 +109,8 @@ char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
 char		*make_line_fromlst(t_list **lst);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
-void		creating_cmd_list(t_minish *data);
-void		checking_token(t_minish *data, t_cmd **node, int *i);
+int			creating_cmd_list(t_minish *data);
+int			checking_token(t_minish *data, t_cmd **node, int *i);
 void		stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 void		adding_full_path(t_minish *data, t_cmd **node);
 
@@ -122,7 +122,7 @@ int			is_builtin(char *cmd);
 void		input_redirection(t_minish *data, t_cmd **node, int *i);
 void		output_redirection(t_minish *data, t_cmd **node, int *i);
 void		output_append_redirection(t_minish *data, t_cmd **node, int *i);
-void		pipe_new_node(t_minish *data, t_cmd **node, int *i);
+int			pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
 void		heredoc_handling(t_minish *data, t_cmd **node, int *i);
 
