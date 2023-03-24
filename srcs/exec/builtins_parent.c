@@ -3,35 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_parent.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/23 15:30:46 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 14:37:06 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+int	is_validvar(char *varname, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	if (!ft_isalpha(varname[i]))
+		return (0);
+	while (varname[++i] && i < len)
+		if (!ft_isalnum(varname[i]))
+			return (0);
+	return (1);
+}
+
 /* builtin to be exec in parent process: */
+
 void	unset(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*curr;
+	size_t	exit_code;
 	size_t	len;
 	int		i;
 	char	*variable;
 
 	i = 0;
+	exit_code = EXIT_SUCCESS;
 	while (cmd->full_cmd[++i])
 	{
 		variable = cmd->full_cmd[i];
 		len = ft_strlen(variable);
-		if (!ft_memcmp(variable, "_", len))
+		if (!is_validvar(variable, len) && ft_memcmp(variable, "_", len))
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n", variable);
+			exit_code = EXIT_FAILURE;
 			continue ;
+		}
 		curr = dict_findvar(data->envp, variable, len);
-		if (curr)
+		if (curr && ft_memcmp(curr->key, "SHLVL", curr->key_len))
 			dict_delone(&data->envp, curr);
+		else if (!ft_memcmp(curr->key, "SHLVL", curr->key_len))
+			set_varvalue(data->envp, curr->key, curr->key_len, "0");
 	}
-	g_status = EXIT_SUCCESS;
+	g_status = exit_code;
 }
 
 void	export(t_minish *data, t_cmd *cmd)
@@ -41,6 +63,7 @@ void	export(t_minish *data, t_cmd *cmd)
 	char	*arg;
 	int		i;
 
+	g_status = EXIT_SUCCESS;
 	if (!cmd->full_cmd[1])
 		print_sorted(data->envp);
 	i = 0;
@@ -50,7 +73,7 @@ void	export(t_minish *data, t_cmd *cmd)
 		len = 0;
 		while (arg[len] && arg[len] != '=')
 			len++;
-		if (ft_memcmp(arg, "_", len))
+		if (is_validvar(arg, len))
 		{
 			ptr = dict_findvar(data->envp, arg, len);
 			if (!ptr)
@@ -58,8 +81,12 @@ void	export(t_minish *data, t_cmd *cmd)
 			if (arg[len] == '=' && ptr)
 				set_varvalue(data->envp, ptr->key, ptr->key_len, &arg[len + 1]);
 		}
+		else if (ft_memcmp(arg, "_", len))
+		{
+			printf("minishell: export: `%s': not a valid identifier\n", arg);
+			g_status = EXIT_FAILURE;
+		}
 	}
-	g_status = EXIT_SUCCESS;
 }
 
 void	cd(t_minish *data, t_cmd *cmd)

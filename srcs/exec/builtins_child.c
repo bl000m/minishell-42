@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_dir.c                                     :+:      :+:    :+:   */
+/*   builtins_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:40:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/23 13:59:50 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/24 14:03:36 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,15 @@ void	env(t_minish *data, t_cmd *cmd)
 	ptr = data->envp;
 	while (ptr)
 	{
-		if (ptr->has_value)
+		if (ptr->has_value && ft_memcmp(ptr->key, "SHLVL", 6))
 			printf("%s=%s\n", ptr->key, ptr->value);
+		else if (ptr->has_value)
+		{
+			if (ft_atoi(ptr->value) <= 0)
+				printf("%s=0\n", ptr->key);
+			else
+				printf("%s=%s\n", ptr->key, ptr->value);
+		}
 		ptr = ptr->next;
 	}
 	g_status = EXIT_SUCCESS;
