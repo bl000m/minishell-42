@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 09:46:50 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/25 09:47:54 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,6 @@ void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 		adding_full_path(data, node);
 		*i += 1;
 		arg++;
-		// (*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
-		// adding_full_path(data, node);
-		// *i += 1;
-		// arg++;
 	}
 	(*node)->full_cmd[arg] = NULL;
 }
