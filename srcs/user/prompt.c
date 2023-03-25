@@ -15,7 +15,8 @@
 void	updating_data(t_minish *data, char *prefix)
 {
 	free_path_dir(data);
-	free(data->input);
+	if (data->input)
+		free(data->input);
 	data->input = NULL;
 	free(prefix);
 	if (data->cmds)
@@ -39,7 +40,11 @@ void	setting_prompt(t_minish *data)
 			add_history (data->input);
 			tab_envp_updated(data);
 			if (!lexer_input(data))
+			{
+				// printf("g_status antes %d", g_status);
 				executing_commands(data);
+				// printf("g_status depois %d\n", g_status);
+			}
 		}
 		if (data->input == NULL)
 			break ;

@@ -27,7 +27,8 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(data->child, &process_status, 0);
-		g_status = WEXITSTATUS(process_status);
+		if (!check_parent_builtin(&cmd))
+			g_status = WEXITSTATUS(process_status);
 		// printf("g_status = %d, cmd = %s\n", g_status, cmd->full_cmd[0]);
 		cmd = cmd->next;
 	}

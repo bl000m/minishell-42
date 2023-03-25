@@ -86,6 +86,7 @@ void	free_tokens(t_minish *data)
 			i++;
 		}
 		free(data->tokens);
+		data->tokens = NULL;
 	}
 }
 
@@ -95,11 +96,10 @@ void	exit_clean(t_minish *data)
 	{
 		if (data->input)
 			free(data->input);
-		if (data->path)
-			free(data->path);
 		if (data->envp)
 			dict_free(&data->envp);
-		free_tokens(data);
+		if (data->tokens)
+			free_tokens(data);
 		if (data->cmds)
 			free_linked_list_full_cmd(data);
 		free_path_dir(data);
