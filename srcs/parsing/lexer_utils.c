@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 09:39:16 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/25 13:05:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,39 @@ char	*duplicating_token(char *s, int start, int end)
 	while (s[start] && start < end)
 	{
 		if (s[start] == '\"' && s[start + 1] != '|'
-      && s[start + 1] != '<' && s[start + 1] != '>')
+			&& s[start + 1] != '<' && s[start + 1] != '>')
 		{
 			// printf("start in \"= %d\n", start);
 			btw_double_quotes = 1;
+			// printf("btw_simple_quotes= %d\n", btw_simple_quotes);
 			if (btw_simple_quotes == 0)
 				start++;
 		}
 		if (s[start] == '\'' && s[start + 1] != '|' && btw_double_quotes == 0
-      && s[start + 1] != '<' && s[start + 1] != '>')
+			&& s[start + 1] != '<' && s[start + 1] != '>')
 		{
 			// printf("start in \'= %d\n", start);
-			btw_simple_quotes = 1;
+			if (btw_simple_quotes == 1 && s[start] == '\'')
+				btw_simple_quotes = 0;
+			else
+				btw_simple_quotes = 1;
 			start++;
+			if (s[start] == '\'')
+				btw_simple_quotes = 0;
 		}
 		if (start == end
 			|| ((s[start] == '\"' || s[start] == '\'') && s[start + 1] == '\0'))
 			token[n_token] = 0;
-		else
+		else if ((!(btw_simple_quotes == 0 && s[start - 1] == '\'')))
+		{
 			token[n_token] = s[start];
-		n_token++;
-		start++;
+			n_token++;
+		}
+		// printf("start before last if = %d\n", start);
+		// printf("btw_simple_quotes = %d\n", btw_simple_quotes);
+		if (!(btw_simple_quotes == 0 && s[start - 1] == '\''))
+			start++;
+		// printf("start after last if = %d\n", start);
 	}
 	token[n_token] = 0;
 	return (token);
