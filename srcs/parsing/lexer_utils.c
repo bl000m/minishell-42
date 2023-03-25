@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 12:16:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/25 13:05:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ char	*duplicating_token(char *s, int start, int end)
 			else
 				btw_simple_quotes = 1;
 			start++;
-
+			if (s[start] == '\'')
+				btw_simple_quotes = 0;
 		}
 		if (start == end
 			|| ((s[start] == '\"' || s[start] == '\'') && s[start + 1] == '\0'))
@@ -56,6 +57,7 @@ char	*duplicating_token(char *s, int start, int end)
 			n_token++;
 		}
 		// printf("start before last if = %d\n", start);
+		// printf("btw_simple_quotes = %d\n", btw_simple_quotes);
 		if (!(btw_simple_quotes == 0 && s[start - 1] == '\''))
 			start++;
 		// printf("start after last if = %d\n", start);

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 12:36:55 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/25 14:09:13 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 		heredoc_handling(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], ">>", 2))
 		output_append_redirection(data, node, i);
+	else if (!ft_strncmp(data->tokens[*i], ".", 1) && !data->tokens[*i + 1])
+	{
+		*i += 1;
+		printf("bash: .: filename argument required\n");
+		res = 1;
+	}
 	else if (!ft_strncmp(data->tokens[*i], "||", 2))
 	{
 		*i += 1;
