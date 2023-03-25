@@ -12,15 +12,15 @@
 
 #include "../../includes/minishell.h"
 
-int	is_validvar(char *varname, size_t len)
+int	is_validvarname(char *varname, size_t len)
 {
 	size_t	i;
 
 	i = 0;
-	if (!ft_isalpha(varname[i]))
+	if (!ft_isalpha(varname[i]) && varname[i] != '_')
 		return (0);
 	while (varname[++i] && i < len)
-		if (!ft_isalnum(varname[i]))
+		if (!ft_isalnum(varname[i]) && varname[i] != '_')
 			return (0);
 	return (1);
 }
@@ -41,12 +41,14 @@ void	unset(t_minish *data, t_cmd *cmd)
 	{
 		variable = cmd->full_cmd[i];
 		len = ft_strlen(variable);
-		if (!is_validvar(variable, len) && ft_memcmp(variable, "_", len))
+		if (!is_validvarname(variable, len) && ft_memcmp(variable, "_", len))
 		{
 			printf("minishell: unset: `%s': not a valid identifier\n", variable);
 			exit_code = EXIT_FAILURE;
 			continue ;
 		}
+		if (!ft_memcmp(variable, "_", len))
+			continue ;
 		curr = dict_findvar(data->envp, variable, len);
 		if (curr && ft_memcmp(curr->key, "SHLVL", curr->key_len))
 			dict_delone(&data->envp, curr);
@@ -73,7 +75,7 @@ void	export(t_minish *data, t_cmd *cmd)
 		len = 0;
 		while (arg[len] && arg[len] != '=')
 			len++;
-		if (is_validvar(arg, len))
+		if (is_validvarname(arg, len) && ft_memcmp(arg, "_", len))
 		{
 			ptr = dict_findvar(data->envp, arg, len);
 			if (!ptr)

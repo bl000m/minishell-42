@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: FelipeBelfort <FelipeBelfort@student.42    +#+  +:+       +#+        */
+/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/09 03:20:40 by FelipeBelfo      ###   ########.fr       */
+/*   Updated: 2023/03/24 20:21:04 by fbelfort         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,17 @@ static int	expand_var(t_minish *data, int index, int i, int j)
 		line = ft_substr(data->tokens[index], j, i - j);
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	}
-	k = 1;
-	while (ft_isalnum(data->tokens[index][i + k]))
-		k++;
-	tmp = find_varvalue(data, data->tokens[index] + i + 1, k - 1);
+	k = 2;
+	if (ft_isalpha(data->tokens[index][i + 1])
+		|| data->tokens[index][i + 1] == '_')
+		while (ft_isalnum(data->tokens[index][i + k])
+			|| data->tokens[index][i + k] == '_')
+			k++;
+	if (data->tokens[index][i + 1] == '?')
+		tmp = ft_itoa(g_status);
+	else
+		tmp = find_varvalue(data, data->tokens[index] + i + 1, k - 1);
 	line = ft_strdup(tmp);
-	if (data->tokens[index][i + k++] == '?')
-		line = ft_itoa(g_status);
 	if (line)
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	return (i + k);
@@ -119,7 +123,7 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 	{
 		if (are_quotes(str[i]) != quote && !quote)
 			quote = are_quotes(str[i++]);
-		if (str[i] == '$' && quote != 2)
+		if (str[i] == '$' && str[i + 1] && quote != 2)
 			*j = expand_var(data, index, i, *j);
 		if (str[i] == '~' && !quote && (i == 0 || str[i - 1] == ' ')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
@@ -130,6 +134,43 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 			quote = 0;
 	}
 	return (i);
+}
+
+/**
+ * @brief
+ * Iterates over the data->tokens  
+ * to free the empty pointers and regroup the not empty ones.
+ * It will also update the data->n_tokens.
+ * @param t_minish* data
+ * 
+*/
+void	regroup_tokens(t_minish *data)
+{
+	int		i;
+	int		j;
+	char	*swap;
+
+	i = -1;
+	while (++i < data->n_tokens)
+	{
+		if (!ft_strlen(data->tokens[i]))
+		{
+			j = 1;
+			while (i + j < data->n_tokens && !ft_strlen(data->tokens[i + j]))
+				j++;
+			swap = data->tokens[i];
+			data->tokens[i] = data->tokens[i + j];
+			data->tokens[i + j] = swap;
+		}
+	}
+	i = data->n_tokens - 1;
+	while (!data->tokens[i] || !ft_strlen(data->tokens[i]))
+	{
+		free(data->tokens[i]);
+		data->tokens[i] = NULL;
+		i--;
+	}
+	data->n_tokens = i + 1;
 }
 
 /**
@@ -159,8 +200,6 @@ void	expand_path(t_minish *data)
 	{
 		j = 0;
 		i = verify_expansion(data, index, &j);
-		if (!data->aux)
-			continue ;
 		if (j < i)
 		{
 			subline = ft_substr(data->tokens[index], j, i - j);
@@ -171,4 +210,5 @@ void	expand_path(t_minish *data)
 		free(data->tokens[index]);
 		data->tokens[index] = make_line_fromlst(&data->aux);
 	}
+	regroup_tokens(data);
 }
