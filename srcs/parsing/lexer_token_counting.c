@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_counting.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 15:55:52 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/25 09:38:43 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@ void	space_handling(char *s, int *i)
 		*i += 1;
 	*i -= 1;
 }
-
-// void	double_quote_handling(char *s, int *n_tokens, int *i)
-// {
-// 	*i += 1;
-// 	while (s[*i] != '\"')
-// 		*i += 1;
-// 	*n_tokens += 1;
-// 	*i += 1;
-// }
 
 void	all_other_handling(char *s, int *n_tokens, int *i)
 {
@@ -72,8 +63,6 @@ void identify_token(char *s, char character, int *n_tokens, int *i)
 {
 	if (character == '<' || character == '>' || character == '|')
 		pipe_redirections_handling(s, n_tokens, i);
-	// else if (character == '\"')
-	// 	double_quote_handling(s, n_tokens, i);
 	else if (character == ' ')
 		space_handling(s, i);
 	else
@@ -96,6 +85,6 @@ int	*tokens_counter(char *s, int *n_tokens)
 		identify_token(s, s[i], n_tokens, &i);
 		i++;
 	}
-	printf("n.token = %d\n", *n_tokens);
+	// printf("n.token = %d\n", *n_tokens);
 	return (n_tokens);
 }

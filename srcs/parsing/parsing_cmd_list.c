@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 15:59:20 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/25 09:37:38 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,13 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 	res = 0;
 	if (data->tokens[*i][0] == '<' && !data->tokens[*i][1])
 		input_redirection(data, node, i);
-	else if (data->tokens[*i][0] ==  '>'&& !data->tokens[*i][1])
+	else if (data->tokens[*i][0] == '>'&& !data->tokens[*i][1])
 		output_redirection(data, node, i);
+	else if (data->tokens[*i][0] == '"')
+  {
+    printf("COUCOU\n");
+    stocking_cmd_and_arguments(data, node, i);
+  }
 	else if (!ft_strncmp(data->tokens[*i], "<<", 2))
 		heredoc_handling(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], ">>", 2))
@@ -58,9 +63,32 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 	return(res);
 }
 
+int	checking_quotes(char *token)
+{
+	return(token[0] == '\"' || token[0] == '\'');
+}
+
+char	*getting_rid_of_quotes(char *token)
+{
+	int		i;
+	int		j;
+	char	*result;
+
+	i = 1;
+	j = 0;
+	result = malloc(sizeof(char) * (int)ft_strlen(token));
+	if (!result)
+		return (NULL);
+	while(token[i])
+		result[j++] = token[i++];
+	result[i] = 0;
+	return (result);
+}
+
 void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 {
 	int		arg;
+  char	*token_no_quotes;
 
 	arg = 0;
 	(*node)->full_cmd = malloc(sizeof(char *) * (count_token_cmd(data, i) + 1));
@@ -69,10 +97,23 @@ void	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
-		(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
+    if (checking_quotes(data->tokens[*i]))
+		{
+			token_no_quotes = getting_rid_of_quotes(data->tokens[*i]);
+      // printf("token_no_quotes = %s\n", token_no_quotes);
+			(*node)->full_cmd[arg] = ft_strdup(token_no_quotes);
+			free(token_no_quotes);
+			token_no_quotes = NULL;
+		}
+		else
+			(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
 		adding_full_path(data, node);
 		*i += 1;
 		arg++;
+		// (*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
+		// adding_full_path(data, node);
+		// *i += 1;
+		// arg++;
 	}
 	(*node)->full_cmd[arg] = NULL;
 }
