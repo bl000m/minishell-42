@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 12:09:26 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/25 12:16:36 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ char	*duplicating_token(char *s, int start, int end)
 		if (s[start] == '\"' && s[start + 1] != '|'
 			&& s[start + 1] != '<' && s[start + 1] != '>')
 		{
-			printf("start in \"= %d\n", start);
+			// printf("start in \"= %d\n", start);
 			btw_double_quotes = 1;
-			printf("btw_simple_quotes= %d\n", btw_simple_quotes);
+			// printf("btw_simple_quotes= %d\n", btw_simple_quotes);
 			if (btw_simple_quotes == 0)
 				start++;
 		}
 		if (s[start] == '\'' && s[start + 1] != '|' && btw_double_quotes == 0
 			&& s[start + 1] != '<' && s[start + 1] != '>')
 		{
-			printf("start in \'= %d\n", start);
+			// printf("start in \'= %d\n", start);
 			if (btw_simple_quotes == 1 && s[start] == '\'')
 				btw_simple_quotes = 0;
 			else
@@ -55,10 +55,10 @@ char	*duplicating_token(char *s, int start, int end)
 			token[n_token] = s[start];
 			n_token++;
 		}
-		printf("start before last if = %d\n", start);
+		// printf("start before last if = %d\n", start);
 		if (!(btw_simple_quotes == 0 && s[start - 1] == '\''))
 			start++;
-		printf("start after last if = %d\n", start);
+		// printf("start after last if = %d\n", start);
 	}
 	token[n_token] = 0;
 	return (token);

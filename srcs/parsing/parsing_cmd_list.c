@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 09:47:54 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/25 12:36:55 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ char	*getting_rid_of_quotes(char *token)
 	result = malloc(sizeof(char) * (int)ft_strlen(token));
 	if (!result)
 		return (NULL);
-	while(token[i])
+	while(token[i] && token[i] != '\"')
 		result[j++] = token[i++];
 	result[i] = 0;
+	printf("result = %s\n", result);
 	return (result);
 }
 
