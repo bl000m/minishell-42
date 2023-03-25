@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 18:55:09 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/25 09:38:57 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@ void	space_token(char *s, int *start, int *end)
 		*end += 1;
 	*start = *end;
 }
-
-// void	double_quote_token(char *s, int *start, int *end)
-// {
-// 	*start = *end;
-// 	*end += 1;
-// 	while (s[*end] != '\"')
-// 		*end += 1;
-// 	*end += 1;
-// }
 
 void	all_other_token(char *s, int *start, int *end)
 {
@@ -42,7 +33,7 @@ void	all_other_token(char *s, int *start, int *end)
 		}
 		*end += 1;
 	}
-	printf("end = %d\n", *end);
+	// printf("end = %d\n", *end);
 }
 
 void	pipe_redirections_token(char *s, int *start, int *end)
@@ -62,9 +53,6 @@ void	pipe_redirections_token(char *s, int *start, int *end)
 		*start = *end;
 		while (s[*end] == '|')
 			*end += 1;
-    // if ((*end - *start) > 1)
-
-		// printf("end in pipe_redirections= %d\n", *end);
 	}
 	else
 	{
@@ -79,11 +67,6 @@ void add_token(char *s, int *start, int *end)
 		pipe_redirections_token(s, start, end);
 	else if (s[*end] == ' ')
 		space_token(s, start, end);
-	// else if (s[*end] == '\"')
-	// {
-	// 	printf("in double quote case\n");
-	// 	double_quote_token(s, start, end);
-	// }
 	else
 		all_other_token(s, start, end);
 }
