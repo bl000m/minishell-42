@@ -6,13 +6,13 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 14:20:57 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:51:33 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	generate_envp(t_dict **dict)
+void	generate_envp(t_dict **dict)
 {
 	t_dict	*ptr;
 	char	*pwd;
