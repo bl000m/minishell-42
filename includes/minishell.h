@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 18:53:48 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/27 12:53:07 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void		output_append_redirection(t_minish *data, t_cmd **node, int *i);
 int			pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
 void		heredoc_handling(t_minish *data, t_cmd **node, int *i);
+char		*getting_rid_of_quotes(char *token);
 
 /* Bonus features */
 
