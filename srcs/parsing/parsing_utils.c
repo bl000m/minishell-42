@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 15:14:39 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:01:12 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	heredoc_handling(t_minish *data, t_cmd **node, int *i)
+int	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 {
 	int		fd[2];
 
@@ -64,14 +64,19 @@ void	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 	else
 	{
 		if (pipe(fd) == -1)
-			error_manager(1, data, NULL);
+		{
+			printf("Error creating pipe\n");
+			*i += 1;
+			return (1);
+		}
 		(*node)->input = fd[0];
 		here_doc(data, i, fd[1]);
 		*i += 1;
 	}
+	return (0);
 }
 
-void	input_redirection(t_minish *data, t_cmd **node, int *i)
+int	input_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 		error_manager(8, data, NULL);
@@ -79,12 +84,18 @@ void	input_redirection(t_minish *data, t_cmd **node, int *i)
 	{
 		(*node)->file_in = open(data->tokens[*i + 1], O_RDONLY);
 		if ((*node)->file_in == -1)
-			error_manager(9, data, NULL);
+		{
+			printf("%s: Permission denied\n", data->tokens[*i + 1]);
+			*i += 1;
+			return (1);
+		}
+			// error_manager(9, data, NULL);
 		*i += 1;
 	}
+	return (0);
 }
 
-void	output_redirection(t_minish *data, t_cmd **node, int *i)
+int	output_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 		error_manager(8, data, NULL);
@@ -93,12 +104,17 @@ void	output_redirection(t_minish *data, t_cmd **node, int *i)
 		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
 				| O_WRONLY | O_TRUNC, 0644);
 		if ((*node)->file_out == -1)
-			error_manager(5, data, NULL);
+		{
+			printf("%s: Permission denied\n", data->tokens[*i + 1]);
+			*i += 1;
+			return (1);
+		}
 		*i += 1;
 	}
+	return (0);
 }
 
-void	output_append_redirection(t_minish *data, t_cmd **node, int *i)
+int	output_append_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 		error_manager(8, data, NULL);
@@ -108,11 +124,13 @@ void	output_append_redirection(t_minish *data, t_cmd **node, int *i)
 				| O_WRONLY | O_APPEND, 0644);
 		if ((*node)->file_out == -1)
 		{
-			g_status = EXIT_FAILURE;
-			error_manager(5, data, NULL);
+			printf("%s: Permission denied\n", data->tokens[*i + 1]);
+			*i += 1;
+			return (1);
 		}
 		*i += 1;
 	}
+	return (0);
 }
 
 int	pipe_new_node(t_minish *data, t_cmd **node, int *i)

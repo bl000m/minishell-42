@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 12:53:07 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:18:51 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_minish
 	t_cmd	*cmds;
 	int		n_cmd;
 	int		n_tokens;
-  int   within_quotes;
+  	// int   	within_quotes;
 	char	*path;
 	char	**path_dir;
 	char	**env_table;
@@ -112,20 +112,20 @@ char		*make_line_fromlst(t_list **lst);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
 int			creating_cmd_list(t_minish *data);
 int			checking_token(t_minish *data, t_cmd **node, int *i);
-void		stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
-void		adding_full_path(t_minish *data, t_cmd **node);
+int			stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
+int			adding_full_path(t_minish *data, t_cmd **node);
 
 /* parsing utils */
 
 void		create_new_cmd_list_node(t_cmd **node);
 int			count_token_cmd(t_minish *data, int *i);
 int			is_builtin(char *cmd);
-void		input_redirection(t_minish *data, t_cmd **node, int *i);
-void		output_redirection(t_minish *data, t_cmd **node, int *i);
-void		output_append_redirection(t_minish *data, t_cmd **node, int *i);
+int			input_redirection(t_minish *data, t_cmd **node, int *i);
+int			output_redirection(t_minish *data, t_cmd **node, int *i);
+int			output_append_redirection(t_minish *data, t_cmd **node, int *i);
 int			pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
-void		heredoc_handling(t_minish *data, t_cmd **node, int *i);
+int			heredoc_handling(t_minish *data, t_cmd **node, int *i);
 char		*getting_rid_of_quotes(char *token);
 
 /* Bonus features */
