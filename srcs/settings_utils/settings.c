@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 18:54:12 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/27 16:14:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	generate_envp(t_dict **dict)
+void	generate_envp(t_dict **dict)
 {
 	t_dict	*ptr;
 	char	*pwd;
@@ -134,7 +134,7 @@ t_minish	*init_data(char *envp[])
 	}
 	data->n_cmd = 0;
 	data->n_tokens = 0;
-  data->within_quotes = 0;
+//   data->within_quotes = 0;
 	data->child = 0;
 	init_cmd(data);
 	init_ptrs(data, envp);

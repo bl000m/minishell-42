@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 14:09:17 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:55:25 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@ void	parsing_path(t_minish *data)
 {
 	data->path = find_varvalue(data, "PATH", 4);
 	if (!data->path)
-		error_manager(4, data, NULL);
+	{
+		return ;
+		printf("we need to create en error\n");
+		// printf("no env: we need to generate a basic env with\nPWD=\nSHLVL=\n_=\n");
+		// generate_envp(&data->envp);
+	}
 	else
 		data->path_dir = ft_split(data->path, ':');
 }

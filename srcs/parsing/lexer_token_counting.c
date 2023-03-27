@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_counting.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 09:38:43 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/25 14:17:00 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	all_other_handling(char *s, int *n_tokens, int *i)
 		{
 			*i += 1;
 			while (s[*i] != '\"')
+				*i += 1;
+		}
+		if (s[*i] == '\'')
+		{
+			*i += 1;
+			while (s[*i] != '\'')
 				*i += 1;
 		}
 		*i += 1;

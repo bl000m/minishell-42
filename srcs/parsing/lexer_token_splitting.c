@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_splitting.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 09:38:57 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/27 12:55:41 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,18 @@ void	all_other_token(char *s, int *start, int *end)
 			*end += 1;
 			while (s[*end] != '\"')
 				*end += 1;
+			// break ;
+		}
+		if (s[*end] == '\'')
+		{
+			*end += 1;
+			while (s[*end] != '\'')
+				*end += 1;
+			// break ;
 		}
 		*end += 1;
+		// printf("start in simple quote %d\n", *start);
+		// printf("end in simple quote %d\n", *end);
 	}
 	// printf("end = %d\n", *end);
 }
@@ -87,6 +97,8 @@ char	**tokens_table_filling(t_minish *data, char **table)
 		add_token(data->input, &start, &end);
 		if (data->input[end -1] != ' ')
 		{
+			// printf("start = %d\n", start);
+			// printf("end = %d\n", end);
 			table[n_token] = duplicating_token(data->input, start, end);
 			if (!table[n_token])
 				ft_free(table);

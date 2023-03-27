@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 15:14:22 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:27:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,7 @@ void	setting_prompt(t_minish *data)
 			add_history (data->input);
 			tab_envp_updated(data);
 			if (!lexer_input(data))
-			{
-				// printf("g_status antes %d", g_status);
 				executing_commands(data);
-				// printf("g_status depois %d\n", g_status);
-			}
 		}
 		if (data->input == NULL)
 			break ;

@@ -1,6 +1,12 @@
 # minishell-42
 The existence of shells is linked to the very existence of IT. At the time, all developers agreed that communicating with a computer using aligned 1/0 switches was seriously irritating. Minishell is a way to travel through time and come back to problems people faced when Windows didn’t exist, reinventing the wheel.
 
+# First we did a logical fluxus map and a function tree:
+
+![](https://github.com/bl000m/minishell-42/blob/main/Minishell_logic_fluxus.png)
+(https://whimsical.com/minishell-GZHGgFarfBivCFMpVMjDjH)
+![](https://github.com/bl000m/minishell-42/blob/main/Minishell_function_tree.png)
+(https://whimsical.com/minishell-GZHGgFarfBivCFMpVMjDjH)
 
 # mandatory part
 
