@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/25 14:10:49 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 13:03:44 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ char	*getting_rid_of_quotes(char *token)
 	result = malloc(sizeof(char) * (int)ft_strlen(token));
 	if (!result)
 		return (NULL);
-	while(token[i] && token[i] != '\"')
+	while(token[i] && token[i] != '\"' && token[i] != '\'')
 		result[j++] = token[i++];
 	result[i] = 0;
-	printf("result = %s\n", result);
+	// printf("result = %s\n", result);
 	return (result);
 }
 
