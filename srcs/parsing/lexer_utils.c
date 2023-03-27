@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 13:06:31 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 13:11:55 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ char	*duplicating_token(char *s, int start, int end)
 	token = malloc(sizeof(char) * (end - start + 1));
 	if (!token)
 		return (0);
-	if (ft_memchr(&s[start], '$', end - start))
+	if (ft_memchr(&s[start], '$', end - start)
+		|| ft_memchr(&s[start], '~', end - start))
 		token = duplicating_dollar(&token, s, start, end);
 	else if (s[start] == '$')
 		token = duplicating_dollar(&token, &s[start], start, end);
