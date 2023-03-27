@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 15:06:53 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 14:39:43 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		// if ((*cmd)->file_in)
 		// 	close((*cmd)->file_in);
 		ft_printf("OUTPUT ERROR: %s\n", strerror(errno));
-		printf("HERE???\n");
 		// exit(g_status);
 	}
 	else if (error == 6)
