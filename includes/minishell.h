@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 15:18:51 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:51:27 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int			creating_cmd_list(t_minish *data);
 int			checking_token(t_minish *data, t_cmd **node, int *i);
 int			stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 int			adding_full_path(t_minish *data, t_cmd **node);
+void		generate_envp(t_dict **dict);
 
 /* parsing utils */
 
