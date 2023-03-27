@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 15:22:41 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 17:00:59 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 {
 	int		arg;
 	int		res;
-  	char	*token_no_quotes;
+	char	*token_no_quotes;
 
 	res = 0;
 	arg = 0;
@@ -124,13 +124,13 @@ int	adding_full_path(t_minish *data, t_cmd **node)
 		(*node)->full_path = NULL;
 	else if (!is_builtin((*node)->full_cmd[0]))
 	{
-		(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
-		if (!(*node)->full_path == 0)
+		if (find_varvalue(data, "PATH", 4))
+			(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
+		else
 		{
-			printf("A problem occurerd\n");
+			printf("No path is set. Not possibe to execute not built in functions\n");
 			return (1);
 		}
-		// 	error_manager(3, data, node);
 	}
 	return (0);
 }
