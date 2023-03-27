@@ -6,12 +6,13 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 16:37:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 17:39:48 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// once created a child: in nthe child close suddenly pipe[0], in parent suddenly pipe[1]
 void	executing_commands(t_minish *data)
 {
 	t_cmd	*cmd;
@@ -23,6 +24,8 @@ void	executing_commands(t_minish *data)
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
 	closing_all_fd(data);
+	// if (cmd->input)
+	// 	close(cmd->input);
 	cmd = data->cmds;
 	while (cmd)
 	{
@@ -51,7 +54,18 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 			error_manager(2, data, NULL);
 		}
 		else if (pid == 0)
+		{
+			// if ((*cmd)->input)
+			// 	close((*cmd)->input);
 			child_process(data, cmd);
+		}
+		// else
+		// {
+		// 	if ((*cmd)->output > 1)
+		// 		close((*cmd)->output);
+		// 	if ((*cmd)->input)
+		// 		close((*cmd)->input);
+		// }
 	}
 	return ((*cmd)->next);
 }
@@ -61,6 +75,8 @@ void	child_process(t_minish *data, t_cmd **cmd)
 	set_signals(EXEC);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
+	// if ((*cmd)->output > 1)
+	// 			close((*cmd)->output);
 	if (check_child_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
