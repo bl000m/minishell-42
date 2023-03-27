@@ -45,6 +45,8 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 	else
 	{
 		pid = fork();
+		if (ft_memcmp((*cmd)->full_cmd[0], "minishell", 10))
+			set_signals(EXEC);
 		data->child = pid;
 		if (pid == -1)
 		{
@@ -59,7 +61,6 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	set_signals(EXEC);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
 	if (check_child_builtin(cmd))
@@ -93,7 +94,7 @@ int	check_parent_builtin(t_cmd **cmd)
 	to  recreate the env table if modified (after freeing the previous one)*/
 void	executing_builtin(t_minish *data, t_cmd **cmd)
 {
-	set_signals(EXEC);
+	// set_signals(EXEC);
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
 		pwd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))

@@ -30,9 +30,9 @@ void	setting_prompt(t_minish *data)
 {
 	char	*prefix;
 
-	set_signals(PROMPT);
 	while (1)
 	{
+		set_signals(PROMPT);
 		prefix = get_lineprefix(data);
 		data->input = readline(prefix);
 		if (data->input && *data->input)

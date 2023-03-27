@@ -131,7 +131,7 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 	{
 		if (are_quotes(str[i]) != quote && !quote)
 			quote = are_quotes(str[i++]);
-		if (str[i] == '$' && str[i + 1] && quote != 2)
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ' && quote != 2)
 			*j = expand_var(data, index, i, *j);
 		if (str[i] == '~' && !quote && (i == 0 || str[i - 1] == ' ')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
@@ -206,6 +206,7 @@ void	expand_path(t_minish *data)
 	subline = NULL;
 	while (data->tokens[++index])
 	{
+		// printf("str antes => |%s|\n", data->tokens[index]);
 		j = 0;
 		i = verify_expansion(data, index, &j);
 		if (j < i)
@@ -217,6 +218,10 @@ void	expand_path(t_minish *data)
 		}
 		free(data->tokens[index]);
 		data->tokens[index] = make_line_fromlst(&data->aux);
+		// printf("str depois => |%s|\n", data->tokens[index]);
 	}
 	regroup_tokens(data);
+	// index = -1;
+	// while (data->tokens[++index])
+		// printf("token final => |%s|\n", data->tokens[index]);
 }

@@ -12,23 +12,29 @@
 
 #include "../includes/minishell.h"
 
+void	handle_ctrlc_exec(int sign);
+
 void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 {
+	static int	pid = 0;
+
+	if (!pid)
+		pid = info->si_pid;
 	(void) context;
 	if (sign == SIGINT)
 	{
-		write(1, "\n", 1);
-		if (info->si_pid)
+		if (info->si_pid == pid)
 		{
+			write(1, "\n", 1);
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
+		// else
+			// handle_ctrlc_exec(sign);
 	}
 	if (sign == SIGQUIT)
-	{
 		printf("\b\b  \b\b");
-	}
 	g_status = 128 + sign;
 }
 
@@ -43,7 +49,8 @@ void	handle_ctrlc_exec(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
-	exit(g_status);
+	signal(SIGINT, SIG_IGN);
+	// exit(g_status);
 }
 
 void	handle_ctrlc_heredoc(int sign)
