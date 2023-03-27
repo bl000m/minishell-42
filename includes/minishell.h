@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 12:53:07 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/27 13:50:26 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,23 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef struct s_lexer
+{
+	// char	*token;
+	int		n_token;
+	int		btw_double_quotes;
+	int		btw_simple_quotes;
+}	t_lexer;
+
 typedef struct s_minish
 {
 	char	*input;
 	char	**tokens;
 	t_cmd	*cmds;
+	t_lexer	*lex;
 	int		n_cmd;
 	int		n_tokens;
-  int   within_quotes;
+  	int   within_quotes;
 	char	*path;
 	char	**path_dir;
 	char	**env_table;
@@ -147,7 +156,7 @@ int			check_parent_builtin(t_cmd **cmd);
 
 void		switching_input_output(t_minish *data, t_cmd **cmd);
 void		launching_command(t_minish *data, t_cmd **cmd);
-char		*duplicating_token(char *s, int start, int end);
+char		*duplicating_token(t_minish *data, char *s, int start, int end);
 char		**ft_free(char **strs);
 int			are_quotes(char c);
 void		pipe_redirections_handling(char *s, int *n_tokens, int *i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 18:54:12 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/27 13:55:42 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,18 @@ static void	init_ptrs(t_minish *data, char *envp[])
 	data->env_table = NULL;
 }
 
+void	init_lexer(t_minish *data)
+{
+	t_lexer *lex;
+
+	lex = malloc(sizeof(*lex));
+	// lex->token = NULL;
+	lex->n_token = 0;
+	lex->btw_double_quotes = 0;
+	lex->btw_simple_quotes= 0;
+	data->lex = lex;
+}
+
 t_minish	*init_data(char *envp[])
 {
 	t_minish	*data;
@@ -134,10 +146,11 @@ t_minish	*init_data(char *envp[])
 	}
 	data->n_cmd = 0;
 	data->n_tokens = 0;
-  data->within_quotes = 0;
+  	data->within_quotes = 0;
 	data->child = 0;
 	init_cmd(data);
 	init_ptrs(data, envp);
+	init_lexer(data);
 	return (data);
 }
 
