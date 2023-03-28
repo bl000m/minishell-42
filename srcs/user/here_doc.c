@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 16:42:54 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 16:49:13 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	here_doc(t_minish *data, int *i, int fd)
 			close(fd);
 			break ;
 		}
+		// 2 cases: if delimiter with or without quotes
+		// depending on that expand or not input before putstr_fd
 		ft_putstr_fd(input, fd);
 		ft_putstr_fd("\n", fd);
 		free(input);
