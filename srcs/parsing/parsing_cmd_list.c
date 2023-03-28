@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 17:00:59 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 10:56:47 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ int	creating_cmd_list(t_minish *data)
 	return (res);
 }
 
+int	specific_cases(t_minish *data, int *i, int *res)
+{
+	if (data->tokens[*i][0] == '.'&& !data->tokens[*i][1])
+	{
+		printf("minishell: .: filename argument required\n");
+		*res = 1;
+	}
+	else if (data->tokens[*i][0] == '/')
+	{
+		printf("minishell: /: Is a directory\n");
+		*res = 1;
+	}
+	else if (data->tokens[*i][0] == '.' && data->tokens[*i][1] == '/' && !data->tokens[*i][2])
+	{
+		printf("minishell: ./: Is a directory\n");
+		*res = 1;
+	}
+	return (*res);
+}
+
 int	checking_token(t_minish *data, t_cmd **node, int *i)
 {
 	int	res;
@@ -39,12 +59,8 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 		res = heredoc_handling(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], ">>", 2))
 		res = output_append_redirection(data, node, i);
-	else if (!ft_strncmp(data->tokens[*i], ".", 1) && !data->tokens[*i + 1])
-	{
+	else if (specific_cases(data, i, &res))
 		*i += 1;
-		printf("bash: .: filename argument required\n");
-		res = 1;
-	}
 	else if (!ft_strncmp(data->tokens[*i], "||", 2))
 	{
 		*i += 1;
