@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 16:14:19 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 13:55:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	**tab_envp_updated(t_minish *data)
 	char	*join;
 
 	n_var = 0;
+	if (data->env_table)
+		free_env_table(data);
 	data->env_table = ft_calloc(sizeof(char *), dict_size(data->envp) + 1);
 	if (!data->envp)
 		return (NULL);
@@ -86,6 +88,7 @@ char	**tab_envp_updated(t_minish *data)
 	{
 		join = ft_strjoin(ptr->key, "=");
 		data->env_table[n_var] = ft_strjoin(join, ptr->value);
+		// printf("data->env_table[n_var] = #%s#\n", data->env_table[n_var]);
 		free(join);
 		n_var++;
 		ptr = ptr->next;

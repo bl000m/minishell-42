@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 16:55:25 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 14:27:16 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ char	*find_dir_command(t_minish *data, char *command)
 	i = 0;
 	while (data->path_dir[i])
 	{
-		path_dir = ft_strjoin(data->path_dir[i], "/");
-		path_with_command = ft_strjoin(path_dir, command);
 		if (access(command, F_OK | X_OK) == 0)
 			return (command);
-		else if (access(path_with_command, F_OK | X_OK) == 0)
+		path_dir = ft_strjoin(data->path_dir[i], "/");
+		path_with_command = ft_strjoin(path_dir, command);
+		free(path_dir);
+		if (access(path_with_command, F_OK | X_OK) == 0)
 			return (path_with_command);
 		free(path_with_command);
-		free(path_dir);
 		i++;
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 16:37:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 14:23:20 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	child_process(t_minish *data, t_cmd **cmd)
 		executing_builtin(data, cmd);
 	else
 	{
-		if (find_dir_command(data, (*cmd)->full_cmd[0])
-			&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
-			error_manager(12, data, cmd);
+		// if (find_dir_command(data, (*cmd)->full_cmd[0])
+		// 	&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
+		// 	error_manager(12, data, cmd);
 		launching_command(data, cmd);
 	}
 }
