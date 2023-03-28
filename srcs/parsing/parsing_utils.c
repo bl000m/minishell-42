@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 15:33:01 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 16:44:25 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 		(*node)->input = fd[0];
 		here_doc(data, i, fd[1]);
 		*i += 1;
+		if (g_status)
+			return (1);
 	}
 	return (0);
 }

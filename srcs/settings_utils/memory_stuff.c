@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 15:55:39 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:58:49 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	free_linked_list_full_cmd(t_minish *data)
 		i = 0;
 		while (ptr->full_cmd && ptr->full_cmd[i])
 		{
-			printf("before free ptr->full_cmd[i]: %s\n", ptr->full_cmd[i]);
 			free(ptr->full_cmd[i]);
 			ptr->full_cmd[i] = NULL;
 			i++;

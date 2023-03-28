@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/24 13:49:18 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 16:42:54 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	here_doc(t_minish *data, int *i, int fd)
 	set_signals(HEREDOC);
 	fd_int = dup(STDIN_FILENO);
 	limiter = data->tokens[*i + 1];
+	g_status = 0;
 	while (1)
 	{
 		input = readline("> ");
@@ -40,9 +41,8 @@ void	here_doc(t_minish *data, int *i, int fd)
 		free(input);
 		input = NULL;
 	}
+	printf("in HEREDOC g_status = %d\n", g_status);
 	free(input);
 	close(fd);
 	dup2(fd_int, STDIN_FILENO);
-
-	g_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 15:52:47 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:59:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,7 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
-		printf("arg = %d\n", arg);
 		(*node)->full_cmd[arg] = getting_rid_of_quotes(data->tokens[*i]);
-		// (*node)->full_cmd[arg] = ft_strdup(token_no_quotes);
-		// free(token_no_quotes);
-		// token_no_quotes = NULL;
-		printf("CMD IN STOCK = %s\n", (*node)->full_cmd[arg]);
 		res = adding_full_path(data, node);
 		arg += 1;
 		*i += 1;

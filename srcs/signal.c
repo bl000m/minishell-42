@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:51:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/24 18:48:07 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/28 16:39:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	handle_ctrlc_heredoc(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
+	printf("g_status = %d\n", g_status);
 	close(STDIN_FILENO);
 	// exit(g_status);
 }
