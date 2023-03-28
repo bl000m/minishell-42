@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 17:26:25 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 17:43:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	executing_commands(t_minish *data)
 	creating_pipes(data);
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
-	closing_all_fd(data);
+	// closing_all_fd(data);
 	// if (cmd->input)
 	// 	close(cmd->input);
 	cmd = data->cmds;
@@ -61,13 +61,13 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 			// 	close((*cmd)->input);
 			child_process(data, cmd);
 		}
-		// else
-		// {
-		// 	if ((*cmd)->output > 1)
-		// 		close((*cmd)->output);
-		// 	if ((*cmd)->input)
-		// 		close((*cmd)->input);
-		// }
+		else
+		{
+			if ((*cmd)->output > 1)
+				close((*cmd)->output);
+			if ((*cmd)->input)
+				close((*cmd)->input);
+		}
 	}
 	return ((*cmd)->next);
 }
