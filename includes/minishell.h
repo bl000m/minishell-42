@@ -108,6 +108,7 @@ void		set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
 void		parsing_path(t_minish *data);
 char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
+char		*heredoc_expand(t_minish *data, char *line);
 char		*make_line_fromlst(t_list **lst);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
 int			creating_cmd_list(t_minish *data);

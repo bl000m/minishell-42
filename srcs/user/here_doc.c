@@ -15,6 +15,7 @@
 void	here_doc(t_minish *data, int *i, int fd)
 {
 	char	*input;
+	char	*input2;
 	char	*limiter;
 	int		fd_int;
 
@@ -38,9 +39,18 @@ void	here_doc(t_minish *data, int *i, int fd)
 		}
 		// 2 cases: if delimiter with or without quotes
 		// depending on that expand or not input before putstr_fd
+		input2 = heredoc_expand(data, input);
+		if (input2)
+		{
+			free(input);
+			input = input2;
+		}
+		printf("expanded => |%s|\n", input);
 		ft_putstr_fd(input, fd);
 		ft_putstr_fd("\n", fd);
 		free(input);
+		// if (input2)
+		// 	free(input2);
 		input = NULL;
 	}
 	printf("in HEREDOC g_status = %d\n", g_status);

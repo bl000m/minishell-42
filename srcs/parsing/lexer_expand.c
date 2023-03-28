@@ -26,11 +26,6 @@ char	*make_line_fromlst(t_list **lst)
 
 	tmp = *lst;
 	size = 0;
-	// while (*lst)
-	// {
-	// 	size += ft_strlen((*lst)->content);
-	// 	(*lst) = (*lst)->next;
-	// }
 	while (tmp)
 	{
 		size += ft_strlen(tmp->content);
@@ -131,7 +126,9 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 	{
 		if (are_quotes(str[i]) != quote && !quote)
 			quote = are_quotes(str[i++]);
-		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ' && quote != 2)
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' '
+			&& quote != 2 && data->tokens[index - 1]
+			&& ft_memcmp(data->tokens[index - 1], "<<", 2))
 			*j = expand_var(data, index, i, *j);
 		if (str[i] == '~' && !quote && (i == 0 || str[i - 1] == ' ')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
@@ -224,4 +221,54 @@ void	expand_path(t_minish *data)
 	// index = -1;
 	// while (data->tokens[++index])
 		// printf("token final => |%s|\n", data->tokens[index]);
+}
+
+int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)
+{
+	int		k;
+	char	*tmp;
+
+	if (i - j > 0)
+		ft_lstadd_back(&data->aux, ft_lstnew(ft_substr(line, j, i - j)));
+	k = 2;
+	if (ft_isalpha(line[i + 1])
+		|| line[i + 1] == '_')
+		while (ft_isalnum(line[i + k])
+			|| line[i + k] == '_')
+			k++;
+	if (line[i + 1] == '?')
+		line = ft_itoa(g_status);
+	else
+	{
+		tmp = find_varvalue(data, line + i + 1, k - 1);
+		line = ft_strdup(tmp);
+	}
+	if (line)
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	return (i + k);
+}
+
+/**
+ * @brief
+ * Expands all the variables, 
+ * to be used by heredoc.
+*/
+char	*heredoc_expand(t_minish *data, char *line)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 0;
+	while (line[++i])
+	{
+		if (line[i] == '$')
+		{
+			j = heredoc_expand_aux(data, line, i, j);
+			i = j - 1;
+		}
+	}
+	if (data->aux)
+		return (make_line_fromlst(&data->aux));
+	return (NULL);
 }
