@@ -79,6 +79,20 @@ void	print_sorted(t_dict *envp)
 	dict_free(&sorted);
 }
 
+char	*getpwd_forline(t_minish *data)
+{
+	char	*linepwd;
+
+	linepwd = getcwd(NULL, 0);
+	if (linepwd)
+		return (linepwd);
+	linepwd = find_varvalue(data, "PWD", 3);
+	if (linepwd)
+		return (ft_strdup(linepwd));
+	linepwd = ft_strdup("unknown_path");
+	return (linepwd);
+}
+
 /**
  * @brief
  * Gets the actuel path to create a string to put on the prefix of the executable
@@ -91,15 +105,17 @@ char	*get_lineprefix(t_minish *data)
 {
 	t_list	*prefix;
 	char	*line1;
+	char	*linepwd;
 	size_t	len;
 
+	linepwd = getpwd_forline(data);
 	prefix = NULL;
 	line1 = find_varvalue(data, "USER", 4);
 	if (!line1)
-		ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin("guest", "@minisHELL:")));
+		ft_lstadd_back(&prefix, ft_lstnew(ft_strdup("guest@minisHELL:")));
 	else
 		ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin(line1, "@minisHELL:")));
-	ft_lstadd_back(&prefix, ft_lstnew(getcwd(NULL, 0)));
+	ft_lstadd_back(&prefix, ft_lstnew(linepwd));
 	line1 = find_varvalue(data, "HOME", 4);
 	if (line1)
 		len = ft_strlen(line1);

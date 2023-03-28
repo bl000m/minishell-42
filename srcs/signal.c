@@ -3,49 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:51:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/24 18:48:07 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/28 16:39:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	handle_ctrlc(int sign)
+void	handle_ctrlc_exec(int sign);
+
+void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 {
+	static int	pid = 0;
+
+	if (!pid)
+		pid = info->si_pid;
+	(void) context;
 	if (sign == SIGINT)
 	{
-		write(1, "\n", 1);
-		// rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		if (info->si_pid == pid)
+		{
+			write(1, "\n", 1);
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+		}
+		// else
+			// handle_ctrlc_exec(sign);
 	}
 	if (sign == SIGQUIT)
-	{
 		printf("\b\b  \b\b");
-	}
 	g_status = 128 + sign;
 }
 
-void	handle_ctrld_exec(int signum)
+void	handle_ctrld_exec(int sign)
 {
 	printf("Quit (core dumped)\n");
-	g_status = 128 + signum;
+	g_status = 128 + sign;
 	exit(g_status);
 }
 
-void	handle_ctrlc_exec(int signum)
+void	handle_ctrlc_exec(int sign)
 {
 	write(1, "\n", 1);
-	g_status = 128 + signum;
-	exit(g_status);
+	g_status = 128 + sign;
+	signal(SIGINT, SIG_IGN);
+	// exit(g_status);
 }
 
-void	handle_ctrlc_heredoc(int signum)
+void	handle_ctrlc_heredoc(int sign)
 {
 	write(1, "\n", 1);
-	g_status = 128 + signum;
+	g_status = 128 + sign;
+	printf("g_status = %d\n", g_status);
 	close(STDIN_FILENO);
 	// exit(g_status);
 }
@@ -66,8 +78,9 @@ void	set_signals(int caller)
 	signal(SIGQUIT, SIG_IGN);
 	if (caller == PROMPT)
 	{
+		sa.sa_flags |= SA_SIGINFO;
 		signal(SIGINT, SIG_DFL);
-		sa.sa_handler = handle_ctrlc;
+		sa.sa_sigaction = handle_ctrlc;
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 	}

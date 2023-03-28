@@ -26,6 +26,7 @@ void	dict_free(t_dict **dict)
 		return ;
 	while (*dict)
 	{
+		// printf("key => |%s|   value => |%s|\n", (*dict)->key, (*dict)->value);
 		ptr = (*dict)->next;
 		if ((*dict)->key)
 			free((*dict)->key);

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 17:00:59 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:59:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ int	creating_cmd_list(t_minish *data)
 	return (res);
 }
 
+int	specific_cases(t_minish *data, int *i, int *res)
+{
+	if (data->tokens[*i][0] == '.'&& !data->tokens[*i][1])
+	{
+		printf("minishell: .: filename argument required\n");
+		*res = 1;
+	}
+	else if (data->tokens[*i][0] == '/')
+	{
+		printf("minishell: /: Is a directory\n");
+		*res = 1;
+	}
+	else if (data->tokens[*i][0] == '.' && data->tokens[*i][1] == '/' && !data->tokens[*i][2])
+	{
+		printf("minishell: ./: Is a directory\n");
+		*res = 1;
+	}
+	return (*res);
+}
+
 int	checking_token(t_minish *data, t_cmd **node, int *i)
 {
 	int	res;
@@ -39,12 +59,8 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 		res = heredoc_handling(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], ">>", 2))
 		res = output_append_redirection(data, node, i);
-	else if (!ft_strncmp(data->tokens[*i], ".", 1) && !data->tokens[*i + 1])
-	{
+	else if (specific_cases(data, i, &res))
 		*i += 1;
-		printf("bash: .: filename argument required\n");
-		res = 1;
-	}
 	else if (!ft_strncmp(data->tokens[*i], "||", 2))
 	{
 		*i += 1;
@@ -66,23 +82,36 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 
 int	checking_quotes(char *token)
 {
-	return(token[0] == '\"' || token[0] == '\'');
+	return (token[0] == '\"' || token[0] == '\'');
 }
 
 char	*getting_rid_of_quotes(char *token)
 {
 	int		i;
 	int		j;
+	int		quote;
 	char	*result;
 
-	i = 1;
+	i = 0;
 	j = 0;
-	result = malloc(sizeof(char) * (int)ft_strlen(token));
+	quote = 0;
+	result = ft_calloc(sizeof(char), (int)ft_strlen(token) + 1);
 	if (!result)
 		return (NULL);
-	while(token[i] && token[i] != '\"' && token[i] != '\'')
-		result[j++] = token[i++];
-	result[i] = 0;
+	while (token[i])
+	{
+		if (are_quotes(token[i]) && !quote)
+			quote = are_quotes(token[i++]);
+		while (token[i] && (!are_quotes(token[i])
+			|| (quote && are_quotes(token[i]) != quote)))
+			result[j++] = token[i++];
+		if (token[i] && are_quotes(token[i]) == quote)
+		{
+			quote = 0;
+			i++;
+		}
+	}
+	// result[j] = 0;
 	// printf("result = %s\n", result);
 	return (result);
 }
@@ -91,7 +120,6 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 {
 	int		arg;
 	int		res;
-	char	*token_no_quotes;
 
 	res = 0;
 	arg = 0;
@@ -101,18 +129,10 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
-    if (checking_quotes(data->tokens[*i]))
-		{
-			token_no_quotes = getting_rid_of_quotes(data->tokens[*i]);
-			(*node)->full_cmd[arg] = ft_strdup(token_no_quotes);
-			free(token_no_quotes);
-			token_no_quotes = NULL;
-		}
-		else
-			(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
+		(*node)->full_cmd[arg] = getting_rid_of_quotes(data->tokens[*i]);
 		res = adding_full_path(data, node);
+		arg += 1;
 		*i += 1;
-		arg++;
 	}
 	(*node)->full_cmd[arg] = NULL;
 	return (res);

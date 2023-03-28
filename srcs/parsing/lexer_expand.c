@@ -26,11 +26,17 @@ char	*make_line_fromlst(t_list **lst)
 
 	tmp = *lst;
 	size = 0;
-	while (*lst)
+	// while (*lst)
+	// {
+	// 	size += ft_strlen((*lst)->content);
+	// 	(*lst) = (*lst)->next;
+	// }
+	while (tmp)
 	{
-		size += ft_strlen((*lst)->content);
-		(*lst) = (*lst)->next;
+		size += ft_strlen(tmp->content);
+		tmp = tmp->next;
 	}
+	tmp = *lst;
 	line = ft_calloc(size + 1, sizeof(char));
 	if (!line)
 		return (NULL);
@@ -70,10 +76,12 @@ static int	expand_var(t_minish *data, int index, int i, int j)
 			|| data->tokens[index][i + k] == '_')
 			k++;
 	if (data->tokens[index][i + 1] == '?')
-		tmp = ft_itoa(g_status);
+		line = ft_itoa(g_status);
 	else
+	{
 		tmp = find_varvalue(data, data->tokens[index] + i + 1, k - 1);
-	line = ft_strdup(tmp);
+		line = ft_strdup(tmp);
+	}
 	if (line)
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	return (i + k);
@@ -123,7 +131,7 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 	{
 		if (are_quotes(str[i]) != quote && !quote)
 			quote = are_quotes(str[i++]);
-		if (str[i] == '$' && str[i + 1] && quote != 2)
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ' && quote != 2)
 			*j = expand_var(data, index, i, *j);
 		if (str[i] == '~' && !quote && (i == 0 || str[i - 1] == ' ')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
@@ -138,11 +146,11 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 
 /**
  * @brief
- * Iterates over the data->tokens  
+ * Iterates over the data->tokens
  * to free the empty pointers and regroup the not empty ones.
  * It will also update the data->n_tokens.
  * @param t_minish* data
- * 
+ *
 */
 void	regroup_tokens(t_minish *data)
 {
@@ -198,6 +206,7 @@ void	expand_path(t_minish *data)
 	subline = NULL;
 	while (data->tokens[++index])
 	{
+		// printf("str antes => |%s|\n", data->tokens[index]);
 		j = 0;
 		i = verify_expansion(data, index, &j);
 		if (j < i)
@@ -209,6 +218,10 @@ void	expand_path(t_minish *data)
 		}
 		free(data->tokens[index]);
 		data->tokens[index] = make_line_fromlst(&data->aux);
+		// printf("str depois => |%s|\n", data->tokens[index]);
 	}
 	regroup_tokens(data);
+	// index = -1;
+	// while (data->tokens[++index])
+		// printf("token final => |%s|\n", data->tokens[index]);
 }

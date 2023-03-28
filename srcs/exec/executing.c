@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 17:39:48 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 17:26:25 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(data->child, &process_status, 0);
-		g_status = WEXITSTATUS(process_status);
-		// printf("g_status = %d, cmd = %s\n", g_status, cmd->full_cmd[0]);
+		if (!check_parent_builtin(&cmd))
+			g_status = WEXITSTATUS(process_status);
 		cmd = cmd->next;
 	}
 }
@@ -47,6 +47,8 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 	else
 	{
 		pid = fork();
+		if (ft_memcmp((*cmd)->full_cmd[0], "minishell", 10))
+			set_signals(EXEC);
 		data->child = pid;
 		if (pid == -1)
 		{
@@ -72,7 +74,6 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 
 void	child_process(t_minish *data, t_cmd **cmd)
 {
-	set_signals(EXEC);
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
 	// if ((*cmd)->output > 1)
@@ -81,9 +82,9 @@ void	child_process(t_minish *data, t_cmd **cmd)
 		executing_builtin(data, cmd);
 	else
 	{
-		if (find_dir_command(data, (*cmd)->full_cmd[0])
-			&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
-			error_manager(12, data, cmd);
+		// if (find_dir_command(data, (*cmd)->full_cmd[0])
+		// 	&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
+		// 	error_manager(12, data, cmd);
 		launching_command(data, cmd);
 	}
 }
@@ -108,7 +109,7 @@ int	check_parent_builtin(t_cmd **cmd)
 	to  recreate the env table if modified (after freeing the previous one)*/
 void	executing_builtin(t_minish *data, t_cmd **cmd)
 {
-	set_signals(EXEC);
+	// set_signals(EXEC);
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
 		pwd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
