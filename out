@@ -1,0 +1,11 @@
+includes
+libft
+Makefile
+minishell
+Minishell_function_tree.png
+Minishell_logic_fluxus.png
+obj
+out
+README.md
+srcs
+valgrind_ignore_leaks.txt

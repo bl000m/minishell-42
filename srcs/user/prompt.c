@@ -6,19 +6,19 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 16:27:01 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:32:27 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	updating_data(t_minish *data, char *prefix)
+void	updating_data(t_minish *data)
 {
 	free_path_dir(data);
 	if (data->input)
 		free(data->input);
 	data->input = NULL;
-	free(prefix);
+	// free(prefix);
 	if (data->cmds)
 		free_linked_list_full_cmd(data);
 	if (data->tokens)
@@ -42,9 +42,10 @@ void	setting_prompt(t_minish *data)
 			if (!lexer_input(data))
 				executing_commands(data);
 		}
+		free(prefix);
 		if (data->input == NULL)
 			break ;
-		updating_data(data, prefix);
+		updating_data(data);
 	}
 	printf("exit\n");
 }

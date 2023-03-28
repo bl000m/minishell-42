@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 10:56:47 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:59:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 
 int	checking_quotes(char *token)
 {
-	return(token[0] == '\"' || token[0] == '\'');
+	return (token[0] == '\"' || token[0] == '\'');
 }
 
 char	*getting_rid_of_quotes(char *token)
@@ -95,22 +95,23 @@ char	*getting_rid_of_quotes(char *token)
 	i = 0;
 	j = 0;
 	quote = 0;
-	result = ft_calloc(sizeof(char), (int)ft_strlen(token));
+	result = ft_calloc(sizeof(char), (int)ft_strlen(token) + 1);
 	if (!result)
 		return (NULL);
 	while (token[i])
 	{
 		if (are_quotes(token[i]) && !quote)
 			quote = are_quotes(token[i++]);
-		while (!are_quotes(token[i])
-			|| (quote && are_quotes(token[i]) != quote))
+		while (token[i] && (!are_quotes(token[i])
+			|| (quote && are_quotes(token[i]) != quote)))
 			result[j++] = token[i++];
-		if (are_quotes(token[i]) == quote)
+		if (token[i] && are_quotes(token[i]) == quote)
 		{
 			quote = 0;
 			i++;
 		}
 	}
+	// result[j] = 0;
 	// printf("result = %s\n", result);
 	return (result);
 }
@@ -119,7 +120,6 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 {
 	int		arg;
 	int		res;
-	char	*token_no_quotes;
 
 	res = 0;
 	arg = 0;
@@ -129,18 +129,10 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
-    if (checking_quotes(data->tokens[*i]))
-		{
-			token_no_quotes = getting_rid_of_quotes(data->tokens[*i]);
-			(*node)->full_cmd[arg] = ft_strdup(token_no_quotes);
-			free(token_no_quotes);
-			token_no_quotes = NULL;
-		}
-		else
-			(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
+		(*node)->full_cmd[arg] = getting_rid_of_quotes(data->tokens[*i]);
 		res = adding_full_path(data, node);
+		arg += 1;
 		*i += 1;
-		arg++;
 	}
 	(*node)->full_cmd[arg] = NULL;
 	return (res);

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/27 15:01:12 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 16:44:25 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,16 @@ void	create_new_cmd_list_node(t_cmd **node)
 	t_cmd	*new_elem;
 	t_cmd	*ptr;
 
+	if (!(*node) || !(node))
+		return ;
 	ptr = *node;
 	while (ptr->next)
 		ptr = ptr->next;
-	new_elem = malloc(sizeof(*new_elem));
+	new_elem = ft_calloc(sizeof(t_cmd), 1);
 	if (!new_elem)
 		return ;
-	new_elem->full_cmd = NULL;
-	new_elem->full_path = NULL;
-	new_elem->last = 0;
 	new_elem->input = STDIN_FILENO;
 	new_elem->output = STDOUT_FILENO;
-	new_elem->next = NULL;
 	ptr->next = new_elem;
 	*node = (*node)->next;
 }
@@ -36,12 +34,18 @@ void	create_new_cmd_list_node(t_cmd **node)
 int	count_token_cmd(t_minish *data, int *i)
 {
 	int	count;
+	int temp;
 
-	count = *i;
-	while (data->tokens[count] && data->tokens[count][0] != '|'
-		&& data->tokens[count][0] != '\0' && data->tokens[count][0] != '<'
-		&& data->tokens[count][0] != '>')
+	temp = *i;
+	count = 0;
+
+	while (data->tokens[temp] && data->tokens[temp][0] != '|'
+		&& data->tokens[temp][0] != '\0' && data->tokens[temp][0] != '<'
+		&& data->tokens[temp][0] != '>')
+	{
 		count++;
+		temp++;
+	}
 	return (count);
 }
 
@@ -72,6 +76,8 @@ int	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 		(*node)->input = fd[0];
 		here_doc(data, i, fd[1]);
 		*i += 1;
+		if (g_status)
+			return (1);
 	}
 	return (0);
 }
