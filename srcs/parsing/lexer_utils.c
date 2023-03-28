@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 16:54:11 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 17:12:59 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@ char	*duplicating_dollar(char **token, char *s, int start, int end)
 	int		n_token;
 
 	n_token = 0;
-	printf()
+	printf("start = %d\n", start);
+	printf("end = %d\n", end);
 	while (s[start] && start < end)
 	{
 		*(*token + n_token) = s[start];
 		n_token++;
 		start++;
 	}
+	printf("n_token = %d\n", n_token);
+	*(*token + n_token) = 0;
 	return (*token);
 }
 
@@ -39,14 +42,12 @@ char	*duplicating_token(char *s, int start, int end)
 	btw_double_quotes = 0;
 	btw_simple_quotes = 0;
 
-	token = malloc(sizeof(char) * (end - start + 1));
+	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
 		return (0);
 	if (ft_memchr(&s[start], '$', end - start)
 		|| ft_memchr(&s[start], '~', end - start))
 		token = duplicating_dollar(&token, s, start, end);
-	else if (s[start] == '$')
-		token = duplicating_dollar(&token, &s[start], start, end);
 	else
 	{
 		while (s[start] && start < end)
