@@ -73,16 +73,28 @@ char	*getting_rid_of_quotes(char *token)
 {
 	int		i;
 	int		j;
+	int		quote;
 	char	*result;
 
-	i = 1;
+	i = 0;
 	j = 0;
-	result = malloc(sizeof(char) * (int)ft_strlen(token));
+	quote = 0;
+	result = ft_calloc(sizeof(char), (int)ft_strlen(token));
 	if (!result)
 		return (NULL);
-	while(token[i] && token[i] != '\"' && token[i] != '\'')
-		result[j++] = token[i++];
-	result[i] = 0;
+	while (token[i])
+	{
+		if (are_quotes(token[i]) && !quote)
+			quote = are_quotes(token[i++]);
+		while (!are_quotes(token[i])
+			|| (quote && are_quotes(token[i]) != quote))
+			result[j++] = token[i++];
+		if (are_quotes(token[i]) == quote)
+		{
+			quote = 0;
+			i++;
+		}
+	}
 	// printf("result = %s\n", result);
 	return (result);
 }

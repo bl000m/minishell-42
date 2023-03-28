@@ -15,7 +15,8 @@
 void	updating_data(t_minish *data, char *prefix)
 {
 	free_path_dir(data);
-	free(data->input);
+	if (data->input)
+		free(data->input);
 	data->input = NULL;
 	free(prefix);
 	if (data->cmds)
@@ -29,9 +30,9 @@ void	setting_prompt(t_minish *data)
 {
 	char	*prefix;
 
-	set_signals(PROMPT);
 	while (1)
 	{
+		set_signals(PROMPT);
 		prefix = get_lineprefix(data);
 		data->input = readline(prefix);
 		if (data->input && *data->input)
@@ -40,7 +41,6 @@ void	setting_prompt(t_minish *data)
 			tab_envp_updated(data);
 			if (!lexer_input(data))
 				executing_commands(data);
-			
 		}
 		if (data->input == NULL)
 			break ;

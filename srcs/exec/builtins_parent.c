@@ -43,8 +43,8 @@ void	unset(t_minish *data, t_cmd *cmd)
 		len = ft_strlen(variable);
 		if (!is_validvarname(variable, len) && ft_memcmp(variable, "_", len))
 		{
-			printf("minishell: unset: `%s': not a valid identifier\n", variable);
 			exit_code = EXIT_FAILURE;
+			printf("minishell: unset: `%s': not a valid identifier \n", variable);
 			continue ;
 		}
 		if (!ft_memcmp(variable, "_", len))
@@ -56,6 +56,7 @@ void	unset(t_minish *data, t_cmd *cmd)
 			set_varvalue(data->envp, curr->key, curr->key_len, "0");
 	}
 	g_status = exit_code;
+	// printf("g_status %d\n", g_status);
 }
 
 void	export(t_minish *data, t_cmd *cmd)
