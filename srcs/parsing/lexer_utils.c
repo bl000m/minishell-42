@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 17:12:59 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/28 17:15:37 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,12 @@ char	*duplicating_dollar(char **token, char *s, int start, int end)
 	int		n_token;
 
 	n_token = 0;
-	printf("start = %d\n", start);
-	printf("end = %d\n", end);
 	while (s[start] && start < end)
 	{
 		*(*token + n_token) = s[start];
 		n_token++;
 		start++;
 	}
-	printf("n_token = %d\n", n_token);
 	*(*token + n_token) = 0;
 	return (*token);
 }
