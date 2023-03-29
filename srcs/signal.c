@@ -57,7 +57,7 @@ void	handle_ctrlc_heredoc(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
-	printf("g_status = %d\n", g_status);
+	// printf("g_status = %d\n", g_status);
 	close(STDIN_FILENO);
 	// exit(g_status);
 }

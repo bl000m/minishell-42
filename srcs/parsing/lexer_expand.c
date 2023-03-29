@@ -231,10 +231,8 @@ int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)
 	if (i - j > 0)
 		ft_lstadd_back(&data->aux, ft_lstnew(ft_substr(line, j, i - j)));
 	k = 2;
-	if (ft_isalpha(line[i + 1])
-		|| line[i + 1] == '_')
-		while (ft_isalnum(line[i + k])
-			|| line[i + k] == '_')
+	if (ft_isalpha(line[i + 1]) || line[i + 1] == '_')
+		while (ft_isalnum(line[i + k]) || line[i + k] == '_')
 			k++;
 	if (line[i + 1] == '?')
 		line = ft_itoa(g_status);
@@ -243,15 +241,16 @@ int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)
 		tmp = find_varvalue(data, line + i + 1, k - 1);
 		line = ft_strdup(tmp);
 	}
-	if (line)
-		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	if (!line)
+		line = ft_calloc(1, sizeof(char));
+	ft_lstadd_back(&data->aux, ft_lstnew(line));
 	return (i + k);
 }
 
 /**
  * @brief
- * Expands all the variables, 
- * to be used by heredoc.
+ * Expands all the variables, whitout handling the quotes.   
+ * To be used by heredoc.
 */
 char	*heredoc_expand(t_minish *data, char *line)
 {
@@ -262,13 +261,16 @@ char	*heredoc_expand(t_minish *data, char *line)
 	j = 0;
 	while (line[++i])
 	{
-		if (line[i] == '$')
+		if (line[i] == '$' && line[i + 1] && line[i + 1] != ' ')
 		{
 			j = heredoc_expand_aux(data, line, i, j);
 			i = j - 1;
 		}
 	}
 	if (data->aux)
+	{
+		ft_lstadd_back(&data->aux, ft_lstnew(ft_substr(line, j, i - j)));
 		return (make_line_fromlst(&data->aux));
+	}
 	return (NULL);
 }
