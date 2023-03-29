@@ -100,16 +100,16 @@ char	*getting_rid_of_quotes(char *token)
 		return (NULL);
 	while (token[i])
 	{
-    if (are_quotes(token[i]) && !quote)
-      quote = are_quotes(token[i++]);
-    while (token[i] && (!are_quotes(token[i])
-      || (quote && are_quotes(token[i]) != quote)))
-      result[j++] = token[i++];
-    if (token[i] && are_quotes(token[i]) == quote)
-    {
-      quote = 0;
-      i++;
-    }
+		if (are_quotes(token[i]) && !quote)
+			quote = are_quotes(token[i++]);
+		while (token[i] && (!are_quotes(token[i])
+				|| (quote && are_quotes(token[i]) != quote)))
+			result[j++] = token[i++];
+		if (token[i] && are_quotes(token[i]) == quote)
+		{
+			quote = 0;
+			i++;
+		}
 	}
 	// result[j] = 0;
 	// printf("result = %s\n", result);
