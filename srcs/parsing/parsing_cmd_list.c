@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 15:59:01 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/29 15:10:07 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,16 @@ char	*getting_rid_of_quotes(char *token)
 		return (NULL);
 	while (token[i])
 	{
-		if (are_quotes(token[i]) && !quote)
-			quote = are_quotes(token[i++]);
-		while (token[i] && (!are_quotes(token[i])
-			|| (quote && are_quotes(token[i]) != quote)))
-			result[j++] = token[i++];
-		if (token[i] && are_quotes(token[i]) == quote)
-		{
-			quote = 0;
-			i++;
-		}
+    if (are_quotes(token[i]) && !quote)
+      quote = are_quotes(token[i++]);
+    while (token[i] && (!are_quotes(token[i])
+      || (quote && are_quotes(token[i]) != quote)))
+      result[j++] = token[i++];
+    if (token[i] && are_quotes(token[i]) == quote)
+    {
+      quote = 0;
+      i++;
+    }
 	}
 	// result[j] = 0;
 	// printf("result = %s\n", result);
