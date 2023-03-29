@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_splitting.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 17:15:27 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/29 14:36:57 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ void	all_other_token(char *s, int *start, int *end)
 	{
 		if (s[*end] == '\"')
 		{
+      // printf("end before = %d\n", *end);
 			*end += 1;
-			while (s[*end] != '\"')
+			while (s[*end] && s[*end] != '\"')
 				*end += 1;
 			// break ;
 		}
@@ -40,6 +41,7 @@ void	all_other_token(char *s, int *start, int *end)
 			// break ;
 		}
 		*end += 1;
+    // printf("end after = %d\n", *end);
 		// printf("start in simple quote %d\n", *start);
 		// printf("end in simple quote %d\n", *end);
 	}
@@ -95,8 +97,11 @@ char	**tokens_table_filling(t_minish *data, char **table)
 	while (n_token < data->n_tokens)
 	{
 		add_token(data->input, &start, &end);
-		if (data->input[end -1] != ' ')
+		if (data->input[end - 1] != ' ')
 		{
+      // printf("start %d\n", start);
+      // printf("end %d\n", end);
+      // printf("data->input %s\n", data->input);
 			table[n_token] = duplicating_token(data->input, start, end);
 			if (!table[n_token])
 				ft_free(table);
