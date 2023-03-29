@@ -26,7 +26,7 @@ void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 		if (info->si_pid == pid)
 		{
 			write(1, "\n", 1);
-			// rl_replace_line("", 0);
+			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
@@ -57,7 +57,7 @@ void	handle_ctrlc_heredoc(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
-	printf("g_status = %d\n", g_status);
+	// printf("g_status = %d\n", g_status);
 	close(STDIN_FILENO);
 	// exit(g_status);
 }
