@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 16:10:27 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 14:56:33 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	executing_commands(t_minish *data)
 
 	process_status = 0;
 	cmd = data->cmds;
+	if (!cmd->full_cmd)
+		return ;
 	creating_pipes(data);
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
@@ -27,8 +29,10 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(data->child, &process_status, 0);
-		if (!check_parent_builtin(&cmd))
+		printf("PROT\n");
+		if (data->cmds && !check_parent_builtin(&cmd))
 			g_status = WEXITSTATUS(process_status);
+		// printf("g_status = %d\n", g_status);
 		cmd = cmd->next;
 	}
 }
