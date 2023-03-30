@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 11:56:32 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 11:54:11 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	switching_input_output(t_minish *data, t_cmd **cmd)
 {
-
 	if ((*cmd)->output > 1)
 	{
 		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)

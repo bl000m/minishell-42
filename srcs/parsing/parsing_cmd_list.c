@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/29 15:10:07 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/30 12:20:04 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	specific_cases(t_minish *data, int *i, int *res)
 		printf("minishell: .: filename argument required\n");
 		*res = 1;
 	}
-	else if (data->tokens[*i][0] == '/')
+	else if (data->tokens[*i][0] == '/' && !data->tokens[*i][0])
 	{
 		printf("minishell: /: Is a directory\n");
 		*res = 1;
@@ -129,7 +129,8 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 	while (data->tokens[*i] && data->tokens[*i][0] != '|'
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
-		(*node)->full_cmd[arg] = getting_rid_of_quotes(data->tokens[*i]);
+		(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
+		printf("(*node)->full_cmd[arg] = %s\n", (*node)->full_cmd[arg]);
 		res = adding_full_path(data, node);
 		arg += 1;
 		*i += 1;

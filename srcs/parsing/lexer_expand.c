@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expand.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/24 20:21:04 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:29:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)
 
 /**
  * @brief
- * Expands all the variables, whitout handling the quotes.   
+ * Expands all the variables, whitout handling the quotes.
  * To be used by heredoc.
 */
 char	*heredoc_expand(t_minish *data, char *line)

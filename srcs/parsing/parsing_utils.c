@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 16:44:25 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 14:39:37 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 	int		fd[2];
 
 	if (!data->tokens[*i + 1])
-		error_manager(11, data, NULL);
+	{
+		// error_manager(11, data, NULL);
+		return (1);
+	}
 	else
 	{
 		if (pipe(fd) == -1)
@@ -85,7 +88,10 @@ int	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 int	input_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
-		error_manager(8, data, NULL);
+	{
+		// error_manager(8, data, NULL);
+		return (1);
+	}
 	else
 	{
 		(*node)->file_in = open(data->tokens[*i + 1], O_RDONLY);
@@ -104,7 +110,10 @@ int	input_redirection(t_minish *data, t_cmd **node, int *i)
 int	output_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
-		error_manager(8, data, NULL);
+	{
+		// error_manager(8, data, NULL);
+		return (1);
+	}
 	else
 	{
 		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
@@ -123,7 +132,10 @@ int	output_redirection(t_minish *data, t_cmd **node, int *i)
 int	output_append_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
-		error_manager(8, data, NULL);
+	{
+		// error_manager(8, data, NULL);
+		return (1);
+	}
 	else
 	{
 		(*node)->file_out = open(data->tokens[*i + 1], O_CREAT
