@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 15:58:49 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 11:09:39 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	free_linked_list_full_cmd(t_minish *data)
 		ptr = ptr->next;
 		free(tmp);
 	}
-	free(ptr);
-	ptr = NULL;
+	// free(ptr);
+	data->cmds = NULL;
 }
 
 void	free_tokens(t_minish *data)

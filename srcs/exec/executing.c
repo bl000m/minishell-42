@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 16:10:27 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 10:44:40 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	executing_commands(t_minish *data)
 		waitpid(data->child, &process_status, 0);
 		if (!check_parent_builtin(&cmd))
 			g_status = WEXITSTATUS(process_status);
+		printf("g_status = %d\n", g_status);
 		cmd = cmd->next;
 	}
 }

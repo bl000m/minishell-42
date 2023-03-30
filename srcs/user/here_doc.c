@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 16:49:13 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 12:32:43 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ void	heredoc_write(t_minish *data, int fd, int ignore_expansion, char *input)
 	ft_putstr_fd("\n", fd);
 }
 
+void	child_heredoc()
+
 void	here_doc(t_minish *data, int *i, int fd)
 {
 	char	*input;
 	char	*limiter;
+	pid_t	here_doc_pid;
 	int		fd_int;
 	int		ignore_expansion;
 
@@ -44,6 +47,9 @@ void	here_doc(t_minish *data, int *i, int fd)
 	limiter = getting_rid_of_quotes(data->tokens[*i + 1]);
 	ignore_expansion = ft_strlen(data->tokens[*i + 1]) - ft_strlen(limiter);
 	g_status = 0;
+	here_doc_pid = fork();
+	if here_doc_pid == 0
+		child_heredoc()
 	while (1)
 	{
 		input = readline("> ");
