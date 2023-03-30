@@ -44,8 +44,10 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 	else
 	{
 		pid = fork();
-		if (ft_memcmp((*cmd)->full_cmd[0], "minishell", 10))
-			set_signals(EXEC);
+		set_signals(EXEC);
+		if (!ft_memcmp((*cmd)->full_cmd[0], "minishell", 10)
+			|| !ft_memcmp((*cmd)->full_cmd[0], "./minishell", 10))
+			set_signals(OFF);
 		data->child = pid;
 		if (pid == -1)
 		{

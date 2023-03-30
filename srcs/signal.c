@@ -67,7 +67,7 @@ void	handle_ctrlc_heredoc(int sign)
  * Function to handle the signals.
  * To be called inside prompt, with heredoc and inside the childs,
  * it takes the caller as argument to know what to do.
- * @param int (PROMPT, EXEC, HEREDOC)
+ * @param int (PROMPT, EXEC, HEREDOC or OFF)
 */
 void	set_signals(int caller)
 {
@@ -97,4 +97,6 @@ void	set_signals(int caller)
 		sa.sa_handler = handle_ctrlc_heredoc;
 		sigaction(SIGINT, &sa, NULL);
 	}
+	if (caller == OFF)
+		signal(SIGINT, SIG_IGN);
 }
