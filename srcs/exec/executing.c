@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/30 14:56:33 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 15:26:30 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,9 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(data->child, &process_status, 0);
-		printf("PROT\n");
 		if (data->cmds && !check_parent_builtin(&cmd))
 			g_status = WEXITSTATUS(process_status);
-		// printf("g_status = %d\n", g_status);
+		printf("g_status = %d\n", g_status);
 		cmd = cmd->next;
 	}
 }
@@ -58,6 +57,13 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		}
 		else if (pid == 0)
 			child_process(data, cmd);
+		else
+		{
+			if ((*cmd)->input)
+				close((*cmd)->input);
+			// if ((*cmd)->output)
+			// 	close((*cmd)->output);
+		}
 	}
 	return ((*cmd)->next);
 }
@@ -66,6 +72,10 @@ void	child_process(t_minish *data, t_cmd **cmd)
 {
 	switching_input_output(data, cmd);
 	closing_all_fd(data);
+	// if ((*cmd)->input)
+	// 	close((*cmd)->input);
+	// if ((*cmd)->output)
+	// 	close((*cmd)->output);
 	if (check_child_builtin(cmd))
 		executing_builtin(data, cmd);
 	else

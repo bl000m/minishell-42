@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/30 12:20:04 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 15:24:45 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
 		(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
-		printf("(*node)->full_cmd[arg] = %s\n", (*node)->full_cmd[arg]);
+		// printf("(*node)->full_cmd[arg] = %s\n", (*node)->full_cmd[arg]);
 		res = adding_full_path(data, node);
 		arg += 1;
 		*i += 1;
