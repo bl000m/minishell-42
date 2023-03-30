@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/30 12:32:43 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/30 14:32:05 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,35 @@ void	heredoc_write(t_minish *data, int fd, int ignore_expansion, char *input)
 	ft_putstr_fd("\n", fd);
 }
 
-void	child_heredoc()
+void	child_heredoc(t_minish *data, char *limiter, int fd, int ignore_expansion)
+{
+	char	*input;
+
+	while (1)
+	{
+
+		input = readline("> ");
+		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0))
+		{
+			close(fd);
+			break ;
+		}
+		// buffer = ft_strjoin(buffer, input);
+		heredoc_write(data, fd, ignore_expansion, input);
+		free(input);
+	}
+	if (input)
+		free(input);
+	exit(g_status);
+}
 
 void	here_doc(t_minish *data, int *i, int fd)
 {
-	char	*input;
 	char	*limiter;
 	pid_t	here_doc_pid;
 	int		fd_int;
 	int		ignore_expansion;
+	int		process_status;
 
 	set_signals(HEREDOC);
 	fd_int = dup(STDIN_FILENO);
@@ -48,18 +68,11 @@ void	here_doc(t_minish *data, int *i, int fd)
 	ignore_expansion = ft_strlen(data->tokens[*i + 1]) - ft_strlen(limiter);
 	g_status = 0;
 	here_doc_pid = fork();
-	if here_doc_pid == 0
-		child_heredoc()
-	while (1)
-	{
-		input = readline("> ");
-		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0))
-			break ;
-		heredoc_write(data, fd, ignore_expansion, input);
-		free(input);
-	}
-	if (input)
-		free(input);
+	if (here_doc_pid == 0)
+		child_heredoc(data, limiter, fd, ignore_expansion);
 	close(fd);
+	waitpid(here_doc_pid, &process_status, 0);
+	g_status = WEXITSTATUS(process_status);
+	free(limiter);
 	dup2(fd_int, STDIN_FILENO);
 }
