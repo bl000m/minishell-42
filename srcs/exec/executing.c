@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/30 14:56:33 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/31 09:37:04 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(data->child, &process_status, 0);
-		printf("PROT\n");
 		if (data->cmds && !check_parent_builtin(&cmd))
 			g_status = WEXITSTATUS(process_status);
-		// printf("g_status = %d\n", g_status);
 		cmd = cmd->next;
 	}
 }
