@@ -6,7 +6,7 @@ The existence of shells is linked to the very existence of IT. At the time, all 
 ![](https://github.com/bl000m/minishell-42/blob/main/Minishell_logic_fluxus.png)
 (https://whimsical.com/minishell-GZHGgFarfBivCFMpVMjDjH)
 ![](https://github.com/bl000m/minishell-42/blob/main/Minishell_function_tree.png)
-(https://whimsical.com/minishell-GZHGgFarfBivCFMpVMjDjH)
+(https://whimsical.com/minishell-functions-tree-52B3wX3Cg948BdqgHYZHeg)
 
 # mandatory part
 
