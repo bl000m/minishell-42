@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/30 14:32:05 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:56:22 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,13 @@ void	child_heredoc(t_minish *data, char *limiter, int fd, int ignore_expansion)
 
 	while (1)
 	{
-
 		input = readline("> ");
-		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter)) == 0))
+		if (!input || ((ft_strncmp(input, limiter, (int)ft_strlen(limiter)) == 0)
+        && !input[(int)ft_strlen(limiter)]))
 		{
 			close(fd);
 			break ;
 		}
-		// buffer = ft_strjoin(buffer, input);
 		heredoc_write(data, fd, ignore_expansion, input);
 		free(input);
 	}
