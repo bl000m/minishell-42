@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/31 09:40:19 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/31 15:30:52 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	executing_commands(t_minish *data)
 	cmd = data->cmds;
 	while (cmd)
 	{
-		waitpid(data->child, &process_status, 0);
+		waitpid(cmd->child, &process_status, 0);
 		if (data->cmds && !check_parent_builtin(&cmd))
 			g_status = WEXITSTATUS(process_status);
 		cmd = cmd->next;
@@ -46,7 +46,7 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		pid = fork();
 		if (ft_memcmp((*cmd)->full_cmd[0], "minishell", 10))
 			set_signals(EXEC);
-		data->child = pid;
+		(*cmd)->child = pid;
 		if (pid == -1)
 		{
 			closing_all_fd(data);
@@ -54,7 +54,7 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		}
 		else if (pid == 0)
 			child_process(data, cmd);
-	}
+  }
 	return ((*cmd)->next);
 }
 
