@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 13:03:18 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:15:10 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_cmd
 	int				file_in;
 	int				file_out;
 	int				last;
+	pid_t	    child;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -60,7 +61,6 @@ typedef struct s_minish
 	char	**path_dir;
 	char	**env_table;
 	t_dict	*envp;
-	pid_t	child;
 	t_list	*aux;
 }	t_minish;
 

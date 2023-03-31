@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 13:55:19 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:14:56 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	init_cmd(t_minish *data)
 	command->file_in = 0;
 	command->file_out = 0;
 	command->last = 0;
+	command->child = 0;
 	data->cmds = command;
 }
 
@@ -138,7 +139,6 @@ t_minish	*init_data(char *envp[])
 	data->n_cmd = 0;
 	data->n_tokens = 0;
 //   data->within_quotes = 0;
-	data->child = 0;
 	init_cmd(data);
 	init_ptrs(data, envp);
 	return (data);

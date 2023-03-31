@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/30 11:54:11 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:31:36 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	switching_input_output(t_minish *data, t_cmd **cmd)
 {
-	if ((*cmd)->output > 1)
-	{
-		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
-			error_manager(6, data, cmd);
-		close((*cmd)->output);
-	}
 	if ((*cmd)->input)
 	{
 		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
 			error_manager(6, data, cmd);
 		close((*cmd)->input);
+	}
+	if ((*cmd)->output > 1)
+	{
+		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
+			error_manager(6, data, cmd);
+		close((*cmd)->output);
 	}
 	if ((*cmd)->file_in)
 	{
@@ -40,7 +40,6 @@ void	switching_input_output(t_minish *data, t_cmd **cmd)
 	}
 }
 
-// before execve call the tab_envp_updated function
 void	launching_command(t_minish *data, t_cmd **cmd)
 {
 	if (execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1)
