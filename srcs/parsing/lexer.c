@@ -12,19 +12,22 @@
 
 #include "../includes/minishell.h"
 
+void	expand_path_line(t_minish *data);
+
 int	lexer_input(t_minish *data)
 {
-	int i;
+	// int i;
 	int	res;
 
-	i = 0;
+	// i = 0;
 	res = 0;
+	expand_path_line(data);
 	data->tokens = split_tokens(data);
-	while (data->tokens[i])
-	{
-		printf("#%s#\n", data->tokens[i++]);
-	}
-	expand_path(data);
+	// while (data->tokens[i])
+	// {
+	// 	printf("#%s#\n", data->tokens[i++]);
+	// }
+	// expand_path(data);
 	parsing_path(data);
 	res = creating_cmd_list(data);
 	return (res);

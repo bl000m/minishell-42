@@ -92,6 +92,8 @@ static int	expand_tilde(t_minish *data, int index, int i, int j)
 	char	*home;
 
 	home = ft_strdup(find_varvalue(data, "HOME", 4));
+	if (!home)
+		home = ft_calloc(sizeof(char), 2);
 	if (i == 0 && ft_strlen(data->tokens[index]) == 1)
 	{
 		free(data->tokens[index]);
@@ -103,9 +105,10 @@ static int	expand_tilde(t_minish *data, int index, int i, int j)
 		line = ft_substr(data->tokens[index], j, i - j);
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	}
-	line = home;
-	if (line)
-		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	// line = home;
+	// if (line)
+		ft_lstadd_back(&data->aux, ft_lstnew(home));
+	printf("~=>#%s#\n", home);
 	return (++i);
 }
 
@@ -127,8 +130,8 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 		if (are_quotes(str[i]) != quote && !quote)
 			quote = are_quotes(str[i++]);
 		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' '
-			&& quote != 2 && data->tokens[index - 1]
-			&& ft_memcmp(data->tokens[index - 1], "<<", 2))
+			&& quote != 2 && (!index || (data->tokens[index - 1]
+					&& ft_memcmp(data->tokens[index - 1], "<<", 3))))
 			*j = expand_var(data, index, i, *j);
 		if (str[i] == '~' && !quote && (i == 0 || str[i - 1] == ' ')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
@@ -178,6 +181,38 @@ void	regroup_tokens(t_minish *data)
 	data->n_tokens = i + 1;
 }
 
+void	check_quotes_in_token(t_minish *data)
+{
+	int		i;
+	char	*tmp;
+
+	i = -1;
+	tmp = NULL;
+	while (data->tokens[++i])
+	{
+		tmp = getting_rid_of_quotes(data->tokens[i]);
+		free(data->tokens[i]);
+		data->tokens[i] = tmp;
+	}
+}
+
+void	create_within_quotes(t_minish *data)
+{
+	int	*quotes;
+	int	i;
+
+	quotes = ft_calloc(data->n_tokens, sizeof(int));
+	if (!quotes)
+		return ;
+	i = -1;
+	while (data->tokens[++i])
+	{
+		if (data->tokens[i][0] == '\'' || data->tokens[i][0] == '\"')
+			quotes[i] = 1;
+	}
+	data->within_quotes = quotes;
+}
+
 /**
  * @brief
  * It will iterate over the input splited previously by another
@@ -215,12 +250,156 @@ void	expand_path(t_minish *data)
 		}
 		free(data->tokens[index]);
 		data->tokens[index] = make_line_fromlst(&data->aux);
-		// printf("str depois => |%s|\n", data->tokens[index]);
+		printf("str depois => |%s|\n", data->tokens[index]);
 	}
 	regroup_tokens(data);
+	// create_within_quotes(data);
+	// printf("pas moi\n");
+	// check_quotes_in_token(data);
 	// index = -1;
 	// while (data->tokens[++index])
-		// printf("token final => |%s|\n", data->tokens[index]);
+	// 	printf("token final => |%s|\n", data->tokens[index]);
+}
+
+
+
+
+
+
+
+// static int	is_delimiter(char *str, int i)
+// {
+// 	i--;
+// 	while (str[i] && (str[i] == ' ' || str[i] == '\'' || str[i] == '\"'))
+// 		i--;
+// 	if (str[i] && str[i - 1] && str[i] == '<' && str[i - 1] == '<')
+// 		return (1);
+// 	return (0);
+// }
+
+
+/**
+ * @brief
+ * Replaces the contenu of the $VAR with the value of it.
+ * It will look after the '$' and continue while it's alphanumeric
+ * then it will search the correspondent variable.
+*/
+static int	expand_var_line(t_minish *data, int i, int *j)
+{
+	int		k;
+	char	*line;
+	char	*tmp;
+
+	if (i - *j > 0)
+	{
+		line = ft_substr(data->input, *j, i - *j);
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	}
+	k = 2;
+	if (ft_isalpha(data->input[i + 1])
+		|| data->input[i + 1] == '_')
+		while (ft_isalnum(data->input[i + k])
+			|| data->input[i + k] == '_')
+			k++;
+	if (data->input[i + 1] == '?')
+		line = ft_itoa(g_status);
+	else
+	{
+		tmp = find_varvalue(data, data->input + i + 1, k - 1);
+		line = ft_strdup(tmp);
+	}
+	if (line)
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	*j = i + k;
+	return (i + k - 1);
+}
+
+/**
+ * @brief
+ * Replaces the '~' with the value of $HOME.
+*/
+static int	expand_tilde_line(t_minish *data, int i, int *j)
+{
+	char	*line;
+	char	*home;
+
+	home = ft_strdup(find_varvalue(data, "HOME", 4));
+	if (!home)
+		home = ft_calloc(sizeof(char), 2);
+	// if (i == 0 && ft_strlen(data->tokens[index]) == 1)
+	// {
+	// 	free(data->tokens[index]);
+	// 	data->tokens[index] = home;
+	// 	return (1);
+	// }
+	if (i - *j > 0)
+	{
+		line = ft_substr(data->input, *j, i - *j);
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	}
+	// line = home;
+	// if (line)
+		ft_lstadd_back(&data->aux, ft_lstnew(home));
+	printf("~=>#%s#\n", home);
+	*j = i + 1;
+	return (i);
+}
+
+static int	expand_open_heredoc(t_minish *data, int i, int *j)
+{
+	char	*line;
+
+	if (i - *j > 0)
+	{
+		line = ft_substr(data->input, *j, i - *j);
+		ft_lstadd_back(&data->aux, ft_lstnew(line));
+	}
+	*j = i;
+	while (data->input[i] && data->input[i] == '<')
+		i++;
+	line = ft_substr(data->input, *j, i - *j);
+	ft_lstadd_back(&data->aux, ft_lstnew(line));
+	*j = i + 1;
+	return (i);
+}
+
+void	expand_path_line(t_minish *data)
+{
+	int		i;
+	int		j;
+	int		quote;
+	char	*str;
+
+	str = data->input;
+	i = -1;
+	j = 0;
+	quote = 0;
+	while (str[++i])
+	{
+		if (are_quotes(str[i]) != quote && !quote)
+			quote = are_quotes(str[i++]);
+		if (str[i] == '<' && !quote)
+			i = expand_open_heredoc(data, i, &j);
+		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' '
+			&& quote != 2 && (!data->aux || ft_memcmp(ft_lstlast(data->aux)->content, "<<", 3)))
+			i = expand_var_line(data, i, &j);
+		if (str[i] == '~' && !quote && (i == 0 || str[i - 1] == ' ')
+			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '/'))
+			i = expand_tilde_line(data, i, &j);
+		// if (*j > i)
+		// 	i = *j - 1;
+		if (quote == are_quotes(str[i]))
+			quote = 0;
+	}
+	if (j < i)
+		{
+			str = ft_substr(data->input, j, i - j);
+			if (!str)
+				return ;
+			ft_lstadd_back(&data->aux, ft_lstnew(str));
+		}
+		free(data->input);
+		data->input = make_line_fromlst(&data->aux);
 }
 
 int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)
