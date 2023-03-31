@@ -43,11 +43,11 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		executing_builtin(data, cmd);
 	else
 	{
-		pid = fork();
 		set_signals(EXEC);
 		if (!ft_memcmp((*cmd)->full_cmd[0], "minishell", 10)
-			|| !ft_memcmp((*cmd)->full_cmd[0], "./minishell", 10))
+			|| !ft_memcmp((*cmd)->full_cmd[0], "./minishell", 12))
 			set_signals(OFF);
+		pid = fork();
 		(*cmd)->child = pid;
 		if (pid == -1)
 		{
@@ -56,7 +56,7 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		}
 		else if (pid == 0)
 			child_process(data, cmd);
-  }
+	}
 	return ((*cmd)->next);
 }
 

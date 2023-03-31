@@ -21,13 +21,12 @@ int	lexer_input(t_minish *data)
 
 	// i = 0;
 	res = 0;
-	expand_path_line(data);
 	data->tokens = split_tokens(data);
 	// while (data->tokens[i])
 	// {
 	// 	printf("#%s#\n", data->tokens[i++]);
 	// }
-	// expand_path(data);
+	expand_path(data);
 	parsing_path(data);
 	res = creating_cmd_list(data);
 	return (res);

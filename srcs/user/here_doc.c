@@ -42,7 +42,11 @@ void	child_heredoc_bible(t_minish *data, char *limiter, int fd, int ignore_expan
 	{
 		input = readline("> ");
 		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter) + 1) == 0))
+		{
+			if (!input)
+				printf("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n", limiter);
 			break ;
+		}
 		heredoc_write_bible(data, ignore_expansion, input);
 	}
 	if (input)

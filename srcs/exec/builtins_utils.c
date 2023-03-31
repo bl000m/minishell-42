@@ -83,13 +83,15 @@ char	*getpwd_forline(t_minish *data)
 {
 	char	*linepwd;
 
-	linepwd = getcwd(NULL, 0);
-	if (linepwd)
-		return (linepwd);
+	// printf("passei na linha \n");
+	// linepwd = getcwd(NULL, 0);
+	// printf("linha %s\n", linepwd);
+	// if (linepwd)
+	// 	return (linepwd);
 	linepwd = find_varvalue(data, "PWD", 3);
 	if (linepwd)
 		return (ft_strdup(linepwd));
-	linepwd = ft_strdup("unknown_path");
+	linepwd = ft_strdup("/.");
 	return (linepwd);
 }
 

@@ -45,7 +45,7 @@ typedef struct s_cmd
 	int				file_in;
 	int				file_out;
 	int				last;
-	pid_t	    child;
+	pid_t			child;
 	struct s_cmd	*next;
 }	t_cmd;
 
