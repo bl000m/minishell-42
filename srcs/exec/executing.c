@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/31 09:37:04 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/03/31 09:40:19 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 {
 	int	pid;
 
-	// if (!data->path && !check_child_builtin(cmd) && !check_parent_builtin(cmd))
-	// 	error_manager(4, data, NULL);
 	if (check_parent_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
@@ -67,15 +65,9 @@ void	child_process(t_minish *data, t_cmd **cmd)
 	if (check_child_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
-	{
-		// if (find_dir_command(data, (*cmd)->full_cmd[0])
-		// 	&& !ft_strncmp((*cmd)->full_cmd[0], "./", 2))
-		// 	error_manager(12, data, cmd);
 		launching_command(data, cmd);
-	}
 }
 
-/* doubt: should we rename the builtins?*/
 int	check_child_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3)
@@ -91,11 +83,8 @@ int	check_parent_builtin(t_cmd **cmd)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "exit", 4));
 }
 
-/* call tab_envp_updated(data) if (unset) || (export) in order
-	to  recreate the env table if modified (after freeing the previous one)*/
 void	executing_builtin(t_minish *data, t_cmd **cmd)
 {
-	// set_signals(EXEC);
 	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
 		pwd(data);
 	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
