@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:51:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/01 21:09:24 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/01 21:52:35 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 		if (info->si_pid == pid)
 		{
 			write(1, "\n", 1);
-			// rl_replace_line("", 0);
+			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
@@ -40,21 +40,25 @@ void	handle_ctrld_exec(int sign)
 {
 	printf("Quit (core dumped)\n");
 	g_status = 128 + sign;
+	// exit(g_status);
 }
 
 void	handle_ctrlc_exec(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
+	// signal(SIGINT, SIG_IGN);
+	// exit(g_status);
 }
 
 void	handle_ctrlc_heredoc(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
+	// printf("g_status = %d\n", g_status);
 	close(STDIN_FILENO);
+	// exit(g_status);
 }
-
 
 /**
  * @brief
@@ -78,7 +82,6 @@ void	set_signals(int caller)
 		sigaction(SIGINT, &sa, NULL);
 		sigaction(SIGQUIT, &sa, NULL);
 	}
-		// signal_caller_prompt(sa);
 	if (caller == EXEC)
 	{
 		signal(SIGINT, SIG_IGN);
@@ -87,7 +90,6 @@ void	set_signals(int caller)
 		sa.sa_handler = handle_ctrld_exec;
 		sigaction(SIGQUIT, &sa, NULL);
 	}
-		// signal_caller_exec(sa);
 	if (caller == HEREDOC)
 	{
 		sa.sa_handler = handle_ctrlc_heredoc;
@@ -96,11 +98,3 @@ void	set_signals(int caller)
 	if (caller == OFF)
 		signal(SIGINT, SIG_IGN);
 }
-
-// void	signal_caller_prompt(struct sigaction sa)
-// {
-// }
-
-// void	signal_caller_exec(struct sigaction sa)
-// {
-// }

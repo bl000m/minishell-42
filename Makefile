@@ -14,32 +14,31 @@ NAME 		= minishell
 
 # mandatory srcs / obj files
 SRCS 		= main.c \
-			user/signal.c \
-			user/signal_utils.c \
-     		user/prompt.c \
-			user/here_doc.c \
-			parsing/lexer.c \
+					user/signal.c \
+     			user/prompt.c \
+					user/here_doc.c \
+					parsing/lexer.c \
       		parsing/lexer_token_counting.c \
-			parsing/lexer_token_splitting.c \
-			parsing/lexer_duplicating.c \
+					parsing/lexer_token_splitting.c \
+					parsing/lexer_duplicating.c \
       		parsing/lexer_expand.c \
-			parsing/parsing.c \
-			parsing/parsing_environment.c \
-			parsing/parsing_utils.c \
-			parsing/parsing_utils_2.c \
-			parsing/parsing_utils_3.c \
-			settings_utils/dict_utils.c \
-			settings_utils/dict_utils2.c \
-			settings_utils/memory_stuff_1.c \
-			settings_utils/memory_stuff_2.c \
-			settings_utils/settings_1.c \
-			settings_utils/settings_2.c \
-			settings_utils/error_management.c \
-			exec/executing.c \
-			exec/builtins_parent.c \
-			exec/builtins_child.c \
-			exec/builtins_utils.c \
-			exec/utils.c
+					parsing/parsing.c \
+					parsing/parsing_environment.c \
+					parsing/parsing_utils.c \
+					parsing/parsing_utils_2.c \
+					parsing/parsing_utils_3.c \
+					settings_utils/dict_utils.c \
+					settings_utils/dict_utils2.c \
+					settings_utils/memory_stuff_1.c \
+					settings_utils/memory_stuff_2.c \
+					settings_utils/settings_1.c \
+					settings_utils/settings_2.c \
+					settings_utils/error_management.c \
+					exec/executing.c \
+					exec/builtins_parent.c \
+					exec/builtins_child.c \
+					exec/builtins_utils.c \
+					exec/utils.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
 

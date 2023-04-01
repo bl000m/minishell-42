@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 16:16:58 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 21:51:59 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ char		**split_tokens(t_minish *data);
 
 /* t_dict management */
 
-t_dict		*dict_newnode(char *str);
+t_dict	*dict_newnode(char *str);
 void		dict_delone(t_dict **lst, t_dict *node);
 void		dict_addback(t_dict **dict, t_dict *new);
-size_t		dict_size(t_dict *dict);
-t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
-t_dict		*dict_duplst(t_dict *dict);
+size_t	dict_size(t_dict *dict);
+t_dict	*dict_findvar(t_dict *envp, char *variable, size_t len);
+t_dict	*dict_duplst(t_dict *dict);
 void		set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
 
 /* parsing */
@@ -127,6 +127,10 @@ int			stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 int			adding_full_path(t_minish *data, t_cmd **node);
 void		generate_envp(t_dict **dict);
 int			specific_cases(t_minish *data, int *i, int *res);
+void	  duplicating_dollar(t_minish *data, char **token, char *s);
+void	  duplicating_with_conditions(t_minish *data, char **token, char *s);
+void	  simple_quotes_handling(t_minish *data, char *s);
+void	  double_quotes_handling(t_minish *data, char *s);
 
 /* parsing utils */
 

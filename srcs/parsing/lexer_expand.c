@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/01 21:29:00 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/01 21:42:58 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ void	expand_path(t_minish *data)
 			data->tokens[index] = getting_rid_of_quotes(make_line_fromlst(&data->aux));
 		else
 			data->tokens[index] = make_line_fromlst(&data->aux);
-		// printf("str depois => |%s|\n", data->tokens[index]);
+		printf("str depois => |%s|\n", data->tokens[index]);
 	}
 	regroup_tokens(data);
 }
