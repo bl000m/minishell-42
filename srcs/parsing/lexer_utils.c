@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 13:44:04 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 14:32:59 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ char	*duplicating_dollar(char **token, char *s, int start, int end)
 	return (*token);
 }
 
-char	*duplicating_token(char *s, int start, int end)
+void	duplicating_with_conditions(char **token, char *s, int start, int end)
 {
-	char	*token;
 	int		n_token;
 	int		btw_double_quotes;
 	int		btw_simple_quotes;
@@ -39,6 +38,58 @@ char	*duplicating_token(char *s, int start, int end)
 	btw_double_quotes = 0;
 	btw_simple_quotes = 0;
 
+	while (s[start] && start < end)
+	{
+		if (s[start] == '\"' && s[start + 1] != '|'
+			&& s[start + 1] != '<' && s[start + 1] != '>')
+		{
+			btw_double_quotes = 1;
+			if (btw_simple_quotes == 0)
+				start++;
+		}
+		if (s[start] == '\'' && btw_double_quotes)
+		{
+			if (btw_simple_quotes == 1)
+				btw_simple_quotes = 0;
+			else
+				btw_simple_quotes = 1;
+		}
+		if (s[start] == '\'' && s[start + 1] != '|'
+			&& btw_double_quotes == 0
+			&& s[start + 1] != '<' && s[start + 1] != '>')
+		{
+			if (btw_simple_quotes == 1 && s[start] == '\'')
+				btw_simple_quotes = 0;
+			else
+				btw_simple_quotes = 1;
+			start++;
+			if (s[start] == '\'')
+				btw_simple_quotes = 0;
+		}
+		if (start == end || ((s[start] == '\"'
+					|| s[start] == '\'') && s[start + 1] == '\0'))
+			*(*token + n_token) = 0;
+		else if ((!(btw_simple_quotes == 0
+					&& (start > 0 && s[start - 1] == '\''))))
+		{
+			*(*token + n_token) = s[start];
+			n_token++;
+		}
+		else
+		{
+			*(*token + n_token) = s[start];
+			n_token++;
+		}
+		start++;
+	}
+	*(*token + n_token) = 0;
+}
+
+
+char	*duplicating_token(char *s, int start, int end)
+{
+	char	*token;
+
 	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
 		return (0);
@@ -46,53 +97,7 @@ char	*duplicating_token(char *s, int start, int end)
 		|| ft_memchr(&s[start], '~', end - start))
 		token = duplicating_dollar(&token, s, start, end);
 	else
-	{
-		while (s[start] && start < end)
-		{
-			if (s[start] == '\"' && s[start + 1] != '|'
-				&& s[start + 1] != '<' && s[start + 1] != '>')
-			{
-				btw_double_quotes = 1;
-				if (btw_simple_quotes == 0)
-					start++;
-			}
-			if (s[start] == '\'' && btw_double_quotes)
-			{
-				if (btw_simple_quotes == 1)
-					btw_simple_quotes = 0;
-				else
-					btw_simple_quotes = 1;
-			}
-			if (s[start] == '\'' && s[start + 1] != '|'
-				&& btw_double_quotes == 0
-				&& s[start + 1] != '<' && s[start + 1] != '>')
-			{
-				if (btw_simple_quotes == 1 && s[start] == '\'')
-					btw_simple_quotes = 0;
-				else
-					btw_simple_quotes = 1;
-				start++;
-				if (s[start] == '\'')
-					btw_simple_quotes = 0;
-			}
-			if (start == end || ((s[start] == '\"'
-						|| s[start] == '\'') && s[start + 1] == '\0'))
-				token[n_token] = 0;
-			else if ((!(btw_simple_quotes == 0
-						&& (start > 0 && s[start - 1] == '\''))))
-			{
-				token[n_token] = s[start];
-				n_token++;
-			}
-			else
-			{
-				token[n_token] = s[start];
-				n_token++;
-			}
-			start++;
-		}
-		token[n_token] = 0;
-	}
+		duplicating_with_conditions(&token, s, start, end);
 	return (token);
 }
 
