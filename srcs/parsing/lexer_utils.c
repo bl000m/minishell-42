@@ -6,98 +6,105 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 14:32:59 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 14:58:32 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-char	*duplicating_dollar(char **token, char *s, int start, int end)
+char	*duplicating_dollar(t_minish *data, char **token, char *s)
 {
 	int		n_token;
 
 	n_token = 0;
-	while (s[start] && start < end)
+	while (s[data->start] && data->start < data->end)
 	{
-		*(*token + n_token) = s[start];
+		*(*token + n_token) = s[data->start];
 		n_token++;
-		start++;
+		data->start++;
 	}
 	*(*token + n_token) = 0;
 	return (*token);
 }
 
-void	duplicating_with_conditions(char **token, char *s, int start, int end)
+void	double_quotes_handling(t_minish *data, char *s)
+{
+	if (s[data->start] == '\"' && s[data->start + 1] != '|'
+		&& s[data->start + 1] != '<' && s[data->start + 1] != '>')
+	{
+		data->btw_double_quotes = 1;
+		if (data->btw_simple_quotes == 0)
+			data->start++;
+	}
+}
+
+void	simple_quotes_handling(t_minish *data, char *s)
+{
+	if (s[data->start] == '\'' && data->btw_double_quotes)
+	{
+		if (data->btw_simple_quotes == 1)
+			data->btw_simple_quotes = 0;
+		else
+			data->btw_simple_quotes = 1;
+	}
+	if (s[data->start] == '\'' && s[data->start + 1] != '|'
+		&& data->btw_double_quotes == 0
+		&& s[data->start + 1] != '<' && s[data->start + 1] != '>')
+	{
+		if (data->btw_simple_quotes == 1 && s[data->start] == '\'')
+			data->btw_simple_quotes = 0;
+		else
+			data->btw_simple_quotes = 1;
+		data->start++;
+		if (s[data->start] == '\'')
+			data->btw_simple_quotes = 0;
+	}
+}
+
+void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 {
 	int		n_token;
-	int		btw_double_quotes;
-	int		btw_simple_quotes;
 
 	n_token = 0;
-	btw_double_quotes = 0;
-	btw_simple_quotes = 0;
-
-	while (s[start] && start < end)
+	while (s[data->start] && data->start < data->end)
 	{
-		if (s[start] == '\"' && s[start + 1] != '|'
-			&& s[start + 1] != '<' && s[start + 1] != '>')
-		{
-			btw_double_quotes = 1;
-			if (btw_simple_quotes == 0)
-				start++;
-		}
-		if (s[start] == '\'' && btw_double_quotes)
-		{
-			if (btw_simple_quotes == 1)
-				btw_simple_quotes = 0;
-			else
-				btw_simple_quotes = 1;
-		}
-		if (s[start] == '\'' && s[start + 1] != '|'
-			&& btw_double_quotes == 0
-			&& s[start + 1] != '<' && s[start + 1] != '>')
-		{
-			if (btw_simple_quotes == 1 && s[start] == '\'')
-				btw_simple_quotes = 0;
-			else
-				btw_simple_quotes = 1;
-			start++;
-			if (s[start] == '\'')
-				btw_simple_quotes = 0;
-		}
-		if (start == end || ((s[start] == '\"'
-					|| s[start] == '\'') && s[start + 1] == '\0'))
+		double_quotes_handling(data, s);
+		simple_quotes_handling(data, s);
+		if (data->start == data->end || ((s[data->start] == '\"'
+					|| s[data->start] == '\'') && s[data->start + 1] == '\0'))
 			*(*token + n_token) = 0;
-		else if ((!(btw_simple_quotes == 0
-					&& (start > 0 && s[start - 1] == '\''))))
-		{
-			*(*token + n_token) = s[start];
-			n_token++;
-		}
+		// else if ((!(data->btw_simple_quotes == 0
+		// 			&& (data->start > 0 && s[data->start - 1] == '\''))))
+		// {
+		// 	*(*token + n_token) = s[data->start];
+		// 	n_token++;
+		// }
 		else
 		{
-			*(*token + n_token) = s[start];
+			*(*token + n_token) = s[data->start];
 			n_token++;
 		}
-		start++;
+		data->start++;
 	}
 	*(*token + n_token) = 0;
 }
 
 
-char	*duplicating_token(char *s, int start, int end)
+char	*duplicating_token(t_minish *data, char *s, int start, int end)
 {
 	char	*token;
 
+	data->start = start;
+	data->end = end;
 	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
 		return (0);
 	if (ft_memchr(&s[start], '$', end - start)
 		|| ft_memchr(&s[start], '~', end - start))
-		token = duplicating_dollar(&token, s, start, end);
+		token = duplicating_dollar(data, &token, s);
 	else
-		duplicating_with_conditions(&token, s, start, end);
+		duplicating_with_conditions(data, &token, s);
 	return (token);
 }
 
