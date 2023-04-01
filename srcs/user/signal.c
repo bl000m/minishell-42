@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:51:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/01 16:30:25 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 21:09:24 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 		if (info->si_pid == pid)
 		{
 			write(1, "\n", 1);
-			rl_replace_line("", 0);
+			// rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}

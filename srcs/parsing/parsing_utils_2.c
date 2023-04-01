@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:03:02 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:41:27 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 21:27:19 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,26 @@
 int	specific_cases(t_minish *data, int *i, int *res)
 {
 	if (data->tokens[*i][0] == '.' && !data->tokens[*i][1])
+  {
 		printf("minishell: .: filename argument required\n");
+	  *res = 1;
+  }
 	else if (data->tokens[*i][0] == '/' && !data->tokens[*i][0])
+  {
 		printf("minishell: /: Is a directory\n");
+	  *res = 1;
+  }
 	else if (data->tokens[*i][0] == '.'
 		&& data->tokens[*i][1] == '/' && !data->tokens[*i][2])
+  {
 		printf("minishell: ./: Is a directory\n");
+	  *res = 1;
+  }
 	else if (!ft_strncmp(data->tokens[*i], "||", 2))
+  {
 		printf("syntax error near unexpected token\n");
-	*res = 1;
+	  *res = 1;
+  }
 	return (*res);
 }
 

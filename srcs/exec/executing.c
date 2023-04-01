@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 16:34:23 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 21:29:43 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	executing_commands(t_minish *data)
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
 	closing_all_fd(data);
-	printf("COUCOU\n");
 	cmd = data->cmds;
 	while (cmd)
 	{

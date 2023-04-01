@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 16:33:32 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 21:29:13 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	setting_prompt(t_minish *data)
 			tab_envp_updated(data);
 			if (!lexer_input(data))
 				executing_commands(data);
-			printf("COUCOU\n");
 		}
 		free(prefix);
 		if (data->input == NULL)
