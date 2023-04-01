@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:40:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/24 14:03:36 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/04/01 15:09:18 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 /* builtin to be exec in child process: */
 void	env(t_minish *data, t_cmd *cmd)

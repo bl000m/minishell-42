@@ -3,69 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 14:27:16 by mpagani          ###   ########.fr       */
+/*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
+/*   Updated: 2023/04/01 21:27:31 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-void	parsing_path(t_minish *data)
-{
-	data->path = find_varvalue(data, "PATH", 4);
-	if (!data->path)
-	{
-		return ;
-		printf("we need to create en error\n");
-		// printf("no env: we need to generate a basic env with\nPWD=\nSHLVL=\n_=\n");
-		// generate_envp(&data->envp);
-	}
-	else
-		data->path_dir = ft_split(data->path, ':');
-}
-
-/**
- * @brief
- * It will look for the variable given in arg and return it's value
- * The comparison is made based on the name of the variable given and
- * the variable stocked on the data->envp and in the length of both
- * @param t_minish *data
- * @param char *variable -> the name of the variable to be searched
- * @param size_t len -> the length of the name of the variable to be searched
- * @return
- * char* -> the value of the variable
- * NULL if it doesn't exist
-*/
-char	*find_varvalue(t_minish *data, char *variable, size_t len)
-{
-	t_dict	*ptr;
-
-	ptr = dict_findvar(data->envp, variable, len);
-	if (!ptr)
-		return (NULL);
-	return (ptr->value);
-}
-
-char	*find_dir_command(t_minish *data, char *command)
+int	creating_cmd_list(t_minish *data)
 {
 	int		i;
-	char	*path_dir;
-	char	*path_with_command;
+	int		res;
+	t_cmd	*node;
 
 	i = 0;
-	while (data->path_dir[i])
+	res = 0;
+	node = data->cmds;
+	while (i < data->n_tokens && !res)
+		res = checking_token(data, &node, &i);
+	return (res);
+}
+
+int	checking_token(t_minish *data, t_cmd **node, int *i)
+{
+	int	res;
+
+	res = 0;
+	if (data->tokens[*i][0] == '<' && !data->tokens[*i][1])
+		res = input_redirection(data, node, i);
+	else if (data->tokens[*i][0] == '>' && !data->tokens[*i][1])
+		res = output_redirection(data, node, i);
+	else if (!ft_strncmp(data->tokens[*i], "<<", 2))
+		res = heredoc_handling(data, node, i);
+	else if (!ft_strncmp(data->tokens[*i], ">>", 2))
+		res = output_append_redirection(data, node, i);
+	else if (specific_cases(data, i, &res))
+		*i += 1;
+	else if (data->tokens[*i][0] == '|')
+		res = pipe_new_node(data, node, i);
+	else
 	{
-		if (access(command, F_OK | X_OK) == 0)
-			return (command);
-		path_dir = ft_strjoin(data->path_dir[i], "/");
-		path_with_command = ft_strjoin(path_dir, command);
-		free(path_dir);
-		if (access(path_with_command, F_OK | X_OK) == 0)
-			return (path_with_command);
-		free(path_with_command);
-		i++;
+		if (*i > 0 && (data->tokens[*i - 1][0] == '<'
+			|| data->tokens[*i - 1][0] == '>'))
+			*i += 1;
+		else
+			stocking_cmd_and_arguments(data, node, i);
 	}
-	return (NULL);
+	return (res);
+}
+
+int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
+{
+	int		arg;
+	int		res;
+
+	res = 0;
+	arg = 0;
+	(*node)->full_cmd = malloc(sizeof(char *) * (count_token_cmd(data, i) + 1));
+	if (!(*node)->full_cmd)
+		return (1);
+	while (data->tokens[*i] && data->tokens[*i][0] != '|'
+		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
+	{
+		(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
+		res = adding_full_path(data, node);
+		arg += 1;
+		*i += 1;
+	}
+	(*node)->full_cmd[arg] = NULL;
+	return (res);
+}
+
+int	adding_full_path(t_minish *data, t_cmd **node)
+{
+	if (is_builtin((*node)->full_cmd[0]))
+		(*node)->full_path = NULL;
+	else if (!is_builtin((*node)->full_cmd[0]))
+	{
+		if (find_varvalue(data, "PATH", 4))
+			(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
+		else
+		{
+			printf("No path is set. Cannot execute not built in functions\n");
+			return (1);
+		}
+	}
+	return (0);
 }

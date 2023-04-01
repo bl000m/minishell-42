@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 19:51:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/01 10:42:34 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 21:52:35 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-void	handle_ctrlc_exec(int sign);
+#include "minishell.h"
 
 void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 {

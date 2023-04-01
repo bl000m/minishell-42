@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/28 13:10:34 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:13:18 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 /**
  * @brief
