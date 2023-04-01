@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmd_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/31 09:37:57 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/01 11:02:04 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	creating_cmd_list(t_minish *data)
 
 int	specific_cases(t_minish *data, int *i, int *res)
 {
-	if (data->tokens[*i][0] == '.'&& !data->tokens[*i][1])
+	if (data->tokens[*i][0] == '.' && !data->tokens[*i][1])
 	{
 		printf("minishell: .: filename argument required\n");
 		*res = 1;
@@ -104,14 +104,15 @@ char	*getting_rid_of_quotes(char *token)
 			quote = are_quotes(token[i++]);
 		while (token[i] && (!are_quotes(token[i])
 				|| (quote && are_quotes(token[i]) != quote)))
+		{
 			result[j++] = token[i++];
+		}
 		if (token[i] && are_quotes(token[i]) == quote)
 		{
 			quote = 0;
 			i++;
 		}
 	}
-	// result[j] = 0;
 	// printf("result = %s\n", result);
 	return (result);
 }
