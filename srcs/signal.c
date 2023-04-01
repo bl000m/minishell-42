@@ -26,15 +26,15 @@ void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 		if (info->si_pid == pid)
 		{
 			write(1, "\n", 1);
-			// rl_replace_line("", 0);
+			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
 		}
-		// else
-			// handle_ctrlc_exec(sign);
 	}
 	if (sign == SIGQUIT)
 		printf("\b\b  \b\b");
+	if (!info->si_pid)
+		exit(128 + sign);
 	g_status = 128 + sign;
 }
 
@@ -42,14 +42,14 @@ void	handle_ctrld_exec(int sign)
 {
 	printf("Quit (core dumped)\n");
 	g_status = 128 + sign;
-	exit(g_status);
+	// exit(g_status);
 }
 
 void	handle_ctrlc_exec(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
-	signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
 	// exit(g_status);
 }
 
@@ -67,7 +67,7 @@ void	handle_ctrlc_heredoc(int sign)
  * Function to handle the signals.
  * To be called inside prompt, with heredoc and inside the childs,
  * it takes the caller as argument to know what to do.
- * @param int (PROMPT, EXEC, HEREDOC)
+ * @param int (PROMPT, EXEC, HEREDOC or OFF)
 */
 void	set_signals(int caller)
 {
@@ -97,4 +97,6 @@ void	set_signals(int caller)
 		sa.sa_handler = handle_ctrlc_heredoc;
 		sigaction(SIGINT, &sa, NULL);
 	}
+	if (caller == OFF)
+		signal(SIGINT, SIG_IGN);
 }

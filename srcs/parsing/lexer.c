@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+void	expand_path_line(t_minish *data);
+
 int	lexer_input(t_minish *data)
 {
 	// int i;

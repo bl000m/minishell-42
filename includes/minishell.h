@@ -45,7 +45,7 @@ typedef struct s_cmd
 	int				file_in;
 	int				file_out;
 	int				last;
-	pid_t	    child;
+	pid_t			child;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -181,6 +181,7 @@ void		free_env_table(t_minish *data);
 # define PROMPT 0
 # define HEREDOC 1
 # define EXEC 2
+# define OFF 3
 # define NO_COLOR "\033[0m"
 # define BLACK "\033[1;90m"
 # define RED "\033[1;91m"
