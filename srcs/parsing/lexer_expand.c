@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/01 13:24:31 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:58:28 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 /**
  * @brief
@@ -238,7 +238,7 @@ void	expand_path(t_minish *data)
 			data->tokens[index] = getting_rid_of_quotes(make_line_fromlst(&data->aux));
 		else
 			data->tokens[index] = make_line_fromlst(&data->aux);
-		printf("str depois => |%s|\n", data->tokens[index]);
+		// printf("str depois => |%s|\n", data->tokens[index]);
 	}
 	regroup_tokens(data);
 }

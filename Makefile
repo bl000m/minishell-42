@@ -14,7 +14,8 @@ NAME 		= minishell
 
 # mandatory srcs / obj files
 SRCS 		= main.c \
-			signal.c \
+			user/signal.c \
+			user/signal_utils.c \
      		user/prompt.c \
 			user/here_doc.c \
 			parsing/lexer.c \
@@ -23,13 +24,16 @@ SRCS 		= main.c \
 			parsing/lexer_duplicating.c \
       		parsing/lexer_expand.c \
 			parsing/parsing.c \
-			parsing/parsing_cmd_list.c \
+			parsing/parsing_environment.c \
 			parsing/parsing_utils.c \
 			parsing/parsing_utils_2.c \
+			parsing/parsing_utils_3.c \
 			settings_utils/dict_utils.c \
 			settings_utils/dict_utils2.c \
-			settings_utils/memory_stuff.c \
-			settings_utils/settings.c \
+			settings_utils/memory_stuff_1.c \
+			settings_utils/memory_stuff_2.c \
+			settings_utils/settings_1.c \
+			settings_utils/settings_2.c \
 			settings_utils/error_management.c \
 			exec/executing.c \
 			exec/builtins_parent.c \

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:55:27 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:13:42 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 16:00:09 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	check_error(int argc)
 	}
 }
 
+// to be completely redone
 void	error_manager(int error, t_minish *data, t_cmd **cmd)
 {
 	(void)data;
@@ -47,19 +48,16 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 	{
 		printf("cd: No such file or directory\n");
 		g_status = EXIT_FAILURE;
-		// check cloding fd
 	}
 	else if (error == 14)
 	{
 		printf("cd: too many arguments\n");
 		g_status = EXIT_FAILURE;
-		// check cloding fd
 	}
 	else if (error == 15)
 	{
 		printf("env: minishell should not manage arg for env\n");
 		g_status = EXIT_FAILURE;
-		// check cloding fd
 	}
 	else if (error == 4)
 	{
@@ -67,12 +65,7 @@ void	error_manager(int error, t_minish *data, t_cmd **cmd)
 		exit(EXIT_FAILURE);
 	}
 	else if (error == 5)
-	{
-		// if ((*cmd)->file_in)
-		// 	close((*cmd)->file_in);
 		ft_printf("OUTPUT ERROR: %s\n", strerror(errno));
-		// exit(g_status);
-	}
 	else if (error == 6)
 		ft_printf("ERROR in switching OUTPUT for %s fd\n", (*cmd)->full_cmd[0]);
 	else if (error == 7)

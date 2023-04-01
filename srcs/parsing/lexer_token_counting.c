@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:06:45 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:11:46 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:18:22 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	pipe_redirections_handling(char *s, int *n_tokens, int *i)
 		*n_tokens += 1;
 }
 
-void identify_token(char *s, char character, int *n_tokens, int *i)
+void	identify_token(char *s, char character, int *n_tokens, int *i)
 {
 	if (character == '<' || character == '>' || character == '|')
 		pipe_redirections_handling(s, n_tokens, i);
@@ -91,6 +91,5 @@ int	*tokens_counter(char *s, int *n_tokens)
 		identify_token(s, s[i], n_tokens, &i);
 		i++;
 	}
-	// printf("n.token = %d\n", *n_tokens);
 	return (n_tokens);
 }

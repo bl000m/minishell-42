@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:03:58 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:21:13 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 
 char	*duplicating_dollar(t_minish *data, char **token, char *s)

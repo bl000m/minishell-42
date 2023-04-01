@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:10:39 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 16:34:23 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	executing_commands(t_minish *data)
 	while (cmd && cmd->full_cmd)
 		cmd = creating_child(&cmd, data);
 	closing_all_fd(data);
+	printf("COUCOU\n");
 	cmd = data->cmds;
 	while (cmd)
 	{

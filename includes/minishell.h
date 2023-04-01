@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 14:42:25 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 16:16:58 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <errno.h>
 # include <string.h>
 
-extern int	g_status;
+extern int			g_status;
 
 typedef struct s_dict
 {
@@ -51,25 +51,31 @@ typedef struct s_cmd
 
 typedef struct s_minish
 {
-	char	*input;
-	char	**tokens;
-	t_cmd	*cmds;
-	int		n_cmd;
-	int		n_tokens;
-  	int		btw_double_quotes;
-	int		btw_simple_quotes;
-	int		start;
-	int		end;
-	char	*path;
-	char	**path_dir;
-	char	**env_table;
-	t_dict	*envp;
-	t_list	*aux;
+	char			*input;
+	char			**tokens;
+	t_cmd			*cmds;
+	int				n_cmd;
+	int				n_tokens;
+	int				btw_double_quotes;
+	int				btw_simple_quotes;
+	int				start;
+	int				end;
+	char			*path;
+	char			**path_dir;
+	char			**env_table;
+	t_dict			*envp;
+	t_list			*aux;
 }	t_minish;
 
 /* signals */
 
 void		set_signals(int caller);
+void		handle_ctrlc(int sign, siginfo_t *info, void *context);
+void		handle_ctrlc_exec(int sign);
+void		handle_ctrld_exec(int sign);
+void		handle_ctrlc_heredoc(int sign);
+void		signal_caller_prompt(struct sigaction sa);
+void		signal_caller_exec(struct sigaction sa);
 
 /* builtins */
 
@@ -90,6 +96,7 @@ char		**tab_envp_updated(t_minish *data);
 char		*get_lineprefix(t_minish *data);
 void		update_envp(t_dict *envp);
 void		init_cmd(t_minish *data);
+void		init_ptrs(t_minish *data, char *envp[]);
 
 /* lexical analysis */
 
@@ -119,6 +126,7 @@ int			checking_token(t_minish *data, t_cmd **node, int *i);
 int			stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 int			adding_full_path(t_minish *data, t_cmd **node);
 void		generate_envp(t_dict **dict);
+int			specific_cases(t_minish *data, int *i, int *res);
 
 /* parsing utils */
 
@@ -132,6 +140,7 @@ int			pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
 int			heredoc_handling(t_minish *data, t_cmd **node, int *i);
 char		*getting_rid_of_quotes(char *token);
+int			cmds_number(t_minish *data);
 
 /* Bonus features */
 
