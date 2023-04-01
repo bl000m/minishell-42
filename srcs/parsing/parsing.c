@@ -58,7 +58,7 @@ char	*find_dir_command(t_minish *data, char *command)
 	while (data->path_dir[i])
 	{
 		if (access(command, F_OK | X_OK) == 0)
-			return (command);
+			return (ft_strdup(command));
 		path_dir = ft_strjoin(data->path_dir[i], "/");
 		path_with_command = ft_strjoin(path_dir, command);
 		free(path_dir);

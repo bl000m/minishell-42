@@ -195,6 +195,59 @@ int	check_if_dollar(char *token)
 	return (0);
 }
 
+void	realloc_data_tokens(t_minish *data, char **newtokens, int index)
+{
+	int		i;
+	int		j;
+	char	**ptr;
+
+	i = -1;
+	j = 0;
+	ptr = data->tokens;
+	data->tokens = ft_calloc(sizeof(char *), data->n_tokens + 1);
+	if (!data->tokens)
+		return ;
+	while (++i < index)
+		data->tokens[i] = ptr[i];
+	while (newtokens[j])
+		data->tokens[i++] = newtokens[j++];
+	while (i < data->n_tokens)
+		data->tokens[i++] = ptr[++index];
+	free(newtokens);
+	free(ptr);
+	// data->tokens = NULL;
+	// return ;
+}
+
+void	split_expandedtoken(t_minish *data, int *index)
+{
+	char	*line1;
+	char	*line2;
+	int		i;
+	char	**tokens;
+
+	i = 0;
+	line1 = make_line_fromlst(&data->aux);
+	line2 = getting_rid_of_quotes(line1);
+	free(line1);
+	tokens = ft_split(line2, ' ');
+	free(line2);
+	while (tokens[i])
+		i++;
+	if (i == 1)
+	{
+		data->tokens[*index] = tokens[0];
+		free(tokens);
+	}
+	else
+	{
+		data->n_tokens += i - 1;
+		realloc_data_tokens(data, tokens, *index);
+		*index += i - 1;
+		// printf("token %d => #%s#\n", i, tokens[i]);
+	}
+}
+
 /**
  * @brief
  * It will iterate over the input splited previously by another
@@ -235,10 +288,11 @@ void	expand_path(t_minish *data)
 		dollar = check_if_dollar(data->tokens[index]);
 		free(data->tokens[index]);
 		if (dollar)
-			data->tokens[index] = getting_rid_of_quotes(make_line_fromlst(&data->aux));
+			split_expandedtoken(data, &index);
+			// data->tokens[index] = getting_rid_of_quotes(make_line_fromlst(&data->aux));
 		else
 			data->tokens[index] = make_line_fromlst(&data->aux);
-		printf("str depois => |%s|\n", data->tokens[index]);
+		// printf("str depois => |%s|\n", data->tokens[index]);
 	}
 	regroup_tokens(data);
 }

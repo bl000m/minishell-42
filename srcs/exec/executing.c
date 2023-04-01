@@ -29,7 +29,8 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(cmd->child, &process_status, 0);
-		if (data->cmds && !check_parent_builtin(&cmd))
+		if (data->cmds && !check_parent_builtin(&cmd)
+			&& !WIFSIGNALED(process_status))
 			g_status = WEXITSTATUS(process_status);
 		cmd = cmd->next;
 	}

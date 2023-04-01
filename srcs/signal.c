@@ -12,8 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void	handle_ctrlc_exec(int sign);
-
 void	handle_ctrlc(int sign, siginfo_t *info, void *context)
 {
 	static int	pid = 0;
@@ -49,6 +47,7 @@ void	handle_ctrlc_exec(int sign)
 {
 	write(1, "\n", 1);
 	g_status = 128 + sign;
+	// kill(0, SIGINT);
 	// signal(SIGINT, SIG_IGN);
 	// exit(g_status);
 }
