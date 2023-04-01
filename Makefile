@@ -20,11 +20,12 @@ SRCS 		= main.c \
 			parsing/lexer.c \
       		parsing/lexer_token_counting.c \
 			parsing/lexer_token_splitting.c \
-			parsing/lexer_utils.c \
+			parsing/lexer_duplicating.c \
       		parsing/lexer_expand.c \
 			parsing/parsing.c \
 			parsing/parsing_cmd_list.c \
 			parsing/parsing_utils.c \
+			parsing/parsing_utils_2.c \
 			settings_utils/dict_utils.c \
 			settings_utils/dict_utils2.c \
 			settings_utils/memory_stuff.c \

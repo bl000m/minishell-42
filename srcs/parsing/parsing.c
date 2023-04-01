@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 14:27:16 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:13:12 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	parsing_path(t_minish *data)
 {
@@ -19,8 +19,6 @@ void	parsing_path(t_minish *data)
 	{
 		return ;
 		printf("we need to create en error\n");
-		// printf("no env: we need to generate a basic env with\nPWD=\nSHLVL=\n_=\n");
-		// generate_envp(&data->envp);
 	}
 	else
 		data->path_dir = ft_split(data->path, ':');

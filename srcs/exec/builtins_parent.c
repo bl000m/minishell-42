@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_parent.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/24 14:37:06 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/04/01 15:09:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 int	is_validvarname(char *varname, size_t len)
 {
@@ -56,7 +56,6 @@ void	unset(t_minish *data, t_cmd *cmd)
 			set_varvalue(data->envp, curr->key, curr->key_len, "0");
 	}
 	g_status = exit_code;
-	// printf("g_status %d\n", g_status);
 }
 
 void	export(t_minish *data, t_cmd *cmd)

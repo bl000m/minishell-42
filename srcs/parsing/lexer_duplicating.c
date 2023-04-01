@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   lexer_duplicating.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 14:58:32 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:03:58 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,6 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 		if (data->start == data->end || ((s[data->start] == '\"'
 					|| s[data->start] == '\'') && s[data->start + 1] == '\0'))
 			*(*token + n_token) = 0;
-		// else if ((!(data->btw_simple_quotes == 0
-		// 			&& (data->start > 0 && s[data->start - 1] == '\''))))
-		// {
-		// 	*(*token + n_token) = s[data->start];
-		// 	n_token++;
-		// }
 		else
 		{
 			*(*token + n_token) = s[data->start];
@@ -106,24 +100,4 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 	else
 		duplicating_with_conditions(data, &token, s);
 	return (token);
-}
-
-char	**ft_free(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs[i])
-		free(strs[i++]);
-	free(strs);
-	return (0);
-}
-
-int	are_quotes(char c)
-{
-	if (c == '\"')
-		return (1);
-	else if (c == '\'')
-		return (2);
-	return (0);
 }

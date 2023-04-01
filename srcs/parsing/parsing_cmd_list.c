@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 11:02:04 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:12:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <../includes/minishell.h>
+#include "minishell.h"
 
 int	creating_cmd_list(t_minish *data)
 {

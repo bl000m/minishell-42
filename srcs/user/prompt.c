@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/28 15:32:27 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:14:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	updating_data(t_minish *data)
 {
@@ -18,7 +18,6 @@ void	updating_data(t_minish *data)
 	if (data->input)
 		free(data->input);
 	data->input = NULL;
-	// free(prefix);
 	if (data->cmds)
 		free_linked_list_full_cmd(data);
 	if (data->tokens)

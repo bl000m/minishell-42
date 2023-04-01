@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 14:37:57 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:08:37 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	space_token(char *s, int *start, int *end)
 {
@@ -66,7 +66,7 @@ void	pipe_redirections_token(char *s, int *start, int *end)
 	}
 }
 
-void add_token(char *s, int *start, int *end)
+void	add_token(char *s, int *start, int *end)
 {
 	if (s[*end] == '<' || s[*end] == '>' || s[*end] == '|')
 		pipe_redirections_token(s, start, end);

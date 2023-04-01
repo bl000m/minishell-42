@@ -6,11 +6,11 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/30 14:39:37 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:13:07 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	create_new_cmd_list_node(t_cmd **node)
 {
@@ -34,7 +34,7 @@ void	create_new_cmd_list_node(t_cmd **node)
 int	count_token_cmd(t_minish *data, int *i)
 {
 	int	count;
-	int temp;
+	int	temp;
 
 	temp = *i;
 	count = 0;
