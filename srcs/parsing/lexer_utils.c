@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 10:40:36 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 13:44:04 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,16 @@ char	*duplicating_token(char *s, int start, int end)
 			if (s[start] == '\"' && s[start + 1] != '|'
 				&& s[start + 1] != '<' && s[start + 1] != '>')
 			{
-        // printf("jump in double in start = %d\n", start);
 				btw_double_quotes = 1;
 				if (btw_simple_quotes == 0)
 					start++;
 			}
 			if (s[start] == '\'' && btw_double_quotes)
 			{
-        if (btw_simple_quotes == 1)
-        {
-          // printf("btw 1 s[start] %c and start = %d\n", s[start], start);
+				if (btw_simple_quotes == 1)
 					btw_simple_quotes = 0;
-				  // token[n_token] = s[start];
-        }
 				else
-        {
-          // printf("btw 0 s[start] %c and start = %d\n", s[start], start);
 					btw_simple_quotes = 1;
-        }
-				// n_token++;
 			}
 			if (s[start] == '\'' && s[start + 1] != '|'
 				&& btw_double_quotes == 0
@@ -80,33 +71,25 @@ char	*duplicating_token(char *s, int start, int end)
 					btw_simple_quotes = 0;
 				else
 					btw_simple_quotes = 1;
-        // printf("jump in simple in stqrt = %d\n", start);
 				start++;
 				if (s[start] == '\'')
 					btw_simple_quotes = 0;
 			}
 			if (start == end || ((s[start] == '\"'
 						|| s[start] == '\'') && s[start + 1] == '\0'))
-      {
-        // printf("adding 0 after %c in start = %d new char %d\n", s[start - 1], start, n_token);
 				token[n_token] = 0;
-      }
 			else if ((!(btw_simple_quotes == 0
 						&& (start > 0 && s[start - 1] == '\''))))
 			{
-        // printf("duplicating %c in start = %d and new char = %d and SQ = %d\n", s[start], start, n_token, btw_simple_quotes);
 				token[n_token] = s[start];
 				n_token++;
 			}
-      else
-      {
-        // printf("@ duplicating %c in start = %d and new char = %d and SQ = %d\n", s[start], start, n_token, btw_simple_quotes);
+			else
+			{
 				token[n_token] = s[start];
 				n_token++;
-        // start++;
 			}
 			start++;
-      // printf("final start %d\n", start);
 		}
 		token[n_token] = 0;
 	}
