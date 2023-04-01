@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/03/30 11:29:19 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 13:24:31 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,19 @@ void	regroup_tokens(t_minish *data)
 	data->n_tokens = i + 1;
 }
 
+int	check_if_dollar(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (token[i])
+	{
+		if (token[i] == '$')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 /**
  * @brief
@@ -202,12 +215,14 @@ void	expand_path(t_minish *data)
 	int		i;
 	int		j;
 	char	*subline;
+	int		dollar;
 
 	index = -1;
 	subline = NULL;
 	while (data->tokens[++index])
 	{
 		// printf("str antes => |%s|\n", data->tokens[index]);
+		dollar = 0;
 		j = 0;
 		i = verify_expansion(data, index, &j);
 		if (j < i)
@@ -217,14 +232,15 @@ void	expand_path(t_minish *data)
 				return ;
 			ft_lstadd_back(&data->aux, ft_lstnew(subline));
 		}
+		dollar = check_if_dollar(data->tokens[index]);
 		free(data->tokens[index]);
-		data->tokens[index] = make_line_fromlst(&data->aux);
+		if (dollar)
+			data->tokens[index] = getting_rid_of_quotes(make_line_fromlst(&data->aux));
+		else
+			data->tokens[index] = make_line_fromlst(&data->aux);
 		printf("str depois => |%s|\n", data->tokens[index]);
 	}
 	regroup_tokens(data);
-	// index = -1;
-	// while (data->tokens[++index])
-	// 	printf("token final => |%s|\n", data->tokens[index]);
 }
 
 int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)

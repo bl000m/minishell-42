@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/31 15:56:22 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/01 10:46:08 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	child_heredoc_bible(t_minish *data, char *limiter, int fd, int ignore_expan
 		if (!input || (ft_strncmp(input, limiter, ft_strlen(limiter) + 1) == 0))
 		{
 			if (!input)
-				printf("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n", limiter);
+				printf("minishell: warning: here-document at line 1 \
+				delimited by end-of-file (wanted `%s')\n", limiter);
 			break ;
 		}
 		heredoc_write_bible(data, ignore_expansion, input);

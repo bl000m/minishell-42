@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/03/31 09:38:14 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/01 11:13:53 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ void	expand_path_line(t_minish *data);
 
 int	lexer_input(t_minish *data)
 {
-	// int i;
+	int i;
 	int	res;
 
-	// i = 0;
+	i = 0;
 	res = 0;
 	data->tokens = split_tokens(data);
-	// while (data->tokens[i])
-	// {
-	// 	printf("#%s#\n", data->tokens[i++]);
-	// }
+	while (data->tokens[i])
+	{
+		printf("#%s#\n", data->tokens[i++]);
+	}
 	expand_path(data);
 	parsing_path(data);
 	res = creating_cmd_list(data);
