@@ -6,13 +6,11 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 16:50:19 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 21:22:51 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	expand_path_line(t_minish *data);
 
 int	lexer_input(t_minish *data)
 {
