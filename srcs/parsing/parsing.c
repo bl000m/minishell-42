@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 21:27:31 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/01 22:59:05 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 	int	res;
 
 	res = 0;
-	if (data->tokens[*i][0] == '<' && !data->tokens[*i][1])
+	if (data->tokens[*i][0] == '<')
 		res = input_redirection(data, node, i);
-	else if (data->tokens[*i][0] == '>' && !data->tokens[*i][1])
+	else if (data->tokens[*i][0] == '>')
 		res = output_redirection(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], "<<", 2))
 		res = heredoc_handling(data, node, i);

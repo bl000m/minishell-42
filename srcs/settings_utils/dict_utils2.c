@@ -26,7 +26,6 @@ void	dict_free(t_dict **dict)
 		return ;
 	while (*dict)
 	{
-		// printf("key => |%s|   value => |%s|\n", (*dict)->key, (*dict)->value);
 		ptr = (*dict)->next;
 		if ((*dict)->key)
 			free((*dict)->key);
@@ -56,7 +55,6 @@ void	dict_delone(t_dict **lst, t_dict *node)
 	t_dict	*ptr;
 
 	ptr = *lst;
-
 	if (ptr == node)
 		*lst = node->next;
 	else

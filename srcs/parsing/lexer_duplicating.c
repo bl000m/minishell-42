@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 21:49:24 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 10:17:11 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 	return (token);
 }
 
+// @Felipe: double_quotes_hanndling twice in function for a reason! not to be modified
 void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 {
 	int		n_token;
@@ -36,8 +37,12 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 	n_token = 0;
 	while (s[data->start] && data->start < data->end)
 	{
-		double_quotes_handling(data, s);
-		simple_quotes_handling(data, s);
+		if (s[data->start] == '\"')
+			double_quotes_handling(data);
+		if (s[data->start] == '\'')
+			simple_quotes_handling(data, s);
+		if (s[data->start] == '\"')
+			double_quotes_handling(data);
 		if (data->start == data->end || ((s[data->start] == '\"'
 					|| s[data->start] == '\'') && s[data->start + 1] == '\0'))
 			*(*token + n_token) = 0;
@@ -49,6 +54,31 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 		data->start++;
 	}
 	*(*token + n_token) = 0;
+}
+
+
+void	double_quotes_handling(t_minish *data)
+{
+	if (data->btw_double_quotes == 1)
+		data->btw_double_quotes = 0;
+	else
+		data->btw_double_quotes = 1;
+	if (data->btw_simple_quotes == 0)
+		data->start++;
+}
+
+void	simple_quotes_handling(t_minish *data, char *s)
+{
+	if (data->btw_simple_quotes == 1)
+		data->btw_simple_quotes = 0;
+	else
+		data->btw_simple_quotes = 1;
+	if (data->btw_double_quotes == 0)
+	{
+		data->start++;
+		if (s[data->start] == '\'')
+			data->btw_simple_quotes = 0;
+	}
 }
 
 void  duplicating_dollar(t_minish *data, char **token, char *s)
@@ -63,38 +93,4 @@ void  duplicating_dollar(t_minish *data, char **token, char *s)
 		data->start++;
 	}
 	*(*token + n_token) = 0;
-}
-
-void	double_quotes_handling(t_minish *data, char *s)
-{
-	if (s[data->start] == '\"' && s[data->start + 1] != '|'
-		&& s[data->start + 1] != '<' && s[data->start + 1] != '>')
-	{
-		data->btw_double_quotes = 1;
-		if (data->btw_simple_quotes == 0)
-			data->start++;
-	}
-}
-
-void	simple_quotes_handling(t_minish *data, char *s)
-{
-	if (s[data->start] == '\'' && data->btw_double_quotes)
-	{
-		if (data->btw_simple_quotes == 1)
-			data->btw_simple_quotes = 0;
-		else
-			data->btw_simple_quotes = 1;
-	}
-	if (s[data->start] == '\'' && s[data->start + 1] != '|'
-		&& data->btw_double_quotes == 0
-		&& s[data->start + 1] != '<' && s[data->start + 1] != '>')
-	{
-		if (data->btw_simple_quotes == 1 && s[data->start] == '\'')
-			data->btw_simple_quotes = 0;
-		else
-			data->btw_simple_quotes = 1;
-		data->start++;
-		if (s[data->start] == '\'')
-			data->btw_simple_quotes = 0;
-	}
 }

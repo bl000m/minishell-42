@@ -14,28 +14,29 @@
 
 void	switching_input_output(t_minish *data, t_cmd **cmd)
 {
+	(void) data;
 	if ((*cmd)->input)
 	{
 		if (dup2((*cmd)->input, STDIN_FILENO) < 0)
-			error_manager(6, data, cmd);
+			error_manager(0, EC_OUTPUTFD, (*cmd)->full_cmd[0], EXIT_FAILURE);
 		close((*cmd)->input);
 	}
 	if ((*cmd)->output > 1)
 	{
 		if (dup2((*cmd)->output, STDOUT_FILENO) < 0)
-			error_manager(6, data, cmd);
+			error_manager(0, EC_OUTPUTFD, (*cmd)->full_cmd[0], EXIT_FAILURE);
 		close((*cmd)->output);
 	}
 	if ((*cmd)->file_in)
 	{
 		if (dup2((*cmd)->file_in, STDIN_FILENO) < 0)
-			error_manager(6, data, cmd);
+			error_manager(0, EC_OUTPUTFD, (*cmd)->full_cmd[0], EXIT_FAILURE);
 		close((*cmd)->file_in);
 	}
 	if ((*cmd)->file_out)
 	{
 		if (dup2((*cmd)->file_out, STDOUT_FILENO) < 0)
-			error_manager(6, data, cmd);
+			error_manager(0, EC_OUTPUTFD, (*cmd)->full_cmd[0], EXIT_FAILURE);
 		close((*cmd)->file_out);
 	}
 }
@@ -43,7 +44,7 @@ void	switching_input_output(t_minish *data, t_cmd **cmd)
 void	launching_command(t_minish *data, t_cmd **cmd)
 {
 	if (execve((*cmd)->full_path, (*cmd)->full_cmd, data->env_table) == -1)
-		error_manager(3, data, cmd);
+		error_manager(127, EC_CMDNF, (*cmd)->full_cmd[0], 127);
 }
 
 void	closing_all_fd(t_minish *data)
@@ -83,7 +84,7 @@ void	creating_pipes(t_minish *data)
 	while (cmd->next != NULL)
 	{
 		if (pipe(fd) == -1)
-			error_manager(1, data, NULL);
+			error_manager(0, EC_PIPE, NULL, EXIT_FAILURE);
 		cmd->output = fd[1];
 		cmd->next->input = fd[0];
 		if (!cmd->next->next)

@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 21:51:59 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 10:16:46 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,22 @@ typedef struct s_minish
 /* signals */
 
 void		set_signals(int caller);
-void		handle_ctrlc(int sign, siginfo_t *info, void *context);
-void		handle_ctrlc_exec(int sign);
-void		handle_ctrld_exec(int sign);
+void		handle_signal_prompt(int sign, siginfo_t *info, void *context);
+void		handle_signal_exec(int sign);
 void		handle_ctrlc_heredoc(int sign);
-void		signal_caller_prompt(struct sigaction sa);
-void		signal_caller_exec(struct sigaction sa);
 
 /* builtins */
 
-void		pwd(t_minish *data);
-void		unset(t_minish *data, t_cmd *cmd);
-void		env(t_minish *data, t_cmd *cmd);
+void		mini_pwd(t_minish *data);
+void		mini_unset(t_minish *data, t_cmd *cmd);
+void		mini_env(t_minish *data, t_cmd *cmd);
 void		print_sorted(t_dict *envp);
-void		export(t_minish *data, t_cmd *cmd);
-void		echo(t_cmd *cmd);
-void		cd(t_minish *data, t_cmd *cmd);
-void		mini_exit(t_cmd **cmd);
+void		mini_export(t_minish *data, t_cmd *cmd);
+void		export_aux(t_minish *data, char *arg);
+int			is_validvarname(char *varname, size_t len);
+void		mini_echo(t_cmd *cmd);
+void		mini_cd(t_minish *data, t_cmd *cmd);
+void		mini_exit(t_minish *data, t_cmd **cmd);
 
 /* settings */
 
@@ -130,7 +129,8 @@ int			specific_cases(t_minish *data, int *i, int *res);
 void		duplicating_dollar(t_minish *data, char **token, char *s);
 void		duplicating_with_conditions(t_minish *data, char **token, char *s);
 void		simple_quotes_handling(t_minish *data, char *s);
-void		double_quotes_handling(t_minish *data, char *s);
+void		double_quotes_handling(t_minish *data);
+void		regroup_tokens(t_minish *data);
 
 /* parsing utils */
 
@@ -145,6 +145,9 @@ int			cmds_number(t_minish *data);
 int			heredoc_handling(t_minish *data, t_cmd **node, int *i);
 char		*getting_rid_of_quotes(char *token);
 int			cmds_number(t_minish *data);
+int			check_if_dollar(char *token);
+void		realloc_data_tokens(t_minish *data, char **newtokens, int index);
+void		split_expandedtoken(t_minish *data, int *index);
 
 /* Bonus features */
 
@@ -181,7 +184,7 @@ char		**tokens_table_filling(t_minish *data, char **table);
 
 /* error management */
 
-void		error_manager(int error, t_minish *data, t_cmd **cmd);
+void		error_manager(int exit_code, char *message, void *var, int error_code);
 void		check_error(int argc);
 
 /* memory stuff */
@@ -207,5 +210,21 @@ void		free_env_table(t_minish *data);
 # define PURPLE "\033[1;95m"
 # define CYAN "\033[1;96m"
 # define WHITE "\033[1;97m"
+# define EC_PIPE "ERROR CREATING PIPE\n"
+# define EC_PROCESS "ERROR CREATING PROCESS\n"
+# define EC_CMDNF "command not found. %s\n"
+# define EC_CMDNEXEC "command found but not executable. %s\n"
+# define EC_CDNODIR "cd: No such file or directory\n"
+# define EC_CDARG "cd: too many arguments\n"
+# define EC_ENVARG "env: minishell should not manage arg for env\n"
+# define EC_PATH "ENV PATH not set\n"
+# define EC_OUTPUT "OUTPUT ERROR: %s\n"
+# define EC_INPUT "INPUT ERROR: %s\n"
+# define EC_OUTPUTFD "ERROR in switching OUTPUT for %s fd\n"
+# define EC_SINTAX "syntax error near unexpected token %s\n"
+# define EC_EXPORT "minishell: export: `%s': not a valid identifier\n"
+# define EC_UNSET "minishell: unset: `%s': not a valid identifier \n"
+# define EC_EXIT "exit: %s: numeric argument required\n"
+
 
 #endif

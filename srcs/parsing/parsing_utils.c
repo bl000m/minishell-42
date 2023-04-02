@@ -120,4 +120,3 @@ int	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 		return (0);
 	}
 }
-
