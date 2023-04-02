@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 16:19:25 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 17:27:55 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int			specific_cases(t_minish *data, int *i, int *res);
 void	  duplicating_dollar(t_minish *data, char **token, char *s);
 void	  duplicating_with_conditions(t_minish *data, char **token, char *s);
 void	  simple_quotes_handling(t_minish *data, char *s);
-void	  double_quotes_handling(t_minish *data);
+void	  double_quotes_handling(t_minish *data, char *s);
 int     odd_quotes(char *s);
 
 /* parsing utils */
