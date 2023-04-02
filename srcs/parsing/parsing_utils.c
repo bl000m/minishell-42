@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:44:05 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/02 16:06:29 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	input_redirection(t_minish *data, t_cmd **node, int *i)
 		(*node)->file_in = open(data->tokens[*i + 1], O_RDONLY);
 		if ((*node)->file_in == -1)
 		{
-			printf("%s: Permission denied\n", data->tokens[*i + 1]);
+      printf("%s: %s\n", data->tokens[*i + 1], strerror(errno));
 			*i += 1;
 			return (1);
 		}
@@ -72,7 +72,7 @@ int	output_redirection(t_minish *data, t_cmd **node, int *i)
 				| O_WRONLY | O_TRUNC, 0644);
 		if ((*node)->file_out == -1)
 		{
-			printf("%s: Permission denied\n", data->tokens[*i + 1]);
+      printf("%s: %s\n", data->tokens[*i + 1], strerror(errno));
 			*i += 1;
 			return (1);
 		}
@@ -120,4 +120,3 @@ int	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 		return (0);
 	}
 }
-

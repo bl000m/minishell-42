@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 10:16:46 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 16:19:25 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_minish
 	int				btw_simple_quotes;
 	int				start;
 	int				end;
+  int       lexer_error;
 	char			*path;
 	char			**path_dir;
 	char			**env_table;
@@ -131,6 +132,7 @@ void	  duplicating_dollar(t_minish *data, char **token, char *s);
 void	  duplicating_with_conditions(t_minish *data, char **token, char *s);
 void	  simple_quotes_handling(t_minish *data, char *s);
 void	  double_quotes_handling(t_minish *data);
+int     odd_quotes(char *s);
 
 /* parsing utils */
 
