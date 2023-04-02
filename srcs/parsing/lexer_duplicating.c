@@ -20,7 +20,7 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 	data->end = end;
 	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
-		return (NULL);
+		hard_exit(data, NULL, NULL);
 	if (odd_quotes(s))
 	{
 		error_manager(0, EC_ODDQUOTES, NULL, EXIT_FAILURE);

@@ -42,3 +42,19 @@ void	error_manager(int exit_code, char *message, void *var, int error_code)
 	if (exit_code)
 		exit(exit_code);
 }
+
+/**
+ * @brief
+ * To be used in case of a major problem,
+ *  it's gonna free all and exit.
+*/
+void	hard_exit(t_minish *data, char **tab, char *str)
+{
+	if (tab)
+		ft_free(tab);
+	if (str)
+		free(str);
+	exit_clean(data);
+	printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
+	exit(1);
+}

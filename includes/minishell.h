@@ -189,6 +189,7 @@ char		**tokens_table_filling(t_minish *data, char **table);
 void		error_manager(int exit_code, char *message,
 				void *var, int error_code);
 void		check_error(int argc);
+void		hard_exit(t_minish *data, char **tab, char *str);
 
 /* memory stuff */
 
