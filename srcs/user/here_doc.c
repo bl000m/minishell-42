@@ -44,11 +44,7 @@ void	child_heredoc(t_minish *data, char *lim, int fd, int ignore_exp)
 		if (!input || (ft_strncmp(input, lim, ft_strlen(lim) + 1) == 0))
 		{
 			if (!input)
-			{
-				printf("minishell: warning: here-document at line 1 \
-				delimited by end-of-file (wanted `%s')\n> ", lim);
-				printf("warning: h-d/l. 1 delimited by eof(wanted `%s')\n", lim);
-			}
+				error_manager(0, EC_HEREDOC, lim, 131);
 			break ;
 		}
 		heredoc_write(data, ignore_exp, input);

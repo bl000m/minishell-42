@@ -16,10 +16,7 @@ void	parsing_path(t_minish *data)
 {
 	data->path = find_varvalue(data, "PATH", 4);
 	if (!data->path)
-	{
 		return ;
-		printf("we need to create en error\n");
-	}
 	else
 		data->path_dir = ft_split(data->path, ':');
 }

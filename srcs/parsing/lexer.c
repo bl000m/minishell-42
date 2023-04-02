@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 23:08:54 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 16:50:19 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ int	lexer_input(t_minish *data)
 
 	res = 0;
 	data->tokens = split_tokens(data);
-	expand_path(data);
-	parsing_path(data);
-	res = creating_cmd_list(data);
+	if (data->lexer_error)
+		res += 1;
+	else
+	{
+		expand_path(data);
+		parsing_path(data);
+		res += creating_cmd_list(data);
+	}
 	return (res);
 }
 

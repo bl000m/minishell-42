@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 10:16:46 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 16:19:25 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_minish
 	int				btw_simple_quotes;
 	int				start;
 	int				end;
+	int				lexer_error;
 	char			*path;
 	char			**path_dir;
 	char			**env_table;
@@ -131,6 +132,7 @@ void		duplicating_with_conditions(t_minish *data, char **token, char *s);
 void		simple_quotes_handling(t_minish *data, char *s);
 void		double_quotes_handling(t_minish *data);
 void		regroup_tokens(t_minish *data);
+int			odd_quotes(char *s);
 
 /* parsing utils */
 
@@ -184,7 +186,8 @@ char		**tokens_table_filling(t_minish *data, char **table);
 
 /* error management */
 
-void		error_manager(int exit_code, char *message, void *var, int error_code);
+void		error_manager(int exit_code, char *message,
+				void *var, int error_code);
 void		check_error(int argc);
 
 /* memory stuff */
@@ -197,19 +200,16 @@ void		free_linked_list_full_cmd(t_minish *data);
 void		exit_clean(t_minish *data);
 void		free_env_table(t_minish *data);
 
+/* MACROS FOR THE SIGNALS */
+
 # define PROMPT 0
 # define HEREDOC 1
 # define EXEC 2
 # define OFF 3
-# define NO_COLOR "\033[0m"
-# define BLACK "\033[1;90m"
-# define RED "\033[1;91m"
-# define GREEN "\033[1;92m"
-# define YELLOW "\033[1;93m"
-# define BLUE "\033[1;94m"
-# define PURPLE "\033[1;95m"
-# define CYAN "\033[1;96m"
-# define WHITE "\033[1;97m"
+
+/* ERROR MESSAGES */
+
+# define EC_PERMISSION "%s: Permission denied\n"
 # define EC_PIPE "ERROR CREATING PIPE\n"
 # define EC_PROCESS "ERROR CREATING PROCESS\n"
 # define EC_CMDNF "command not found. %s\n"
@@ -218,13 +218,19 @@ void		free_env_table(t_minish *data);
 # define EC_CDARG "cd: too many arguments\n"
 # define EC_ENVARG "env: minishell should not manage arg for env\n"
 # define EC_PATH "ENV PATH not set\n"
+# define EC_PATH2 "ENV PATH not set. Cannot execute not built in functions\n"
 # define EC_OUTPUT "OUTPUT ERROR: %s\n"
 # define EC_INPUT "INPUT ERROR: %s\n"
 # define EC_OUTPUTFD "ERROR in switching OUTPUT for %s fd\n"
 # define EC_SINTAX "syntax error near unexpected token %s\n"
+# define EC_SINTAX2 "syntax error near unexpected token\n"
 # define EC_EXPORT "minishell: export: `%s': not a valid identifier\n"
 # define EC_UNSET "minishell: unset: `%s': not a valid identifier \n"
 # define EC_EXIT "exit: %s: numeric argument required\n"
-
+# define EC_ODDQUOTES "An odd number of quotes is not allowed in Minishell.\n"
+# define EC_PERIOD "minishell: .: filename argument required\n"
+# define EC_PSLASH "minishell: ./: Is a directory\n"
+# define EC_SLASH "minishell: /: Is a directory\n"
+# define EC_HEREDOC "warning: document delimited by EOF (wanted `%s')\n> "
 
 #endif

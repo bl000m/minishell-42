@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-// char	**ft_free(char **strs)
-// {
-// 	int	i;
+char	**ft_free(char **strs)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (strs[i])
-// 		free(strs[i++]);
-// 	free(strs);
-// 	strs = NULL;
-// 	return (0);
-// }
+	i = 0;
+	while (strs[i])
+		free(strs[i++]);
+	free(strs);
+	strs = NULL;
+	return (0);
+}
 
 void	free_path_dir(t_minish *data)
 {
@@ -60,30 +60,30 @@ void	free_env_table(t_minish *data)
 	}
 }
 
-// void	free_linked_list_full_cmd(t_minish *data)
-// {
-// 	t_cmd	*tmp;
-// 	t_cmd	*ptr;
-// 	int		i;
+void	free_linked_list_full_cmd(t_minish *data)
+{
+	t_cmd	*tmp;
+	t_cmd	*ptr;
+	int		i;
 
-// 	ptr = data->cmds;
-// 	while (ptr)
-// 	{
-// 		i = 0;
-// 		while (ptr->full_cmd && ptr->full_cmd[i])
-// 		{
-// 			free(ptr->full_cmd[i]);
-// 			ptr->full_cmd[i] = NULL;
-// 			i++;
-// 		}
-// 		free(ptr->full_cmd);
-// 		free(ptr->full_path);
-// 		tmp = ptr;
-// 		ptr = ptr->next;
-// 		free(tmp);
-// 	}
-// 	data->cmds = NULL;
-// }
+	ptr = data->cmds;
+	while (ptr)
+	{
+		i = 0;
+		while (ptr->full_cmd && ptr->full_cmd[i])
+		{
+			free(ptr->full_cmd[i]);
+			ptr->full_cmd[i] = NULL;
+			i++;
+		}
+		free(ptr->full_cmd);
+		free(ptr->full_path);
+		tmp = ptr;
+		ptr = ptr->next;
+		free(tmp);
+	}
+	data->cmds = NULL;
+}
 
 void	free_tokens(t_minish *data)
 {

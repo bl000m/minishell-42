@@ -16,7 +16,7 @@ void	check_error(int argc)
 {
 	if (argc != 1)
 	{
-		ft_printf("n. of argument incorrected\n");
+		ft_printf("n. of argument incorrect\n");
 		exit(1);
 	}
 }
@@ -27,7 +27,7 @@ void	check_error(int argc)
  * the g_status and
  * call exit() if that's the case,
  *if 0 it won't exit otherwise is calls exit(code).
- * @param int exit_code
+ * @param int exit_code 0 if don't want to exit or the exit code
  * @param char* message -> the message to be printed
  * @param void* a pointer to a variable to fill the message
  * @param int the code to be put in the g_status

@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 10:17:11 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 16:52:08 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 	data->end = end;
 	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
-		return (0);
+		return (NULL);
+	if (odd_quotes(s))
+	{
+		error_manager(0, EC_ODDQUOTES, NULL, EXIT_FAILURE);
+		data->lexer_error = 1;
+		return (NULL);
+	}
 	if (ft_memchr(&s[start], '$', end - start)
 		|| ft_memchr(&s[start], '~', end - start))
 		duplicating_dollar(data, &token, s);
@@ -29,7 +35,6 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 	return (token);
 }
 
-// @Felipe: double_quotes_hanndling twice in function for a reason! not to be modified
 void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 {
 	int		n_token;
@@ -56,7 +61,6 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 	*(*token + n_token) = 0;
 }
 
-
 void	double_quotes_handling(t_minish *data)
 {
 	if (data->btw_double_quotes == 1)
@@ -81,7 +85,7 @@ void	simple_quotes_handling(t_minish *data, char *s)
 	}
 }
 
-void  duplicating_dollar(t_minish *data, char **token, char *s)
+void	duplicating_dollar(t_minish *data, char **token, char *s)
 {
 	int		n_token;
 

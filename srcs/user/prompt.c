@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 21:29:13 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 16:48:04 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 void	updating_data(t_minish *data)
 {
 	if (data->path_dir)
-		ft_free(data->path_dir);
+		free_path_dir(data);
 	if (data->input)
 		free(data->input);
 	data->input = NULL;
 	if (data->cmds)
 		free_linked_list_full_cmd(data);
-	if (data->tokens)
-		ft_free(data->tokens);
+	if (data->tokens && !data->lexer_error)
+		free_tokens(data);
+	if (data->aux)
+		ft_lstclear(&data->aux, free);
 	init_cmd(data);
 }
 

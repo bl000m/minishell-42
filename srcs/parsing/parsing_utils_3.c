@@ -54,3 +54,26 @@ int	is_builtin(char *cmd)
 		return (1);
 	return (0);
 }
+
+int	odd_quotes(char *s)
+{
+	int	i;
+	int	count_simple;
+	int	count_double;
+
+	i = 0;
+	count_simple = 0;
+	count_double = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'')
+			count_simple++;
+		if (s[i] == '\"')
+			count_double++;
+		i++;
+	}
+	if (count_simple % 2 != 0 || count_double % 2 != 0)
+		return (1);
+	else
+		return (0);
+}

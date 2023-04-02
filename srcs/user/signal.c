@@ -65,7 +65,7 @@ void	handle_signal_prompt(int sign, siginfo_t *info, void *context)
 		}
 	}
 	if (sign == SIGQUIT)
-		printf("\b\b  \b\b");
+		write(1, "\b\b  \b\b", 6);
 	if (!info->si_pid)
 		exit(128 + sign);
 	g_status = 128 + sign;

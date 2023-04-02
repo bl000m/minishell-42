@@ -25,48 +25,11 @@ void	exit_clean(t_minish *data)
 		if (data->cmds)
 			free_linked_list_full_cmd(data);
 		if (data->env_table)
-			ft_free(data->env_table);
+			free_env_table(data);
 		if (data->path_dir)
-			ft_free(data->path_dir);
+			free_path_dir(data);
 		if (data->aux)
 			ft_lstclear(&data->aux, free);
 		free(data);
 	}
-}
-
-char	**ft_free(char **strs)
-{
-	int	i;
-
-	i = 0;
-	while (strs[i])
-		free(strs[i++]);
-	free(strs);
-	strs = NULL;
-	return (0);
-}
-
-void	free_linked_list_full_cmd(t_minish *data)
-{
-	t_cmd	*tmp;
-	t_cmd	*ptr;
-	int		i;
-
-	ptr = data->cmds;
-	while (ptr)
-	{
-		i = 0;
-		while (ptr->full_cmd && ptr->full_cmd[i])
-		{
-			free(ptr->full_cmd[i]);
-			ptr->full_cmd[i] = NULL;
-			i++;
-		}
-		free(ptr->full_cmd);
-		free(ptr->full_path);
-		tmp = ptr;
-		ptr = ptr->next;
-		free(tmp);
-	}
-	data->cmds = NULL;
 }
