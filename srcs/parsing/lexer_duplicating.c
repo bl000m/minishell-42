@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 22:12:00 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 22:27:12 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	simple_quotes_handling(t_minish *data, char *s)
     && s[data->start + 1] != '|' && s[data->start + 1] != '<'
     && s[data->start + 1] != '>')
 	{
-    printf("start = %d\n", data->start);
 		data->start++;
 		if (s[data->start] == '\'')
 			data->btw_simple_quotes = 0;
