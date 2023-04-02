@@ -6,7 +6,7 @@
 /*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 10:17:11 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/02 16:52:08 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 	data->end = end;
 	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
-		return (0);
+		return (NULL);
+  if (odd_quotes(s))
+  {
+    printf("An odd number of quotes is not allowed in Minishell.\n");
+    data->lexer_error = 1;
+    return (NULL);
+  }
 	if (ft_memchr(&s[start], '$', end - start)
 		|| ft_memchr(&s[start], '~', end - start))
 		duplicating_dollar(data, &token, s);
@@ -48,7 +54,6 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 			*(*token + n_token) = 0;
 		else
 		{
-      printf("duplicating %c in index = %d\n", s[data->start], data->start);
 			*(*token + n_token) = s[data->start];
 			n_token++;
 		}
@@ -74,7 +79,6 @@ void	simple_quotes_handling(t_minish *data, char *s)
     data->btw_simple_quotes = 0;
   else
     data->btw_simple_quotes = 1;
-  printf("btw_simple_quotes = %d, index = %d\n", data->btw_simple_quotes, data->start);
 	if (data->btw_double_quotes == 0)
 	{
 		data->start++;
@@ -95,4 +99,27 @@ void  duplicating_dollar(t_minish *data, char **token, char *s)
 		data->start++;
 	}
 	*(*token + n_token) = 0;
+}
+
+int odd_quotes(char *s)
+{
+  int i;
+  int count_simple;
+  int count_double;
+
+  i = 0;
+  count_simple = 0;
+  count_double = 0;
+  while (s[i])
+  {
+    if (s[i] == '\'')
+      count_simple++;
+    if (s[i] == '\"')
+      count_double++;
+    i++;
+  }
+  if (count_simple % 2 != 0 || count_double % 2 != 0)
+    return (1);
+  else
+    return (0);
 }
