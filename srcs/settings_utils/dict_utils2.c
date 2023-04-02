@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbelfort <fbelfort@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:06:57 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/03/22 14:02:25 by fbelfort         ###   ########.fr       */
+/*   Updated: 2023/04/01 15:13:37 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 /**
  * @brief

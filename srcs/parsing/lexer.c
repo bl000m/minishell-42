@@ -6,26 +6,20 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 11:13:53 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/01 15:18:47 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	expand_path_line(t_minish *data);
 
 int	lexer_input(t_minish *data)
 {
-	int i;
 	int	res;
 
-	i = 0;
 	res = 0;
 	data->tokens = split_tokens(data);
-	while (data->tokens[i])
-	{
-		printf("#%s#\n", data->tokens[i++]);
-	}
 	expand_path(data);
 	parsing_path(data);
 	res = creating_cmd_list(data);
