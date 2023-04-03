@@ -115,11 +115,13 @@ static void	expand_token(t_minish *data, int index, int i, int j)
 		ft_lstadd_back(&data->aux, ft_lstnew(subline));
 	}
 	dollar_sign = check_if_dollar(data->tokens[index]);
+	// printf("before tokens => #%s#  index => %d\n", data->tokens[index], index);
 	free(data->tokens[index]);
 	if (dollar_sign)
 		split_expandedtoken(data, &index);
 	else
 		data->tokens[index] = make_line_fromlst(&data->aux);
+	// printf("after tokens => #%s#  index => %d\n", data->tokens[index], index);
 }
 
 /**
@@ -143,7 +145,7 @@ void	expand_path(t_minish *data)
 	int		j;
 
 	index = -1;
-	while (data->tokens[++index])
+	while (data->tokens && data->tokens[++index])
 	{
 		j = 0;
 		i = verify_expansion(data, index, &j);
