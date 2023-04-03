@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:27 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/03 11:21:11 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 13:19:01 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	expand_path(t_minish *data)
 		expand_token(data, index, i, j);
 	}
 	regroup_tokens(data);
-	index = -1;
-	while (data->tokens[++index])
-		printf("|%s|\n", data->tokens[index]);
+	// index = -1;
+	// while (data->tokens[++index])
+	// 	printf("|%s|\n", data->tokens[index]);
 }
