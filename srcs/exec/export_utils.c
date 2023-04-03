@@ -55,14 +55,14 @@ static void	dict_sort(t_dict **tosort)
 	}
 }
 
-void	print_sorted(t_dict *envp)
+void	print_sorted(t_minish *data, t_dict *envp)
 {
 	t_dict	*sorted;
 	t_dict	*temp;
 
 	sorted = dict_duplst(envp);
 	if (!sorted)
-		return ;
+		hard_exit(data, NULL, NULL);
 	dict_sort(&sorted);
 	temp = sorted;
 	if (sorted && !ft_memcmp(sorted->key, "_", sorted->key_len))
@@ -94,7 +94,9 @@ void	export_aux(t_minish *data, char *arg)
 		if (!ptr)
 			dict_addback(&data->envp, dict_newnode(arg));
 		if (arg[len] == '=' && ptr)
-			set_varvalue(data->envp, ptr->key, ptr->key_len, &arg[len + 1]);
+			if (!set_varvalue(data->envp, ptr->key,
+					ptr->key_len, &arg[len + 1]))
+				hard_exit(data, NULL, NULL);
 	}
 	else if (ft_memcmp(arg, "_", len))
 		error_manager(0, EC_EXPORT, arg, EXIT_FAILURE);

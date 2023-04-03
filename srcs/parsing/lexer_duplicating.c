@@ -44,7 +44,6 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 			simple_quotes_handling(data, s);
 		if (s[data->start] == '\"')
 			double_quotes_handling(data, s);
-		// printf("duplicating char %c at index %d to token index %d\n", s[data->start], data->start, n_token);
 		*(*token + n_token) = s[data->start];
 		if (data->start == data->end)
 			*(*token + n_token) = 0;

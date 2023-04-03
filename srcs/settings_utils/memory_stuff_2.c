@@ -72,18 +72,13 @@ void	free_linked_list_full_cmd(t_minish *data)
 		i = 0;
 		while (ptr->full_cmd && ptr->full_cmd[i])
 		{
-			// printf("freeing full_cmd[i] = %s\n", ptr->full_cmd[i]);
 			free(ptr->full_cmd[i]);
 			ptr->full_cmd[i] = NULL;
 			i++;
 		}
 		free(ptr->full_cmd);
 		if (ptr->full_path)
-		{
-			// printf("freeing full_path = %s\n", ptr->full_path);
-
 			free(ptr->full_path);
-		}
 		tmp = ptr;
 		ptr = ptr->next;
 		free(tmp);

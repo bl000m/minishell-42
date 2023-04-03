@@ -13,6 +13,7 @@
 #include "minishell.h"
 
 /* builtin to be exec in child process: */
+
 void	mini_env(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*ptr;
@@ -46,11 +47,13 @@ void	mini_export(t_minish *data, t_cmd *cmd)
 
 	g_status = EXIT_SUCCESS;
 	if (!cmd->full_cmd[1])
-		print_sorted(data->envp);
+	{
+		print_sorted(data, data->envp);
+		exit(g_status);
+	}
 	i = 0;
 	while (cmd->full_cmd[++i])
 		export_aux(data, cmd->full_cmd[i]);
-	exit(g_status);
 }
 
 void	mini_echo(t_cmd *cmd)
@@ -88,6 +91,8 @@ void	mini_pwd(t_minish *data)
 
 	(void)data;
 	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		hard_exit(data, NULL, NULL);
 	printf("%s\n", pwd);
 	free(pwd);
 	g_status = EXIT_SUCCESS;

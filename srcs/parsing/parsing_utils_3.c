@@ -26,7 +26,7 @@ int	check_pipes(t_minish *data)
 	return (0);
 }
 
-void	create_new_cmd_list_node(t_cmd **node)
+void	create_new_cmd_list_node(t_minish *data, t_cmd **node)
 {
 	t_cmd	*new_elem;
 	t_cmd	*ptr;
@@ -38,7 +38,7 @@ void	create_new_cmd_list_node(t_cmd **node)
 		ptr = ptr->next;
 	new_elem = ft_calloc(sizeof(t_cmd), 1);
 	if (!new_elem)
-		return ;
+		hard_exit(data, NULL, NULL);
 	new_elem->input = STDIN_FILENO;
 	new_elem->output = STDOUT_FILENO;
 	ptr->next = new_elem;

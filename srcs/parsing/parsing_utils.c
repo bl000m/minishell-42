@@ -115,7 +115,7 @@ int	pipe_new_node(t_minish *data, t_cmd **node, int *i)
 	}
 	else
 	{
-		create_new_cmd_list_node(node);
+		create_new_cmd_list_node(data, node);
 		*i += 1;
 		return (0);
 	}

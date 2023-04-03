@@ -68,8 +68,6 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 		&& data->tokens[*i][0] != '<' && data->tokens[*i][0] != '>')
 	{
 		(*node)->full_cmd[arg] = ft_strdup(data->tokens[*i]);
-		// if (data->tokens[*i][0])
-		// (*node)->full_path = NULL;
 		if (!arg)
 			res = adding_full_path(data, node);
 		arg += 1;
@@ -81,17 +79,10 @@ int	stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i)
 
 int	adding_full_path(t_minish *data, t_cmd **node)
 {
-	printf("cmd => #%s#, builtin => %d\n", (*node)->full_cmd[0], is_builtin((*node)->full_cmd[0]));
-	// if (is_builtin((*node)->full_cmd[0]))
-		// (*node)->full_path = NULL;
 	if (!is_builtin((*node)->full_cmd[0]))
 	{
 		if (find_varvalue(data, "PATH", 4))
-		{
-
-			printf("cmd in while => #%s#, builtin => %d\n", (*node)->full_cmd[0], is_builtin((*node)->full_cmd[0]));
 			(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
-		}
 		else
 		{
 			error_manager(0, EC_PATH2, NULL, EXIT_FAILURE);

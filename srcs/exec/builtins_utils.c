@@ -31,8 +31,8 @@ char	*getpwd_forline(t_minish *data)
 
 	linepwd = find_varvalue(data, "PWD", 3);
 	if (linepwd)
-		return (ft_strdup(linepwd));
-	linepwd = ft_strdup("/.");
+		return (mini_strdup(data, linepwd));
+	linepwd = mini_strdup(data, "/.");
 	return (linepwd);
 }
 
@@ -46,30 +46,30 @@ char	*getpwd_forline(t_minish *data)
 */
 char	*get_lineprefix(t_minish *data)
 {
-	t_list	*prefix;
-	char	*line1;
+	t_list	*res;
+	char	*s1;
 	char	*linepwd;
 	size_t	len;
 
 	linepwd = getpwd_forline(data);
-	prefix = NULL;
-	line1 = find_varvalue(data, "USER", 4);
-	if (!line1)
-		ft_lstadd_back(&prefix, ft_lstnew(ft_strdup("guest@minisHELL:")));
+	res = NULL;
+	s1 = find_varvalue(data, "USER", 4);
+	if (!s1)
+		ft_lstadd_back(&res, ft_lstnew(mini_strdup(data, "guest@minisHELL:")));
 	else
-		ft_lstadd_back(&prefix, ft_lstnew(ft_strjoin(line1, "@minisHELL:")));
-	ft_lstadd_back(&prefix, ft_lstnew(linepwd));
-	line1 = find_varvalue(data, "HOME", 4);
-	if (line1)
-		len = ft_strlen(line1);
-	if (line1 && !ft_memcmp(ft_lstlast(prefix)->content, line1, len))
+		ft_lstadd_back(&res, ft_lstnew(mini_join(data, s1, "@minisHELL:")));
+	ft_lstadd_back(&res, ft_lstnew(linepwd));
+	s1 = find_varvalue(data, "HOME", 4);
+	if (s1)
+		len = ft_strlen(s1);
+	if (s1 && !ft_memcmp(ft_lstlast(res)->content, s1, len))
 	{
-		line1 = ft_strjoin("~", (char *)ft_lstlast(prefix)->content + len);
-		free(ft_lstlast(prefix)->content);
-		ft_lstlast(prefix)->content = line1;
+		s1 = mini_join(data, "~", (char *)ft_lstlast(res)->content + len);
+		free(ft_lstlast(res)->content);
+		ft_lstlast(res)->content = s1;
 	}
-	ft_lstadd_back(&prefix, ft_lstnew(ft_strdup("$ ")));
-	return (make_line_fromlst(&prefix));
+	ft_lstadd_back(&res, ft_lstnew(mini_strdup(data, "$ ")));
+	return (make_line_fromlst(data, &res));
 }
 
 void	executing_builtin(t_minish *data, t_cmd **cmd)

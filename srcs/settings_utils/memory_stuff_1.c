@@ -33,3 +33,23 @@ void	exit_clean(t_minish *data)
 		free(data);
 	}
 }
+
+char	*mini_strdup(t_minish *data, char *str)
+{
+	char	*dup;
+
+	dup = ft_strdup(str);
+	if (dup == NULL)
+		hard_exit(data, NULL, NULL);
+	return (dup);
+}
+
+char	*mini_join(t_minish *data, char *s1, char *s2)
+{
+	char	*joined;
+
+	joined = ft_strjoin(s1, s2);
+	if (joined == NULL)
+		hard_exit(data, NULL, NULL);
+	return (joined);
+}
