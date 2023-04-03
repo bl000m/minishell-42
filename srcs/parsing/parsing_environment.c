@@ -53,21 +53,12 @@ char	*find_dir_command(t_minish *data, char *command)
 	while (data->path_dir[i])
 	{
 		if (access(command, F_OK | X_OK) == 0)
-		{
-			printf("full_path => #%s#\n", command);
 			return (ft_strdup(command));
-		}
 		path_dir = ft_strjoin(data->path_dir[i], "/");
 		path_with_command = ft_strjoin(path_dir, command);
-		// printf("path_with_command = %s\n", path_with_command);
-		// printf("path_dir = %s\n", path_dir);
-		// printf("command = %s\n", command);
 		free(path_dir);
 		if (access(path_with_command, F_OK | X_OK) == 0)
-		{
-			printf("full_path => #%s#\n", path_with_command);
 			return (path_with_command);
-		}
 		free(path_with_command);
 		i++;
 	}
