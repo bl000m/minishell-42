@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 17:27:55 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 12:14:03 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_minish
 	int				btw_simple_quotes;
 	int				start;
 	int				end;
-	int				lexer_error;
 	char			*path;
 	char			**path_dir;
 	char			**env_table;
@@ -133,6 +132,7 @@ void		simple_quotes_handling(t_minish *data, char *s);
 void		double_quotes_handling(t_minish *data, char *s);
 void		regroup_tokens(t_minish *data);
 int			odd_quotes(char *s);
+void		getting_rid_quotes_redirections_etc(t_minish *data);
 
 /* parsing utils */
 
@@ -150,6 +150,7 @@ int			cmds_number(t_minish *data);
 int			check_if_dollar(char *token);
 void		realloc_data_tokens(t_minish *data, char **newtokens, int index);
 void		split_expandedtoken(t_minish *data, int *index);
+int			check_if_pipe_redirection(char *token);
 
 /* Bonus features */
 

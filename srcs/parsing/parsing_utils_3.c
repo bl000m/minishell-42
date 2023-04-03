@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:20:49 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:42:32 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 11:54:13 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,34 @@ int	is_builtin(char *cmd)
 int	odd_quotes(char *s)
 {
 	int	i;
-	int	count_simple;
-	int	count_double;
+	int	quote;
 
 	i = 0;
-	count_simple = 0;
-	count_double = 0;
+	quote = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'')
-			count_simple++;
-		if (s[i] == '\"')
-			count_double++;
+		if (are_quotes(s[i]) && !quote)
+			quote = are_quotes(s[i++]);
+		if (s[i] && are_quotes(s[i]) == quote)
+			quote = 0;
 		i++;
 	}
-	if (count_simple % 2 != 0 || count_double % 2 != 0)
+	if (quote != 0)
 		return (1);
 	else
 		return (0);
+}
+
+int	check_if_pipe_redirection(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (token[i])
+	{
+		if (token[i] == '<' || token[i] == '>' || token[i] == '|')
+			return (1);
+		i++;
+	}
+	return (0);
 }
