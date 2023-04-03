@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 16:26:30 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 17:31:31 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 {
 	int	pid;
 
-	printf("command =>#%s#, output => %d, input => %d\n", (*cmd)->full_cmd[0], (*cmd)->output, (*cmd)->input);
 	if (check_parent_builtin(cmd))
 		executing_builtin(data, cmd);
 	else
@@ -76,13 +75,13 @@ int	check_child_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "env", 3)
+		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 6)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "echo", 4));
 }
 
 int	check_parent_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5)
-		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 6)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "cd", 2)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "exit", 4));
 }

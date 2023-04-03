@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 14:19:17 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/03 14:38:40 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 17:29:14 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,6 @@ void	mini_unset(t_minish *data, t_cmd *cmd)
 		else if (!ft_memcmp(curr->key, "SHLVL", curr->key_len))
 			set_varvalue(data->envp, curr->key, curr->key_len, "0");
 	}
-}
-
-void	mini_export(t_minish *data, t_cmd *cmd)
-{
-	int	i;
-
-	g_status = EXIT_SUCCESS;
-	if (!cmd->full_cmd[1])
-		print_sorted(data->envp);
-	i = 0;
-	while (cmd->full_cmd[++i])
-		export_aux(data, cmd->full_cmd[i]);
 }
 
 void	mini_cd(t_minish *data, t_cmd *cmd)
