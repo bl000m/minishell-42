@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 11:26:11 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 12:14:15 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	lexer_input(t_minish *data)
 {
-	int	res;
+	int		res;
 
 	res = 0;
 	if (odd_quotes(data->input))
@@ -26,6 +26,7 @@ int	lexer_input(t_minish *data)
 	expand_path(data);
 	parsing_path(data);
 	res += creating_cmd_list(data);
+	getting_rid_quotes_redirections_etc(data);
 	return (res);
 }
 
@@ -46,4 +47,30 @@ char	**split_tokens(t_minish *data)
 	if (table)
 		table[data->n_tokens] = 0;
 	return (table);
+}
+
+void	getting_rid_quotes_redirections_etc(t_minish *data)
+{
+	int		i;
+	char	*tmp;
+	t_cmd	*curr;
+
+	i = 0;
+	curr = data->cmds;
+	while (curr)
+	{
+		while (curr->full_cmd[i])
+		{
+			if (check_if_pipe_redirection(curr->full_cmd[i]))
+			{
+				printf("token = %s\n", curr->full_cmd[i]);
+				tmp = getting_rid_of_quotes(curr->full_cmd[i]);
+				printf("after getting_rid = %s\n", tmp);
+				free(curr->full_cmd[i]);
+				curr->full_cmd[i] = tmp;
+			}
+			i++;
+		}
+		curr = curr->next;
+	}
 }

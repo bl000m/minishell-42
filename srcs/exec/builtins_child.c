@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:40:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/02 21:36:37 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 11:46:07 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	mini_echo(t_cmd *cmd)
 				n = i;
 		}
 		if (n != i)
-			printf("%s", getting_rid_of_quotes(cmd->full_cmd[i]));
+			printf("%s", cmd->full_cmd[i]);
 		if (cmd->full_cmd[i + 1] && n != i)
 			printf(" ");
 	}

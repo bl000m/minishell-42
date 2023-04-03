@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 11:07:01 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 10:14:20 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 12:33:15 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	updating_data(t_minish *data)
 		free_tokens(data);
 	if (data->aux)
 		ft_lstclear(&data->aux, free);
+	data->btw_simple_quotes = 0;
+	data->btw_double_quotes = 0;
 	init_cmd(data);
 }
 

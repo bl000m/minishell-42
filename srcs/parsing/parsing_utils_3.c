@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:20:49 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 11:35:52 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 11:54:13 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,18 @@ int	odd_quotes(char *s)
 		return (1);
 	else
 		return (0);
+}
+
+int	check_if_pipe_redirection(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (token[i])
+	{
+		if (token[i] == '<' || token[i] == '>' || token[i] == '|')
+			return (1);
+		i++;
+	}
+	return (0);
 }

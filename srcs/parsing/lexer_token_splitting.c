@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 11:27:40 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 12:39:09 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**tokens_table_filling(t_minish *data, char **table)
 		{
 			table[n_token] = duplicating_token(data, data->input, start, end);
 			if (!table[n_token])
-				ft_free(table);
+				hard_exit(data, table, NULL);
 			n_token++;
 		}
 	}

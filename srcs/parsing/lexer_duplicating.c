@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 11:14:42 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 13:12:47 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 
 	data->start = start;
 	data->end = end;
-	token = NULL;
 	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
 		hard_exit(data, NULL, NULL);
@@ -38,6 +37,8 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 	// printf("substr = #%s#\n", ft_substr(s, data->start, data->end));
 	// printf("start = %d\n", data->start);
 	// printf("end = %d\n", data->end);
+	data->btw_simple_quotes = 0;
+	data->btw_double_quotes = 0;
 	while (s[data->start] && data->start < data->end)
 	{
 		if (s[data->start] == '\"')
@@ -46,7 +47,10 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 			simple_quotes_handling(data, s);
 		if (s[data->start] == '\"')
 			double_quotes_handling(data, s);
+		printf("duplicating char %c at index %d to token index %d\n", s[data->start], data->start, n_token);
 		*(*token + n_token) = s[data->start];
+		if (data->start == data->end)
+			*(*token + n_token) = 0;
 		n_token++;
 		data->start++;
 	}
@@ -55,9 +59,10 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 
 void	double_quotes_handling(t_minish *data, char *s)
 {
-	if (s[data->start + 1] != '\0' && s[data->start + 1] != '|'
+	if ((data->start + 1) != data->end && s[data->start + 1] != '|'
 		&& s[data->start + 1] != '<' && s[data->start + 1] != '>')
 	{
+		printf("1. char = %c, index = %d\n", s[data->start], data->start);
 		if (data->btw_double_quotes == 1)
 			data->btw_double_quotes = 0;
 		else
@@ -67,8 +72,13 @@ void	double_quotes_handling(t_minish *data, char *s)
 	}
 	else if ((s[data->start - 1] && s[data->start - 1] != '|'
 			&& s[data->start - 1] != '<' && s[data->start - 1] != '>'
-			&& s[data->start + 1] == '\0'))
+			&& (data->start + 1) == data->end))
+	{
+		printf("start + 1 = %d\n", data->start + 1);
+		printf("end = %d\n", data->end);
+		printf("2. char = %c, index = %d\n", s[data->start], data->start);
 		data->start++;
+	}
 }
 
 void	simple_quotes_handling(t_minish *data, char *s)
@@ -77,7 +87,7 @@ void	simple_quotes_handling(t_minish *data, char *s)
 		data->btw_simple_quotes = 0;
 	else
 		data->btw_simple_quotes = 1;
-	if (s[data->start + 1] != '\0' && data->btw_double_quotes == 0
+	if ((data->start + 1) != data->end && data->btw_double_quotes == 0
 		&& s[data->start + 1] != '|' && s[data->start + 1] != '<'
 		&& s[data->start + 1] != '>')
 	{
@@ -85,7 +95,7 @@ void	simple_quotes_handling(t_minish *data, char *s)
 		if (s[data->start] == '\'')
 			data->btw_simple_quotes = 0;
 	}
-	else if ((s[data->start + 1] == '\0' && s[data->start - 1]
+	else if (((data->start + 1) == data->end && s[data->start - 1]
 			&& data->btw_double_quotes == 0
 			&& s[data->start - 1] != '|' && s[data->start - 1] != '<'
 			&& s[data->start - 1] != '>'))
