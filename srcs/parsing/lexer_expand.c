@@ -143,7 +143,7 @@ void	expand_path(t_minish *data)
 	int		j;
 
 	index = -1;
-	while (data->tokens[++index])
+	while (data->tokens && data->tokens[++index])
 	{
 		j = 0;
 		i = verify_expansion(data, index, &j);
