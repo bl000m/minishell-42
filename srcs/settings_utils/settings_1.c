@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 15:49:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 16:20:02 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 10:14:00 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_minish	*init_data(char *envp[])
 	data->btw_simple_quotes = 0;
 	data->start = 0;
 	data->end = 0;
-	data->lexer_error = 0;
 	init_cmd(data);
 	init_ptrs(data, envp);
 	return (data);

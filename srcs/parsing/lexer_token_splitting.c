@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_token_splitting.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 16:49:43 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 11:27:40 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	all_other_token(char *s, int *start, int *end)
 		if (s[*end] == '\'')
 		{
 			*end += 1;
-			while (s[*end] != '\'')
+			while (s[*end] && s[*end] != '\'')
 				*end += 1;
 		}
 		*end += 1;
@@ -90,6 +90,9 @@ char	**tokens_table_filling(t_minish *data, char **table)
 	while (n_token < data->n_tokens)
 	{
 		add_token(data->input, &start, &end);
+		// printf("start = %d\n", start);
+		// printf("end = %d\n", end);
+		printf("substr = #%s#\n", ft_substr(data->input, start, end - start));
 		if (data->input[end - 1] != ' ')
 		{
 			table[n_token] = duplicating_token(data, data->input, start, end);

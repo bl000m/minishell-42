@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:54:59 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 22:59:05 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 11:24:41 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	checking_token(t_minish *data, t_cmd **node, int *i)
 	int	res;
 
 	res = 0;
-	if (data->tokens[*i][0] == '<')
+	if (data->tokens[*i][0] == '<' && !data->tokens[*i][1])
 		res = input_redirection(data, node, i);
-	else if (data->tokens[*i][0] == '>')
+	else if (data->tokens[*i][0] == '>' && !data->tokens[*i][1])
 		res = output_redirection(data, node, i);
 	else if (!ft_strncmp(data->tokens[*i], "<<", 2))
 		res = heredoc_handling(data, node, i);

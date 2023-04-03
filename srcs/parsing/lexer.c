@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 21:22:51 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 11:26:11 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ int	lexer_input(t_minish *data)
 	int	res;
 
 	res = 0;
-	data->tokens = split_tokens(data);
-	if (data->lexer_error)
-		res += 1;
-	else
+	if (odd_quotes(data->input))
 	{
-		expand_path(data);
-		parsing_path(data);
-		res += creating_cmd_list(data);
+		error_manager(0, EC_ODDQUOTES, NULL, EXIT_FAILURE);
+		return (1);
 	}
+	data->tokens = split_tokens(data);
+	expand_path(data);
+	parsing_path(data);
+	res += creating_cmd_list(data);
 	return (res);
 }
 

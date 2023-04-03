@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_duplicating.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 22:27:12 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 11:14:42 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,10 @@ char	*duplicating_token(t_minish *data, char *s, int start, int end)
 
 	data->start = start;
 	data->end = end;
+	token = NULL;
 	token = malloc(sizeof(char) * ((end - start) + 1));
 	if (!token)
 		hard_exit(data, NULL, NULL);
-	if (odd_quotes(s))
-	{
-		error_manager(0, EC_ODDQUOTES, NULL, EXIT_FAILURE);
-		data->lexer_error = 1;
-		return (NULL);
-	}
 	if (ft_memchr(&s[start], '$', end - start)
 		|| ft_memchr(&s[start], '~', end - start))
 		duplicating_dollar(data, &token, s);
@@ -40,6 +35,9 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 	int		n_token;
 
 	n_token = 0;
+	// printf("substr = #%s#\n", ft_substr(s, data->start, data->end));
+	// printf("start = %d\n", data->start);
+	// printf("end = %d\n", data->end);
 	while (s[data->start] && data->start < data->end)
 	{
 		if (s[data->start] == '\"')
@@ -87,7 +85,7 @@ void	simple_quotes_handling(t_minish *data, char *s)
 		if (s[data->start] == '\'')
 			data->btw_simple_quotes = 0;
 	}
-	else if ((s[data->start + 1] == '\0'
+	else if ((s[data->start + 1] == '\0' && s[data->start - 1]
 			&& data->btw_double_quotes == 0
 			&& s[data->start - 1] != '|' && s[data->start - 1] != '<'
 			&& s[data->start - 1] != '>'))

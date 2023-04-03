@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 17:27:55 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 10:13:32 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_minish
 	int				btw_simple_quotes;
 	int				start;
 	int				end;
-	int				lexer_error;
 	char			*path;
 	char			**path_dir;
 	char			**env_table;
