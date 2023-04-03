@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 17:38:14 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:10:45 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 15:29:10 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	creating_pipes(t_minish *data)
 			error_manager(0, EC_PIPE, NULL, EXIT_FAILURE);
 		cmd->output = fd[1];
 		cmd->next->input = fd[0];
-		if (!cmd->next->next)
-			cmd->next->last = 1;
 		cmd = cmd->next;
 	}
 	closing_fd_if_redirections(data);

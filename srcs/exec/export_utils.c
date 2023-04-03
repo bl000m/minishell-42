@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:17:56 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/04/01 15:10:34 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 14:41:22 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ static void	dict_sort(t_dict **tosort)
 void	print_sorted(t_dict *envp)
 {
 	t_dict	*sorted;
+	t_dict	*temp;
 
 	sorted = dict_duplst(envp);
 	if (!sorted)
 		return ;
 	dict_sort(&sorted);
+	temp = sorted;
 	if (sorted && !ft_memcmp(sorted->key, "_", sorted->key_len))
 		sorted = sorted->next;
 	while (sorted)
@@ -75,7 +77,7 @@ void	print_sorted(t_dict *envp)
 		if (sorted && !ft_memcmp(sorted->key, "_", sorted->key_len))
 			sorted = sorted->next;
 	}
-	dict_free(&sorted);
+	dict_free(&temp);
 }
 
 void	export_aux(t_minish *data, char *arg)

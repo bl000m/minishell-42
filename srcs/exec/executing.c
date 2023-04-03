@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 16:45:43 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 17:31:31 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ int	check_child_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "env", 3)
+		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 6)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "echo", 4));
 }
 
 int	check_parent_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5)
-		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 6)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "cd", 2)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "exit", 4));
 }

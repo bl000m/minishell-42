@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 17:43:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:51:11 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 15:29:21 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	init_cmd(t_minish *data)
 	command->output = 1;
 	command->file_in = 0;
 	command->file_out = 0;
-	command->last = 0;
 	command->child = 0;
 	data->cmds = command;
 }

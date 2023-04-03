@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 12:14:15 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 16:09:56 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,16 @@ void	getting_rid_quotes_redirections_etc(t_minish *data)
 	char	*tmp;
 	t_cmd	*curr;
 
-	i = 0;
 	curr = data->cmds;
+	tmp = NULL;
 	while (curr)
 	{
-		while (curr->full_cmd[i])
+		i = 0;
+		while (curr->full_cmd && curr->full_cmd[i])
 		{
 			if (check_if_pipe_redirection(curr->full_cmd[i]))
 			{
-				printf("token = %s\n", curr->full_cmd[i]);
 				tmp = getting_rid_of_quotes(curr->full_cmd[i]);
-				printf("after getting_rid = %s\n", tmp);
 				free(curr->full_cmd[i]);
 				curr->full_cmd[i] = tmp;
 			}

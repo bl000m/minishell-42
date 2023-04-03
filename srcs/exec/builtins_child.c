@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:40:32 by fbelfort          #+#    #+#             */
-/*   Updated: 2023/04/03 11:46:07 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 17:29:35 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,19 @@ void	mini_env(t_minish *data, t_cmd *cmd)
 		ptr = ptr->next;
 	}
 	g_status = EXIT_SUCCESS;
+	exit(g_status);
+}
+
+void	mini_export(t_minish *data, t_cmd *cmd)
+{
+	int	i;
+
+	g_status = EXIT_SUCCESS;
+	if (!cmd->full_cmd[1])
+		print_sorted(data->envp);
+	i = 0;
+	while (cmd->full_cmd[++i])
+		export_aux(data, cmd->full_cmd[i]);
 	exit(g_status);
 }
 
