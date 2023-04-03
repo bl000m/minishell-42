@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	heredoc_write_bible(t_minish *data, int ignore_exp, char *input)
+void	heredoc_write(t_minish *data, int ignore_exp, char *input)
 {
 	char	*expanded_input;
 	t_list	*tmp;
@@ -34,7 +34,7 @@ void	heredoc_write_bible(t_minish *data, int ignore_exp, char *input)
 	data->aux = tmp;
 }
 
-void	child_heredoc_bible(t_minish *data, char *lim, int fd, int ignore_exp)
+void	child_heredoc(t_minish *data, char *lim, int fd, int ignore_exp)
 {
 	char	*input;
 
@@ -44,10 +44,10 @@ void	child_heredoc_bible(t_minish *data, char *lim, int fd, int ignore_exp)
 		if (!input || (ft_strncmp(input, lim, ft_strlen(lim) + 1) == 0))
 		{
 			if (!input)
-				printf("warning: h-d/l. 1 delimited by eof(wanted `%s')\n", lim);
+				error_manager(0, EC_HEREDOC, lim, 131);
 			break ;
 		}
-		heredoc_write_bible(data, ignore_exp, input);
+		heredoc_write(data, ignore_exp, input);
 	}
 	if (input)
 		free(input);
@@ -73,10 +73,62 @@ void	here_doc(t_minish *data, int *i, int fd)
 	g_status = 0;
 	here_doc_pid = fork();
 	if (here_doc_pid == 0)
-		child_heredoc_bible(data, lim, fd, ignore_exp);
+		child_heredoc(data, lim, fd, ignore_exp);
 	close(fd);
 	waitpid(here_doc_pid, &process_status, 0);
 	g_status = WEXITSTATUS(process_status);
 	free(lim);
 	dup2(fd_int, STDIN_FILENO);
+}
+
+int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)
+{
+	int		k;
+	char	*tmp;
+
+	if (i - j > 0)
+		ft_lstadd_back(&data->aux, ft_lstnew(ft_substr(line, j, i - j)));
+	k = 2;
+	if (ft_isalpha(line[i + 1]) || line[i + 1] == '_')
+		while (ft_isalnum(line[i + k]) || line[i + k] == '_')
+			k++;
+	if (line[i + 1] == '?')
+		line = ft_itoa(g_status);
+	else
+	{
+		tmp = find_varvalue(data, line + i + 1, k - 1);
+		line = ft_strdup(tmp);
+	}
+	if (!line)
+		line = ft_calloc(1, sizeof(char));
+	ft_lstadd_back(&data->aux, ft_lstnew(line));
+	return (i + k);
+}
+
+/**
+ * @brief
+ * Expands all the variables, whitout handling the quotes.
+ * To be used by heredoc.
+*/
+char	*heredoc_expand(t_minish *data, char *line)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 0;
+	while (line[++i])
+	{
+		if (line[i] == '$' && line[i + 1] && line[i + 1] != ' ')
+		{
+			j = heredoc_expand_aux(data, line, i, j);
+			i = j - 1;
+		}
+	}
+	if (data->aux)
+	{
+		ft_lstadd_back(&data->aux, ft_lstnew(ft_substr(line, j, i - j)));
+		return (make_line_fromlst(&data->aux));
+	}
+	return (NULL);
 }

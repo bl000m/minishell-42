@@ -15,26 +15,26 @@
 int	specific_cases(t_minish *data, int *i, int *res)
 {
 	if (data->tokens[*i][0] == '.' && !data->tokens[*i][1])
-  {
-		printf("minishell: .: filename argument required\n");
-	  *res = 1;
-  }
+	{
+		error_manager(0, EC_PERIOD, NULL, EXIT_FAILURE);
+		*res = 1;
+	}
 	else if (data->tokens[*i][0] == '/' && !data->tokens[*i][0])
-  {
-		printf("minishell: /: Is a directory\n");
-	  *res = 1;
-  }
+	{
+		error_manager(0, EC_SLASH, NULL, EXIT_FAILURE);
+		*res = 1;
+	}
 	else if (data->tokens[*i][0] == '.'
 		&& data->tokens[*i][1] == '/' && !data->tokens[*i][2])
-  {
-		printf("minishell: ./: Is a directory\n");
-	  *res = 1;
-  }
+	{
+		error_manager(0, EC_PSLASH, NULL, EXIT_FAILURE);
+		*res = 1;
+	}
 	else if (!ft_strncmp(data->tokens[*i], "||", 2))
-  {
-		printf("syntax error near unexpected token\n");
-	  *res = 1;
-  }
+	{
+		error_manager(0, EC_SINTAX, data->tokens[*i], EXIT_FAILURE);
+		*res = 1;
+	}
 	return (*res);
 }
 
@@ -74,7 +74,6 @@ int	count_token_cmd(t_minish *data, int *i)
 
 	temp = *i;
 	count = 0;
-
 	while (data->tokens[temp] && data->tokens[temp][0] != '|'
 		&& data->tokens[temp][0] != '\0' && data->tokens[temp][0] != '<'
 		&& data->tokens[temp][0] != '>')

@@ -13,13 +13,13 @@
 #include "minishell.h"
 
 /* builtin to be exec in child process: */
-void	env(t_minish *data, t_cmd *cmd)
+void	mini_env(t_minish *data, t_cmd *cmd)
 {
 	t_dict	*ptr;
 
 	if (cmd && cmd->full_cmd[1])
 	{
-		error_manager(15, data, &cmd);
+		error_manager(EXIT_FAILURE, EC_ENVARG, NULL, EXIT_FAILURE);
 		return ;
 	}
 	ptr = data->envp;
@@ -40,7 +40,7 @@ void	env(t_minish *data, t_cmd *cmd)
 	exit(g_status);
 }
 
-void	echo(t_cmd *cmd)
+void	mini_echo(t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -69,7 +69,7 @@ void	echo(t_cmd *cmd)
 	exit(g_status);
 }
 
-void	pwd(t_minish *data)
+void	mini_pwd(t_minish *data)
 {
 	char	*pwd;
 

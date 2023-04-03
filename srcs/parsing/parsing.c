@@ -86,7 +86,7 @@ int	adding_full_path(t_minish *data, t_cmd **node)
 			(*node)->full_path = find_dir_command(data, (*node)->full_cmd[0]);
 		else
 		{
-			printf("No path is set. Cannot execute not built in functions\n");
+			error_manager(0, EC_PATH2, NULL, EXIT_FAILURE);
 			return (1);
 		}
 	}

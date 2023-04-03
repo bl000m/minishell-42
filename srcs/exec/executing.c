@@ -29,7 +29,8 @@ void	executing_commands(t_minish *data)
 	while (cmd)
 	{
 		waitpid(cmd->child, &process_status, 0);
-		if (data->cmds && !check_parent_builtin(&cmd))
+		if (data->cmds && !check_parent_builtin(&cmd)
+			&& !WIFSIGNALED(process_status))
 			g_status = WEXITSTATUS(process_status);
 		cmd = cmd->next;
 	}
@@ -52,7 +53,7 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 		if (pid == -1)
 		{
 			closing_all_fd(data);
-			error_manager(2, data, NULL);
+			error_manager(0, EC_PROCESS, NULL, EXIT_FAILURE);
 		}
 		else if (pid == 0)
 			child_process(data, cmd);
@@ -83,22 +84,4 @@ int	check_parent_builtin(t_cmd **cmd)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 6)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "cd", 2)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "exit", 4));
-}
-
-void	executing_builtin(t_minish *data, t_cmd **cmd)
-{
-	if (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 3))
-		pwd(data);
-	else if (!ft_strncmp((*cmd)->full_cmd[0], "env", 3))
-		env(data, *cmd);
-	else if (!ft_strncmp((*cmd)->full_cmd[0], "unset", 5))
-		unset(data, *cmd);
-	else if (!ft_strncmp((*cmd)->full_cmd[0], "echo", 4))
-		echo(*cmd);
-	else if (!ft_strncmp((*cmd)->full_cmd[0], "export", 6))
-		export(data, *cmd);
-	else if (!ft_strncmp((*cmd)->full_cmd[0], "cd", 2))
-		cd(data, *cmd);
-	else if (!ft_strncmp((*cmd)->full_cmd[0], "exit", 4))
-		mini_exit(cmd);
 }

@@ -14,7 +14,8 @@
 
 void	updating_data(t_minish *data)
 {
-	free_path_dir(data);
+	if (data->path_dir)
+		free_path_dir(data);
 	if (data->input)
 		free(data->input);
 	data->input = NULL;
@@ -22,6 +23,8 @@ void	updating_data(t_minish *data)
 		free_linked_list_full_cmd(data);
 	if (data->tokens && !data->lexer_error)
 		free_tokens(data);
+	if (data->aux)
+		ft_lstclear(&data->aux, free);
 	init_cmd(data);
 }
 
@@ -34,6 +37,7 @@ void	setting_prompt(t_minish *data)
 		set_signals(PROMPT);
 		prefix = get_lineprefix(data);
 		data->input = readline(prefix);
+		free(prefix);
 		if (data->input && *data->input)
 		{
 			add_history (data->input);
@@ -41,7 +45,6 @@ void	setting_prompt(t_minish *data)
 			if (!lexer_input(data))
 				executing_commands(data);
 		}
-		free(prefix);
 		if (data->input == NULL)
 			break ;
 		updating_data(data);

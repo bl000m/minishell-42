@@ -18,10 +18,7 @@ t_minish	*init_data(char *envp[])
 
 	data = malloc(sizeof(*data));
 	if (!data)
-	{
-		ft_printf("ERROR ALLOCATING DATA: %s\n", strerror(errno));
-		exit(1);
-	}
+		hard_exit(NULL, NULL, NULL);
 	data->n_cmd = 0;
 	data->n_tokens = 0;
 	data->btw_double_quotes = 0;

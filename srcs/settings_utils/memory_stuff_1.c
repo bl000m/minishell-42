@@ -24,8 +24,10 @@ void	exit_clean(t_minish *data)
 			free_tokens(data);
 		if (data->cmds)
 			free_linked_list_full_cmd(data);
-		free_path_dir(data);
-		free_env_table(data);
+		if (data->env_table)
+			free_env_table(data);
+		if (data->path_dir)
+			free_path_dir(data);
 		if (data->aux)
 			ft_lstclear(&data->aux, free);
 		free(data);

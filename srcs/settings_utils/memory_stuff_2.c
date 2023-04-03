@@ -20,6 +20,7 @@ char	**ft_free(char **strs)
 	while (strs[i])
 		free(strs[i++]);
 	free(strs);
+	strs = NULL;
 	return (0);
 }
 
@@ -101,5 +102,3 @@ void	free_tokens(t_minish *data)
 		data->tokens = NULL;
 	}
 }
-
-

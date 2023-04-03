@@ -22,6 +22,7 @@ SRCS 		= main.c \
 					parsing/lexer_token_splitting.c \
 					parsing/lexer_duplicating.c \
       		parsing/lexer_expand.c \
+      		parsing/lexer_expand_utils.c \
 					parsing/parsing.c \
 					parsing/parsing_environment.c \
 					parsing/parsing_utils.c \
@@ -38,6 +39,7 @@ SRCS 		= main.c \
 					exec/builtins_parent.c \
 					exec/builtins_child.c \
 					exec/builtins_utils.c \
+					exec/export_utils.c \
 					exec/utils.c
 
 OBJS 		= $(SRCS:%.c=$(OBJDIR)/%.o)
