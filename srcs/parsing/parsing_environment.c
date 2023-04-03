@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_environment.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:54:22 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:13:12 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 16:26:48 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ char	*find_dir_command(t_minish *data, char *command)
 			return (ft_strdup(command));
 		path_dir = ft_strjoin(data->path_dir[i], "/");
 		path_with_command = ft_strjoin(path_dir, command);
+		// printf("path_with_command = %s\n", path_with_command);
+		// printf("path_dir = %s\n", path_dir);
+		// printf("command = %s\n", command);
 		free(path_dir);
 		if (access(path_with_command, F_OK | X_OK) == 0)
 			return (path_with_command);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_stuff.c                                     :+:      :+:    :+:   */
+/*   memory_stuff_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 12:03:25 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 15:47:17 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 16:02:11 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,18 @@ void	free_linked_list_full_cmd(t_minish *data)
 		i = 0;
 		while (ptr->full_cmd && ptr->full_cmd[i])
 		{
+			printf("freeing full_cmd[i] = %s\n", ptr->full_cmd[i]);
 			free(ptr->full_cmd[i]);
 			ptr->full_cmd[i] = NULL;
 			i++;
 		}
 		free(ptr->full_cmd);
-		free(ptr->full_path);
+		if (ptr->full_path)
+		{
+			printf("freeing full_path = %s\n", ptr->full_path);
+
+			free(ptr->full_path);
+		}
 		tmp = ptr;
 		ptr = ptr->next;
 		free(tmp);

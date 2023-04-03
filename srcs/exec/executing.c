@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 11:13:53 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 16:45:43 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/03 16:26:30 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_cmd	*creating_child(t_cmd **cmd, t_minish *data)
 {
 	int	pid;
 
+	printf("command =>#%s#, output => %d, input => %d\n", (*cmd)->full_cmd[0], (*cmd)->output, (*cmd)->input);
 	if (check_parent_builtin(cmd))
 		executing_builtin(data, cmd);
 	else

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 12:14:03 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 16:19:28 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_cmd
 	int				output;
 	int				file_in;
 	int				file_out;
-	int				last;
 	pid_t			child;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -106,7 +105,7 @@ char		**split_tokens(t_minish *data);
 
 t_dict		*dict_newnode(char *str);
 void		dict_delone(t_dict **lst, t_dict *node);
-void		dict_addback(t_dict **dict, t_dict *new);
+void		dict_addback(t_dict **dict, t_dict *node);
 size_t		dict_size(t_dict *dict);
 t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 t_dict		*dict_duplst(t_dict *dict);

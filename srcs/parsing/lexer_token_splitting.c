@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 12:39:09 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 14:27:49 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	**tokens_table_filling(t_minish *data, char **table)
 		add_token(data->input, &start, &end);
 		// printf("start = %d\n", start);
 		// printf("end = %d\n", end);
-		printf("substr = #%s#\n", ft_substr(data->input, start, end - start));
+		// printf("substr = #%s#\n", ft_substr(data->input, start, end - start));
 		if (data->input[end - 1] != ' ')
 		{
 			table[n_token] = duplicating_token(data, data->input, start, end);

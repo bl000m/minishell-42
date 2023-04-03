@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 20:42:04 by FelipeBelfo       #+#    #+#             */
-/*   Updated: 2023/04/01 15:13:18 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/03 16:23:26 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_dict	*dict_newnode(char *str)
  * @brief
  * It will add the given node at the end of the given list.
 */
-void	dict_addback(t_dict **dict, t_dict *new)
+void	dict_addback(t_dict **dict, t_dict *node)
 {
 	t_dict	*ptr;
 
@@ -56,13 +56,13 @@ void	dict_addback(t_dict **dict, t_dict *new)
 		return ;
 	if (*dict == NULL)
 	{
-		*dict = new;
+		*dict = node;
 		return ;
 	}
 	ptr = *dict;
 	while (ptr->next)
 		ptr = ptr->next;
-	ptr->next = new;
+	ptr->next = node;
 }
 
 /**
