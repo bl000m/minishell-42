@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_duplicating.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 13:18:33 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/04 09:09:12 by mathiapagan      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 			simple_quotes_handling(data, s);
 		if (s[data->start] == '\"')
 			double_quotes_handling(data, s);
+      printf("duplicating %c at index %d with end %d\n", s[data->start], data->start, data->end);
 		*(*token + n_token) = s[data->start];
 		if (data->start == data->end)
 			*(*token + n_token) = 0;
@@ -65,7 +66,7 @@ void	double_quotes_handling(t_minish *data, char *s)
 		if (data->btw_simple_quotes == 0)
 			data->start++;
 	}
-	else if ((s[data->start - 1] && s[data->start - 1] != '|'
+	if ((s[data->start - 1] && s[data->start - 1] != '|'
 			&& s[data->start - 1] != '<' && s[data->start - 1] != '>'
 			&& (data->start + 1) == data->end))
 		data->start++;
@@ -73,6 +74,7 @@ void	double_quotes_handling(t_minish *data, char *s)
 
 void	simple_quotes_handling(t_minish *data, char *s)
 {
+  printf("Here at start %d and end %d\n", data->start, data->end);
 	if (data->btw_simple_quotes == 1)
 		data->btw_simple_quotes = 0;
 	else
@@ -85,11 +87,13 @@ void	simple_quotes_handling(t_minish *data, char *s)
 		if (s[data->start] == '\'')
 			data->btw_simple_quotes = 0;
 	}
-	else if (((data->start + 1) == data->end && s[data->start - 1]
+	if (((data->start + 1) == data->end && s[data->start - 1]
 			&& data->btw_double_quotes == 0
 			&& s[data->start - 1] != '|' && s[data->start - 1] != '<'
 			&& s[data->start - 1] != '>'))
+  {
 		data->start++;
+  }
 }
 
 void	duplicating_dollar(t_minish *data, char **token, char *s)
