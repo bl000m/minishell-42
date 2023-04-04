@@ -38,7 +38,8 @@ void	mini_unset(t_minish *data, t_cmd *cmd)
 		if (curr && ft_memcmp(curr->key, "SHLVL", curr->key_len))
 			dict_delone(&data->envp, curr);
 		else if (!ft_memcmp(curr->key, "SHLVL", curr->key_len))
-			set_varvalue(data->envp, curr->key, curr->key_len, "0");
+			if (!set_varvalue(data->envp, curr->key, curr->key_len, "0"))
+				hard_exit(data, NULL, NULL);
 	}
 }
 
@@ -58,16 +59,17 @@ void	mini_cd(t_minish *data, t_cmd *cmd)
 			return ;
 		}
 		pwd = getcwd(NULL, 0);
-		set_varvalue(data->envp, "OLDPWD", 6, pwd);
+		if (!pwd || !set_varvalue(data->envp, "OLDPWD", 6, pwd))
+			hard_exit(data, NULL, NULL);
 		free(pwd);
 		pwd = getcwd(NULL, 0);
-		set_varvalue(data->envp, "PWD", 3, pwd);
+		if (!pwd || !set_varvalue(data->envp, "PWD", 3, pwd))
+			hard_exit(data, NULL, NULL);
 		free(pwd);
 		g_status = EXIT_SUCCESS;
 	}
 }
 
-// add exit_clean
 void	mini_exit(t_minish *data, t_cmd **cmd)
 {
 	int	i;

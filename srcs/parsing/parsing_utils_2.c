@@ -38,7 +38,7 @@ int	specific_cases(t_minish *data, int *i, int *res)
 	return (*res);
 }
 
-char	*getting_rid_of_quotes(char *token)
+char	*getting_rid_of_quotes(t_minish *data, char *token)
 {
 	int		i;
 	int		j;
@@ -50,7 +50,7 @@ char	*getting_rid_of_quotes(char *token)
 	quote = 0;
 	result = ft_calloc(sizeof(char), (int)ft_strlen(token) + 1);
 	if (!result)
-		return (NULL);
+		hard_exit(data, NULL, NULL);
 	while (token[i])
 	{
 		if (are_quotes(token[i]) && !quote)

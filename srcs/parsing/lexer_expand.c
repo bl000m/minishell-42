@@ -56,7 +56,7 @@ static int	expand_tilde(t_minish *data, int index, int i, int j)
 	char	*line;
 	char	*home;
 
-	home = ft_strdup(find_varvalue(data, "HOME", 4));
+	home = find_varvalue(data, "HOME", 4);
 	if (!home)
 		home = ft_calloc(sizeof(char), 2);
 	if (i - j > 0)
@@ -64,7 +64,7 @@ static int	expand_tilde(t_minish *data, int index, int i, int j)
 		line = ft_substr(data->tokens[index], j, i - j);
 		ft_lstadd_back(&data->aux, ft_lstnew(line));
 	}
-	ft_lstadd_back(&data->aux, ft_lstnew(home));
+	ft_lstadd_back(&data->aux, ft_lstnew(mini_strdup(data, home)));
 	return (++i);
 }
 
@@ -100,7 +100,7 @@ static	int	verify_expansion(t_minish *data, int index, int *j)
 	return (i);
 }
 
-static void	expand_token(t_minish *data, int index, int i, int j)
+static void	expand_token(t_minish *data, int *index, int i, int j)
 {
 	int		dollar_sign;
 	char	*subline;
@@ -109,19 +109,17 @@ static void	expand_token(t_minish *data, int index, int i, int j)
 	dollar_sign = 0;
 	if (j < i)
 	{
-		subline = ft_substr(data->tokens[index], j, i - j);
+		subline = ft_substr(data->tokens[*index], j, i - j);
 		if (!subline)
-			return ;
+			hard_exit(data, NULL, NULL);
 		ft_lstadd_back(&data->aux, ft_lstnew(subline));
 	}
-	dollar_sign = check_if_dollar(data->tokens[index]);
-	// printf("before tokens => #%s#  index => %d\n", data->tokens[index], index);
-	free(data->tokens[index]);
+	dollar_sign = check_if_dollar(data->tokens[*index]);
+	free(data->tokens[*index]);
 	if (dollar_sign)
-		split_expandedtoken(data, &index);
+		split_expandedtoken(data, index);
 	else
-		data->tokens[index] = make_line_fromlst(&data->aux);
-	// printf("after tokens => #%s#  index => %d\n", data->tokens[index], index);
+		data->tokens[*index] = make_line_fromlst(data, &data->aux);
 }
 
 /**
@@ -149,10 +147,7 @@ void	expand_path(t_minish *data)
 	{
 		j = 0;
 		i = verify_expansion(data, index, &j);
-		expand_token(data, index, i, j);
+		expand_token(data, &index, i, j);
 	}
 	regroup_tokens(data);
-	// index = -1;
-	// while (data->tokens[++index])
-	// 	printf("|%s|\n", data->tokens[index]);
 }

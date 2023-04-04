@@ -29,7 +29,7 @@ void	heredoc_write(t_minish *data, int ignore_exp, char *input)
 		else
 			ft_lstadd_back(&tmp, ft_lstnew(input));
 	}
-	ft_lstadd_back(&tmp, ft_lstnew(ft_strdup("\n")));
+	ft_lstadd_back(&tmp, ft_lstnew(mini_strdup(data, "\n")));
 	input = NULL;
 	data->aux = tmp;
 }
@@ -51,7 +51,7 @@ void	child_heredoc(t_minish *data, char *lim, int fd, int ignore_exp)
 	}
 	if (input)
 		free(input);
-	input = make_line_fromlst(&data->aux);
+	input = make_line_fromlst(data, &data->aux);
 	write(fd, input, ft_strlen(input));
 	free(input);
 	close(fd);
@@ -68,7 +68,7 @@ void	here_doc(t_minish *data, int *i, int fd)
 
 	set_signals(HEREDOC);
 	fd_int = dup(STDIN_FILENO);
-	lim = getting_rid_of_quotes(data->tokens[*i + 1]);
+	lim = getting_rid_of_quotes(data, data->tokens[*i + 1]);
 	ignore_exp = ft_strlen(data->tokens[*i + 1]) - ft_strlen(lim);
 	g_status = 0;
 	here_doc_pid = fork();
@@ -97,7 +97,7 @@ int	heredoc_expand_aux(t_minish *data, char *line, int i, int j)
 	else
 	{
 		tmp = find_varvalue(data, line + i + 1, k - 1);
-		line = ft_strdup(tmp);
+		line = mini_strdup(data, tmp);
 	}
 	if (!line)
 		line = ft_calloc(1, sizeof(char));
@@ -128,7 +128,7 @@ char	*heredoc_expand(t_minish *data, char *line)
 	if (data->aux)
 	{
 		ft_lstadd_back(&data->aux, ft_lstnew(ft_substr(line, j, i - j)));
-		return (make_line_fromlst(&data->aux));
+		return (make_line_fromlst(data, &data->aux));
 	}
 	return (NULL);
 }

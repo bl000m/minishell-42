@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	generate_envp(t_dict **dict)
+void	generate_envp(t_minish *data, t_dict **dict)
 {
 	t_dict	*ptr;
 	char	*pwd;
@@ -21,22 +21,22 @@ void	generate_envp(t_dict **dict)
 	pwd = getcwd(NULL, 0);
 	ptr = dict_newnode("OLDPWD");
 	if (!ptr)
-		return ;
+		hard_exit(data, NULL, NULL);
 	dict_addback(dict, ptr);
 	tmpvar = ft_strjoin("PWD=", pwd);
 	free(pwd);
 	ptr = dict_newnode(tmpvar);
 	free(tmpvar);
 	if (!ptr)
-		return ;
+		hard_exit(data, NULL, NULL);
 	dict_addback(dict, ptr);
 	ptr = dict_newnode("SHLVL=1");
 	if (!ptr)
-		return ;
+		hard_exit(data, NULL, NULL);
 	dict_addback(dict, ptr);
 	ptr = dict_newnode("_=~/Documents/minishell/./minishell");
 	if (!ptr)
-		return ;
+		hard_exit(data, NULL, NULL);
 	dict_addback(dict, ptr);
 }
 
@@ -48,7 +48,7 @@ void	generate_envp(t_dict **dict)
  * That way it will return a linked list with all the variables.
  *
 */
-static t_dict	*dup_envp(char **envp)
+static t_dict	*dup_envp(t_minish *data, char **envp)
 {
 	t_dict	*dict;
 	t_dict	*tmp;
@@ -61,13 +61,13 @@ static t_dict	*dup_envp(char **envp)
 	{
 		tmp = dict_newnode(envp[i]);
 		if (!tmp)
-			return (NULL);
+			hard_exit(data, NULL, NULL);
 		dict_addback(&dict, tmp);
 	}
 	if (!dict)
-		generate_envp(&dict);
+		generate_envp(data, &dict);
 	else
-		update_envp(dict);
+		update_envp(data, dict);
 	return (dict);
 }
 
@@ -82,12 +82,12 @@ char	**tab_envp_updated(t_minish *data)
 		free_env_table(data);
 	data->env_table = ft_calloc(sizeof(char *), dict_size(data->envp) + 1);
 	if (!data->envp)
-		return (NULL);
+		hard_exit(data, NULL, NULL);
 	ptr = data->envp;
 	while (ptr)
 	{
-		join = ft_strjoin(ptr->key, "=");
-		data->env_table[n_var] = ft_strjoin(join, ptr->value);
+		join = mini_join(data, ptr->key, "=");
+		data->env_table[n_var] = mini_join(data, join, ptr->value);
 		free(join);
 		n_var++;
 		ptr = ptr->next;
@@ -100,7 +100,7 @@ void	init_cmd(t_minish *data)
 {
 	t_cmd	*command;
 
-	command = malloc(sizeof(*command));
+	command = ft_calloc(sizeof(*command), 1);
 	command->full_cmd = NULL;
 	command->full_path = NULL;
 	command->next = NULL;
@@ -120,6 +120,6 @@ void	init_ptrs(t_minish *data, char *envp[])
 	data->tokens = NULL;
 	data->aux = NULL;
 	data->env_table = NULL;
-	data->envp = dup_envp(envp);
+	data->envp = dup_envp(data, envp);
 	data->env_table = NULL;
 }

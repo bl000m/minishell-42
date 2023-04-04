@@ -30,12 +30,13 @@ t_minish	*init_data(char *envp[])
 	return (data);
 }
 
-void	update_envp(t_dict *envp)
+void	update_envp(t_minish *data, t_dict *envp)
 {
 	int		lvl;
 	t_dict	*ptr;
 
-	set_varvalue(envp, "SHELL", 5, "minishell");
+	if (!set_varvalue(envp, "SHELL", 5, "minishell"))
+		hard_exit(data, NULL, NULL);
 	ptr = dict_findvar(envp, "SHLVL", 5);
 	lvl = ft_atoi(ptr->value) + 1;
 	free(ptr->value);

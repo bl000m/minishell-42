@@ -37,17 +37,18 @@ void	dict_free(t_dict **dict)
 	dict = NULL;
 }
 
-void	set_varvalue(t_dict *envp, char *variable, size_t len, char *newvalue)
+int	set_varvalue(t_dict *envp, char *variable, size_t len, char *newvalue)
 {
 	t_dict	*ptr;
 
 	ptr = dict_findvar(envp, variable, len);
 	if (!ptr)
-		return ;
+		return (0);
 	if (ptr->value)
 		free(ptr->value);
 	ptr->value = ft_strdup(newvalue);
 	ptr->has_value = 1;
+	return (1);
 }
 
 void	dict_delone(t_dict **lst, t_dict *node)

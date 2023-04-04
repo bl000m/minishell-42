@@ -78,7 +78,7 @@ void		handle_ctrlc_heredoc(int sign);
 void		mini_pwd(t_minish *data);
 void		mini_unset(t_minish *data, t_cmd *cmd);
 void		mini_env(t_minish *data, t_cmd *cmd);
-void		print_sorted(t_dict *envp);
+void		print_sorted(t_minish *data, t_dict *envp);
 void		mini_export(t_minish *data, t_cmd *cmd);
 void		export_aux(t_minish *data, char *arg);
 int			is_validvarname(char *varname, size_t len);
@@ -92,7 +92,7 @@ t_minish	*init_data(char *envp[]);
 void		setting_prompt(t_minish *data);
 char		**tab_envp_updated(t_minish *data);
 char		*get_lineprefix(t_minish *data);
-void		update_envp(t_dict *envp);
+void		update_envp(t_minish *data, t_dict *envp);
 void		init_cmd(t_minish *data);
 void		init_ptrs(t_minish *data, char *envp[]);
 
@@ -109,7 +109,7 @@ void		dict_addback(t_dict **dict, t_dict *node);
 size_t		dict_size(t_dict *dict);
 t_dict		*dict_findvar(t_dict *envp, char *variable, size_t len);
 t_dict		*dict_duplst(t_dict *dict);
-void		set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
+int			set_varvalue(t_dict *envp, char *var, size_t len, char *newvalue);
 
 /* parsing */
 
@@ -117,13 +117,13 @@ void		parsing_path(t_minish *data);
 char		*find_dir_command(t_minish *data, char *command);
 void		expand_path(t_minish *data);
 char		*heredoc_expand(t_minish *data, char *line);
-char		*make_line_fromlst(t_list **lst);
+char		*make_line_fromlst(t_minish *data, t_list **lst);
 char		*find_varvalue(t_minish *data, char *variable, size_t len);
 int			creating_cmd_list(t_minish *data);
 int			checking_token(t_minish *data, t_cmd **node, int *i);
 int			stocking_cmd_and_arguments(t_minish *data, t_cmd **node, int *i);
 int			adding_full_path(t_minish *data, t_cmd **node);
-void		generate_envp(t_dict **dict);
+void		generate_envp(t_minish *data, t_dict **dict);
 int			specific_cases(t_minish *data, int *i, int *res);
 void		duplicating_dollar(t_minish *data, char **token, char *s);
 void		duplicating_with_conditions(t_minish *data, char **token, char *s);
@@ -135,7 +135,7 @@ void		getting_rid_quotes_redirections_etc(t_minish *data);
 
 /* parsing utils */
 
-void		create_new_cmd_list_node(t_cmd **node);
+void		create_new_cmd_list_node(t_minish *data, t_cmd **node);
 int			count_token_cmd(t_minish *data, int *i);
 int			is_builtin(char *cmd);
 int			input_redirection(t_minish *data, t_cmd **node, int *i);
@@ -144,7 +144,7 @@ int			output_append_redirection(t_minish *data, t_cmd **node, int *i);
 int			pipe_new_node(t_minish *data, t_cmd **node, int *i);
 int			cmds_number(t_minish *data);
 int			heredoc_handling(t_minish *data, t_cmd **node, int *i);
-char		*getting_rid_of_quotes(char *token);
+char		*getting_rid_of_quotes(t_minish *data, char *token);
 int			cmds_number(t_minish *data);
 int			check_if_dollar(char *token);
 void		realloc_data_tokens(t_minish *data, char **newtokens, int index);
@@ -193,6 +193,8 @@ void		hard_exit(t_minish *data, char **tab, char *str);
 
 /* memory stuff */
 
+char		*mini_strdup(t_minish *data, char *str);
+char		*mini_join(t_minish *data, char *s1, char *s2);
 void		dict_free(t_dict **dict);
 void		waiting_childs_finishing(t_minish *data);
 void		free_path_dir(t_minish *data);

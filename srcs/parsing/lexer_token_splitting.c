@@ -90,9 +90,6 @@ char	**tokens_table_filling(t_minish *data, char **table)
 	while (n_token < data->n_tokens)
 	{
 		add_token(data->input, &start, &end);
-		// printf("start = %d\n", start);
-		// printf("end = %d\n", end);
-		// printf("substr = #%s#\n", ft_substr(data->input, start, end - start));
 		if (data->input[end - 1] != ' ')
 		{
 			table[n_token] = duplicating_token(data, data->input, start, end);

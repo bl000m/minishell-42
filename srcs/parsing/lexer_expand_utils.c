@@ -17,7 +17,7 @@
  * Iterates over the list to create a line with the content of all the nodes
  *  and returns the line after free the list.
 */
-char	*make_line_fromlst(t_list **lst)
+char	*make_line_fromlst(t_minish *data, t_list **lst)
 {
 	char	*line;
 	t_list	*tmp;
@@ -34,7 +34,7 @@ char	*make_line_fromlst(t_list **lst)
 	tmp = *lst;
 	line = ft_calloc(size + 1, sizeof(char));
 	if (!line)
-		return (NULL);
+		hard_exit(data, NULL, NULL);
 	size = 0;
 	while (tmp)
 	{
@@ -108,7 +108,10 @@ void	realloc_data_tokens(t_minish *data, char **newtokens, int index)
 	ptr = data->tokens;
 	data->tokens = ft_calloc(sizeof(char *), data->n_tokens + 1);
 	if (!data->tokens)
-		return ;
+	{
+		data->tokens = ptr;
+		hard_exit(data, newtokens, NULL);
+	}
 	while (++i < index)
 		data->tokens[i] = ptr[i];
 	while (newtokens[j])
@@ -127,8 +130,8 @@ void	split_expandedtoken(t_minish *data, int *index)
 	char	**tokens;
 
 	i = 0;
-	line1 = make_line_fromlst(&data->aux);
-	line2 = getting_rid_of_quotes(line1);
+	line1 = make_line_fromlst(data, &data->aux);
+	line2 = getting_rid_of_quotes(data, line1);
 	free(line1);
 	tokens = ft_split(line2, ' ');
 	free(line2);

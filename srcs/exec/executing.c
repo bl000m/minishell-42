@@ -75,7 +75,8 @@ int	check_child_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "pwd", 4)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "env", 4)
-		|| !ft_strncmp((*cmd)->full_cmd[0], "export", 7)
+		|| (!ft_strncmp((*cmd)->full_cmd[0], "export", 7)
+			&& !(*cmd)->full_cmd[1])
 		|| !ft_strncmp((*cmd)->full_cmd[0], "echo", 5));
 }
 
@@ -83,5 +84,7 @@ int	check_parent_builtin(t_cmd **cmd)
 {
 	return (!ft_strncmp((*cmd)->full_cmd[0], "unset", 6)
 		|| !ft_strncmp((*cmd)->full_cmd[0], "cd", 3)
+		|| (!ft_strncmp((*cmd)->full_cmd[0], "export", 7)
+			&& (*cmd)->full_cmd[1])
 		|| !ft_strncmp((*cmd)->full_cmd[0], "exit", 5));
 }

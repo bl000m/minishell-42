@@ -42,7 +42,7 @@ char	**split_tokens(t_minish *data)
 	data->n_tokens = n_tokens;
 	table = malloc(sizeof(char *) * (data->n_tokens + 1));
 	if (!table)
-		return (NULL);
+		hard_exit(data, NULL, NULL);
 	table = tokens_table_filling(data, table);
 	if (table)
 		table[data->n_tokens] = 0;
@@ -64,7 +64,7 @@ void	getting_rid_quotes_redirections_etc(t_minish *data)
 		{
 			if (check_if_pipe_redirection(curr->full_cmd[i]))
 			{
-				tmp = getting_rid_of_quotes(curr->full_cmd[i]);
+				tmp = getting_rid_of_quotes(data, curr->full_cmd[i]);
 				free(curr->full_cmd[i]);
 				curr->full_cmd[i] = tmp;
 			}

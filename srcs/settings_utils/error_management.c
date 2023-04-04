@@ -16,7 +16,7 @@ void	check_error(int argc)
 {
 	if (argc != 1)
 	{
-		ft_printf("n. of argument incorrect\n");
+		printf("n. of argument incorrect\n");
 		exit(1);
 	}
 }
