@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 12:29:23 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 14:27:49 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/04 11:56:59 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	add_token(char *s, int *start, int *end)
 		all_other_token(s, start, end);
 }
 
-char	**tokens_table_filling(t_minish *data, char **table)
+int	tokens_table_filling(t_minish *data)
 {
 	int	start;
 	int	end;
@@ -85,18 +85,21 @@ char	**tokens_table_filling(t_minish *data, char **table)
 	start = 0;
 	end = 0;
 	n_token = 0;
-	while (data->input[end] == ' ')
+	while (data->input[end] && data->input[end] == ' ')
 		end++;
+	if (!data->input[end])
+		return (1);
 	while (n_token < data->n_tokens)
 	{
 		add_token(data->input, &start, &end);
 		if (data->input[end - 1] != ' ')
 		{
-			table[n_token] = duplicating_token(data, data->input, start, end);
-			if (!table[n_token])
-				hard_exit(data, table, NULL);
+			data->tokens[n_token]
+				= duplicating_token(data, data->input, start, end);
+			if (!data->tokens[n_token])
+				hard_exit(data, NULL, NULL);
 			n_token++;
 		}
 	}
-	return (table);
+	return (0);
 }

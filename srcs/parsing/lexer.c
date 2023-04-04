@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:31:29 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 16:09:56 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/04 11:59:19 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	lexer_input(t_minish *data)
 		error_manager(0, EC_ODDQUOTES, NULL, EXIT_FAILURE);
 		return (1);
 	}
-	data->tokens = split_tokens(data);
+	if (split_tokens(data))
+		return (1);
 	expand_path(data);
 	parsing_path(data);
 	res += creating_cmd_list(data);
@@ -30,23 +31,24 @@ int	lexer_input(t_minish *data)
 	return (res);
 }
 
-char	**split_tokens(t_minish *data)
+int	split_tokens(t_minish *data)
 {
-	char	**table;
 	int		n_tokens;
+	int		res;
 
 	n_tokens = 0;
+	res = 0;
 	if (!data->input)
 		return (0);
 	tokens_counter(data->input, &n_tokens);
 	data->n_tokens = n_tokens;
-	table = malloc(sizeof(char *) * (data->n_tokens + 1));
-	if (!table)
+	data->tokens = ft_calloc(sizeof(char *), (data->n_tokens + 1));
+	if (!data->tokens)
 		hard_exit(data, NULL, NULL);
-	table = tokens_table_filling(data, table);
-	if (table)
-		table[data->n_tokens] = 0;
-	return (table);
+	res = tokens_table_filling(data);
+	if (data->tokens)
+		data->tokens[data->n_tokens] = 0;
+	return (res);
 }
 
 void	getting_rid_quotes_redirections_etc(t_minish *data)

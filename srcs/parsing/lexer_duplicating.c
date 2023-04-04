@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_duplicating.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:34:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/04 09:12:54 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/04 11:36:16 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ void	simple_quotes_handling(t_minish *data, char *s)
 			&& data->btw_double_quotes == 0
 			&& s[data->start - 1] != '|' && s[data->start - 1] != '<'
 			&& s[data->start - 1] != '>'))
-  {
 		data->start++;
-  }
 }
 
 void	duplicating_dollar(t_minish *data, char **token, char *s)

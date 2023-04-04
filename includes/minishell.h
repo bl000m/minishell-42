@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/04 10:56:09 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/04 11:56:16 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void		init_ptrs(t_minish *data, char *envp[]);
 /* lexical analysis */
 
 int			lexer_input(t_minish *data);
-char		**split_tokens(t_minish *data);
+int			split_tokens(t_minish *data);
 
 /* t_dict management */
 
@@ -182,7 +182,7 @@ void		closing_all_fd(t_minish *data);
 /* lexical analysis utils */
 
 int			*tokens_counter(char *s, int *n_tokens);
-char		**tokens_table_filling(t_minish *data, char **table);
+int			tokens_table_filling(t_minish *data);
 
 /* error management */
 
