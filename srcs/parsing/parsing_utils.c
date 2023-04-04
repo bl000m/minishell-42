@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathiapagani <mathiapagani@student.42.f    +#+  +:+       +#+        */
+/*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:53:40 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/02 16:06:29 by mathiapagan      ###   ########.fr       */
+/*   Updated: 2023/04/04 10:55:29 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 			return (1);
 		}
 		(*node)->input = fd[0];
-		here_doc(data, i, fd[1]);
+		here_doc(data, i, fd[1], node);
 		*i += 1;
 		if (g_status)
 			return (1);
@@ -47,6 +47,8 @@ int	input_redirection(t_minish *data, t_cmd **node, int *i)
 	}
 	else
 	{
+		if ((*node)->input)
+			(*node)->input = 0;
 		(*node)->file_in = open(data->tokens[*i + 1], O_RDONLY);
 		if ((*node)->file_in == -1)
 		{
