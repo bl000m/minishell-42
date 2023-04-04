@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:40:13 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/01 16:24:40 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/04 10:56:46 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	child_heredoc(t_minish *data, char *lim, int fd, int ignore_exp)
 	exit(g_status);
 }
 
-void	here_doc(t_minish *data, int *i, int fd)
+void	here_doc(t_minish *data, int *i, int fd, t_cmd **node)
 {
 	char	*lim;
 	pid_t	here_doc_pid;
@@ -78,6 +78,8 @@ void	here_doc(t_minish *data, int *i, int fd)
 	waitpid(here_doc_pid, &process_status, 0);
 	g_status = WEXITSTATUS(process_status);
 	free(lim);
+	if ((*node)->file_in)
+		(*node)->file_in = 0;
 	dup2(fd_int, STDIN_FILENO);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mpagani <mpagani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:37:55 by mpagani           #+#    #+#             */
-/*   Updated: 2023/04/03 16:19:28 by mpagani          ###   ########.fr       */
+/*   Updated: 2023/04/04 10:56:09 by mpagani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int			check_if_pipe_redirection(char *token);
 /* Bonus features */
 
 int			checking_here_doc(int argc, char *argv[], t_minish *data);
-void		here_doc(t_minish *data, int *i, int fd);
+void		here_doc(t_minish *data, int *i, int fd, t_cmd **node);
 
 /* executing */
 
