@@ -18,7 +18,7 @@ int	heredoc_handling(t_minish *data, t_cmd **node, int *i)
 
 	if (!data->tokens[*i + 1])
 	{
-		printf("Error manager to be set\n");
+		error_manager(0, EC_HDNOARG, NULL, EXIT_FAILURE);
 		return (1);
 	}
 	else
@@ -42,7 +42,7 @@ int	input_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 	{
-		printf("Error manager to be set\n");
+		error_manager(0, EC_HDNOARG, NULL, EXIT_FAILURE);
 		return (1);
 	}
 	else
@@ -65,7 +65,7 @@ int	output_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 	{
-		printf("Error manager to be set\n");
+		error_manager(0, EC_HDNOARG, NULL, EXIT_FAILURE);
 		return (1);
 	}
 	else
@@ -87,7 +87,7 @@ int	output_append_redirection(t_minish *data, t_cmd **node, int *i)
 {
 	if (!data->tokens[*i + 1])
 	{
-		printf("Error manager to be set\n");
+		error_manager(0, EC_HDNOARG, NULL, EXIT_FAILURE);
 		return (1);
 	}
 	else

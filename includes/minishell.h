@@ -236,5 +236,6 @@ void		free_env_table(t_minish *data);
 # define EC_PSLASH "minishell: ./: Is a directory\n"
 # define EC_SLASH "minishell: /: Is a directory\n"
 # define EC_HEREDOC "warning: document delimited by EOF (wanted `%s')\n> "
+# define EC_HDNOARG "minishell: syntax error near unexpected token `newline'"
 
 #endif
