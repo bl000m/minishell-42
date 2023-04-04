@@ -150,6 +150,7 @@ int			check_if_dollar(char *token);
 void		realloc_data_tokens(t_minish *data, char **newtokens, int index);
 void		split_expandedtoken(t_minish *data, int *index);
 int			check_if_pipe_redirection(char *token);
+int			empty_token_handle(t_minish *data);
 
 /* Bonus features */
 

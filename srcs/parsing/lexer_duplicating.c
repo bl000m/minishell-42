@@ -36,7 +36,7 @@ void	duplicating_with_conditions(t_minish *data, char **token, char *s)
 	n_token = 0;
 	data->btw_simple_quotes = 0;
 	data->btw_double_quotes = 0;
-	while (s[data->start] && data->start < data->end)
+	while (data->start < data->end && s[data->start])
 	{
 		if (s[data->start] == '\"')
 			double_quotes_handling(data, s);

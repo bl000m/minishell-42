@@ -145,6 +145,8 @@ void	expand_path(t_minish *data)
 	index = -1;
 	while (data->tokens && data->tokens[++index])
 	{
+		if (!data->tokens[index][0])
+			continue ;
 		j = 0;
 		i = verify_expansion(data, index, &j);
 		expand_token(data, &index, i, j);

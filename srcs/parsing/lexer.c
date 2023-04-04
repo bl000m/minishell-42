@@ -75,3 +75,13 @@ void	getting_rid_quotes_redirections_etc(t_minish *data)
 		curr = curr->next;
 	}
 }
+
+int	empty_token_handle(t_minish *data)
+{
+	if (!data->tokens[0][0])
+	{
+		error_manager(0, EC_CMDNF, data->tokens[0], EXIT_FAILURE);
+		return (1);
+	}
+	return (0);
+}
