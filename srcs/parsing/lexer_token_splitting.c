@@ -101,5 +101,5 @@ int	tokens_table_filling(t_minish *data)
 			n_token++;
 		}
 	}
-	return (0);
+	return (empty_token_handle(data));
 }

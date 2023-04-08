@@ -150,6 +150,7 @@ int			check_if_dollar(char *token);
 void		realloc_data_tokens(t_minish *data, char **newtokens, int index);
 void		split_expandedtoken(t_minish *data, int *index);
 int			check_if_pipe_redirection(char *token);
+int			empty_token_handle(t_minish *data);
 
 /* Bonus features */
 
@@ -235,5 +236,6 @@ void		free_env_table(t_minish *data);
 # define EC_PSLASH "minishell: ./: Is a directory\n"
 # define EC_SLASH "minishell: /: Is a directory\n"
 # define EC_HEREDOC "warning: document delimited by EOF (wanted `%s')\n> "
+# define EC_HDNOARG "minishell: syntax error near unexpected token `newline'\n"
 
 #endif
